@@ -1,9 +1,9 @@
 import React from 'react';
 
-function HomePage(props) {
+function MedicinePage(props) {
     return (
         <div></div>
     );
 }
 
-export default HomePage;
+export default MedicinePage;

@@ -13,22 +13,20 @@ function LoginPage() {
         e.preventDefault();
         toggleError(false);
 
-        // TIJDELIJK
-        setUsername('user');
-        setPassword('password')
-
         try {
             const result = await axios.post('http://localhost:8080/authenticate', {
                 username: username,
                 password: password,
             });
             // log het resultaat in de console
-            console.log(result.data);
+            console.log('JWT is geworden:')
+            console.log(result.data.jwt);
+            console.log('----');
+
 
             // geef de JWT token aan de login-functie van de context mee
 
-            // HIERONDER UITZOEKEN
-            // login(result.data.accessToken);
+            login(result.data.jwt);
 
         } catch(e) {
             console.error(e);
@@ -62,7 +60,7 @@ function LoginPage() {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </label>
-                {error && <p className="error">Combinatie van emailadres en wachtwoord is onjuist</p>}
+                {error && <p className="error">Combinatie van gebruikersnaam en wachtwoord is onjuist!</p>}
 
                 <button
                     type="submit"

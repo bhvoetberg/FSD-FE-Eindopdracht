@@ -8,7 +8,7 @@ export const AuthContext = createContext({});
 function AuthContextProvider({ children }) {
     const [isAuth, toggleIsAuth] = useState({
         isAuth: false,
-        user: null,
+        username: null,
         status: 'pending',
     });
     const history = useHistory();
@@ -26,7 +26,7 @@ function AuthContextProvider({ children }) {
             // als er GEEN token is doen we niks, en zetten we de status op 'done'
             toggleIsAuth({
                 isAuth: false,
-                user: null,
+                username: null,
                 status: 'done',
             });
         }
@@ -37,18 +37,21 @@ function AuthContextProvider({ children }) {
         localStorage.setItem('token', JWT);
         // decode de token zodat we de ID van de gebruiker hebben en data kunnen ophalen voor de context
         const decoded = jwt_decode(JWT);
+        console.log('****');
+        console.log(decoded);
+        console.log('****');
 
         // geef de ID, token en redirect-link mee aan de fetchUserData functie (staat hieronder)
-        fetchUserData(decoded.sub, JWT, '/profile');
-        // link de gebruiker door naar de profielpagina
-        // history.push('/profile');
+        fetchUserData(decoded.sub, JWT, '/planning');
+        // link de gebruiker door naar de planningspagina
+        history.push('/planning');
     }
 
     function logout() {
         localStorage.clear();
         toggleIsAuth({
             isAuth: false,
-            user: null,
+            username: null,
             status: 'done',
         });
 
@@ -60,7 +63,7 @@ function AuthContextProvider({ children }) {
     async function fetchUserData(id, token, redirectUrl) {
         try {
             // haal gebruikersdata op met de token en id van de gebruiker
-            const result = await axios.get(`http://localhost:3000/600/users/${id}`, {
+            const result = await axios.get(`http://localhost:8080/users/${id}`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
@@ -79,8 +82,8 @@ function AuthContextProvider({ children }) {
                 status: 'done',
             });
 
-            // als er een redirect URL is meegegeven (bij het mount-effect doen we dit niet) linken we hiernnaartoe door
-            // als we de history.push in de login-functie zouden zetten, linken we al door voor de gebuiker is opgehaald!
+            // als er een redirect URL is meegegeven (bij het mount-effect doen we dit niet) linken we hier naartoe door
+            // als we de history.push in de login-functie zouden zetten, linken we al door voor de gebruiker is opgehaald!
             if (redirectUrl) {
                 history.push(redirectUrl);
             }

@@ -2,7 +2,9 @@ import React from 'react';
 
 function HomePage(props) {
     return (
-        <div></div>
+        <div className="page-container">
+            <h1>Home</h1>
+        </div>
     );
 }
 

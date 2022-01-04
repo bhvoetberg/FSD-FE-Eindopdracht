@@ -2,7 +2,9 @@ import React from 'react';
 
 function RealisationPage(props) {
     return (
-        <div></div>
+        <div className="page-container">
+            <h1>Uitvoering</h1>
+        </div>
     );
 }
 

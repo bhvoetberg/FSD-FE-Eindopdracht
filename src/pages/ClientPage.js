@@ -2,7 +2,9 @@ import React from 'react';
 
 function ClientPage(props) {
     return (
-        <div></div>
+        <div className="page-container">
+            <h1 className="page-title">Client</h1>
+        </div>
     );
 }
 

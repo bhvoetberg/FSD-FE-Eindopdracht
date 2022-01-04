@@ -2,7 +2,9 @@ import React from 'react';
 
 function MedicinePage(props) {
     return (
-        <div></div>
+        <div className="page-container">
+            <h1>Medicijn</h1>
+        </div>
     );
 }
 

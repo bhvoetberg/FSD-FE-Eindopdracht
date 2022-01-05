@@ -33,16 +33,12 @@ function AuthContextProvider({ children }) {
     }, []);
 
     function login(JWT) {
-        // zet de token in de Local Storage
         localStorage.setItem('token', JWT);
         // decode de token zodat we de ID van de gebruiker hebben en data kunnen ophalen voor de context
         const decoded = jwt_decode(JWT);
-        console.log('****');
-        console.log(decoded);
-        console.log('****');
 
         // geef de ID, token en redirect-link mee aan de fetchUserData functie (staat hieronder)
-        fetchUserData(decoded.sub, JWT, '/planning');
+        fetchUserData(decoded.sub, JWT, '/home');
         // link de gebruiker door naar de planningspagina
         history.push('/planning');
     }
@@ -69,6 +65,9 @@ function AuthContextProvider({ children }) {
                     Authorization: `Bearer ${token}`,
                 },
             });
+            console.log('------');
+            console.log(result);
+            console.log('------');
 
             // zet de gegevens in de state
             toggleIsAuth({

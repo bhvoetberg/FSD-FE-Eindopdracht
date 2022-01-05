@@ -18,11 +18,6 @@ function LoginPage() {
                 username: username,
                 password: password,
             });
-            // log het resultaat in de console
-            console.log('JWT is geworden:')
-            console.log(result.data.jwt);
-            console.log('----');
-
 
             // geef de JWT token aan de login-functie van de context mee
 

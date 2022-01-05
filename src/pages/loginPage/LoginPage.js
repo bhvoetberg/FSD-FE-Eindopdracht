@@ -1,6 +1,5 @@
 import React, {useContext, useState} from 'react';
-import { Link } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
 
 function LoginPage() {
@@ -30,8 +29,8 @@ function LoginPage() {
     }
 
     return (
-        <div className="page-container">
-            <h1>Login</h1>
+        <section className="page-container">
+            <h1 className="page-title">Login</h1>
 
             <form onSubmit={handleSubmit}>
                 <label htmlFor="email-field">
@@ -65,7 +64,7 @@ function LoginPage() {
                 </button>
             </form>
 
-        </div>
+        </section>
     );
 }
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
+import './Navigation.css';
 
 function Navigation() {
     return (
@@ -28,7 +29,7 @@ function Navigation() {
                         <NavLink to="/medicine" activeClassName="active-link">Medicijn</NavLink>
                     </li>
                     <li>
-                        <NavLink to="/medicationplanning" activeClassName="active-link">Medicatieplanning</NavLink>
+                        <NavLink to="/medication" activeClassName="active-link">Medicatie</NavLink>
                     </li>
 
                 </ul>

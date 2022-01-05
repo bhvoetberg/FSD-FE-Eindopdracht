@@ -39,8 +39,6 @@ function AuthContextProvider({ children }) {
 
         // geef de ID, token en redirect-link mee aan de fetchUserData functie (staat hieronder)
         fetchUserData(decoded.sub, JWT, '/home');
-        // link de gebruiker door naar de planningspagina
-        history.push('/planning');
     }
 
     function logout() {
@@ -77,6 +75,8 @@ function AuthContextProvider({ children }) {
                     username: result.data.username,
                     email: result.data.email,
                     id: result.data.id,
+                    authorities: result.data.authorities,
+                    enabled: result.data.email
                 },
                 status: 'done',
             });

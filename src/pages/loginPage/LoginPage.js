@@ -19,7 +19,6 @@ function LoginPage() {
             });
 
             // geef de JWT token aan de login-functie van de context mee
-
             login(result.data.jwt);
 
         } catch(e) {
@@ -33,10 +32,10 @@ function LoginPage() {
             <h1 className="page-title">Login</h1>
 
             <form onSubmit={handleSubmit}>
-                <label htmlFor="email-field">
+                <label htmlFor="email">
                     <input
-                        type="user"
-                        id="user-field"
+                        type="text"
+                        id="email"
                         name="username"
                         value={username}
                         placeholder="gebruikersnaam"
@@ -44,10 +43,10 @@ function LoginPage() {
                     />
                 </label>
 
-                <label htmlFor="password-field">
+                <label htmlFor="password">
                     <input
                         type="password"
-                        id="password-field"
+                        id="password"
                         name="password"
                         value={password}
                         placeholder="wachtwoord"

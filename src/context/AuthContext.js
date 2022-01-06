@@ -63,7 +63,7 @@ function AuthContextProvider({ children }) {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            console.log('------');
+            console.log('AuthContext-fetchUserData');
             console.log(result);
             console.log('------');
 

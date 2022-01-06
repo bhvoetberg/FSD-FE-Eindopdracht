@@ -45,4 +45,7 @@
     font-style: italic;
 }
 
+input:focus {
+    color: var(--primary-color);
+}
 

@@ -40,7 +40,11 @@ function UserUpdatePage(props) {
         }
     }
 
-    async function onFormSubmit(data) {
+    async function onFormSubmit(formdata) {
+        let data = {...formdata};
+        data.enabled = isChecked;
+        console.log("Data");
+        console.log(data);
         try {
             const result = await axios.put('http://localhost:8080/users/' + props.match.params.id, data,
                 {
@@ -95,12 +99,13 @@ function UserUpdatePage(props) {
 
 
                     <div className="input-type">
-                        <label htmlFor="enabled-field">
+                        <label htmlFor="enabled">
                             Actief
                         </label>
                         <input
                             type="checkbox"
-                            checked={isChecked === true ? true : false}
+                            name="enabled"
+                            checked={isChecked}
                             onChange={(e) => {
                                 setIsChecked(e.target.checked)
                             }}

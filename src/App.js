@@ -114,7 +114,7 @@ function App() {
                         <Route exact path="/medication-update/medication-update-details/:id">
                             {(hasUserRole || hasSupervisorRole) ? <MedicationUpdateDetailsPage/> : <Redirect to="/" />}
                         </Route>
-                        <Route exact path="/medication-new">
+                        <Route exact path="/medication/medication-new">
                             {(hasUserRole || hasSupervisorRole) ? <MedicationNewPage/> : <Redirect to="/" />}
                         </Route>
 

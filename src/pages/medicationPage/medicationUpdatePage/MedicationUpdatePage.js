@@ -9,6 +9,7 @@ function MedicationUpdatePage(props) {
     const [data, setData] = useState({});
     const [planning, setPlanning] = useState([]);
     const [plannedMedicationAvailable, setPlannedMedicationAvailable] = useState(false);
+    const [isChecked, setIsChecked] = useState(null);
 
     useEffect(() => {
         getData();
@@ -33,6 +34,22 @@ function MedicationUpdatePage(props) {
         }
     }
 
+    async function onFormSubmit(formdata) {
+        let data = {...formdata};
+        data.enabled = isChecked;
+        try {
+            const result = await axios.patch('http://localhost:8080/planning/' + props.match.params.id, data,
+                {
+                    headers: {
+                        "Content-Type": "application/json", Authorization: `Bearer ${token}`,
+                    }
+                });
+            console.log(result);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
 
     return ({plannedMedicationAvailable} &&
         <div className="page-container">
@@ -42,7 +59,7 @@ function MedicationUpdatePage(props) {
                 <p>{data.lastName}</p>
             </div>
 
-            <Link to={"./medication-new"}>
+            <Link to={"/medication/medication-new"}>
                 <button className="new">Nieuw</button>
             </Link>
             <div className="content">

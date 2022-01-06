@@ -32,17 +32,15 @@ function MedicationUpdateDetailsPage(props) {
             const received = await result.data;
             setData(received);
             setIsChecked(received.enabled);
-            console.log("Get")
-            console.log(received)
-            console.log(received);
         } catch (e) {
             console.error(e);
         }
     }
 
-    async function onFormSubmit(data) {
-        console.log("Te posten");
-        console.log(data);
+    async function onFormSubmit(formdata) {
+        console.log(history);
+        let data = {...formdata};
+        data.enabled = isChecked;
         try {
             const result = await axios.patch('http://localhost:8080/planning/' + props.match.params.id, data,
                 {
@@ -104,7 +102,8 @@ function MedicationUpdateDetailsPage(props) {
                         </label>
                         <input
                             type="checkbox"
-                            checked={isChecked === true ? true : false}
+                            name="enabled"
+                            checked={isChecked}
                             onChange={(e) => {
                                 setIsChecked(e.target.checked)
                             }}

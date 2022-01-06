@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import Select from 'react-select';
 import './EmployeePage.css';
 import axios from "axios";
+import {logDOM} from "@testing-library/react";
 
 function EmployeePage() {
     const [error, toggleError] = useState(false);
@@ -11,6 +12,7 @@ function EmployeePage() {
     const [optionList, setOptionList] = useState([]);
     const [name, setName] = useState('');
     const token = localStorage.getItem('token');
+    const [selectedValue, setSelectedValue] = useState(1);
 
     useEffect(() => {
         async function getEmployees() {
@@ -50,7 +52,7 @@ function EmployeePage() {
                 let fullName = found[i].firstName + ' ' + found[i].lastName;
                 let dropDownItem = {
                     label: fullName,
-                    value: i
+                    value: found[i].id
                 }
                 dropDownList.push(dropDownItem);
             }
@@ -65,11 +67,10 @@ function EmployeePage() {
 
     },[filteredNames]);
 
-    const options = [
-        { value: 'chocolate', label: 'Chocolate' },
-        { value: 'strawberry', label: 'Strawberry' },
-        { value: 'vanilla', label: 'Vanilla' }
-    ]
+
+    const handleChange = e => {
+        setSelectedValue(e.value);
+    }
 
 
     return (
@@ -89,11 +90,18 @@ function EmployeePage() {
                             onChange={(e) => setName(e.target.value)}
                         />
                     </label>
-                    <Select options={optionList} />
+
+                    <Select
+                        options={optionList}
+                        value={selectedValue}
+                        defaultMenuIsOpen="true"
+                        onChange={handleChange}
+                    />
+                    <p>*** Selected Value</p>
+                    <div>{selectedValue}</div>
 
                     <div className="retrieve-data">
-                        {error && <p>Dit nummer is onbekend</p>}
-                        {!error &&
+
                             <>
                                 <p>Lorem@Consecteur.com</p>
                                 <p>Ipsum</p>

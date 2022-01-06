@@ -49,3 +49,7 @@ input:focus {
     color: var(--primary-color);
 }
 
+
+Select {
+    background: blue;
+}

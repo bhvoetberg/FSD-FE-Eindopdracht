@@ -8,6 +8,7 @@ function EmployeePage() {
     const [id, setId] = useState('');
     const [employees, setEmployees] = useState([]);
     const [filteredNames, setFilteredNames] = useState([]);
+    const [optionList, setOptionList] = useState([]);
     const [name, setName] = useState('');
     const token = localStorage.getItem('token');
 
@@ -36,6 +37,7 @@ function EmployeePage() {
     useEffect(() => {
         function searchEmployee() {
             console.log('search');
+            console.log(employees);
 
             let found = employees.filter((employee) => {
                 return (employee.lastName.includes(name) || employee.firstName.includes(name)) ;
@@ -43,6 +45,18 @@ function EmployeePage() {
             )
             console.log(found);
             setFilteredNames(found);
+            const dropDownList = []
+            for (let i = 0; i < found.length; i++ ) {
+                let fullName = found[i].firstName + ' ' + found[i].lastName;
+                let dropDownItem = {
+                    label: fullName,
+                    value: i
+                }
+                dropDownList.push(dropDownItem);
+            }
+            console.log(dropDownList);
+            setOptionList(dropDownList);
+
         }
         searchEmployee();
     }, [name]);
@@ -75,7 +89,7 @@ function EmployeePage() {
                             onChange={(e) => setName(e.target.value)}
                         />
                     </label>
-                    <Select options={options} />
+                    <Select options={optionList} />
 
                     <div className="retrieve-data">
                         {error && <p>Dit nummer is onbekend</p>}

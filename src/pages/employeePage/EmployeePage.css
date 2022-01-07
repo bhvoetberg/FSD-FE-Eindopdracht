@@ -36,6 +36,11 @@
     color: var(--offwhite-color);
 }
 
+.update-button {
+   height: 3.5rem;
+   line-height: 2.5rem;
+}
+
 
 .retrieve-field,
 .update-data > * {
@@ -52,4 +57,10 @@ input:focus {
 
 .Select {
     background: blue;
+}
+
+
+form > div:first-child {
+    color: var(--primary-color);
+    text-align: center;
 }

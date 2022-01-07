@@ -11,6 +11,32 @@ function EmployeePage() {
     const [optionList, setOptionList] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    //Voor react-select opmaak
+    // const customStyles = {
+    //     control: (base, state) => ({
+    //         ...base,
+    //         color: "var(--primary-color)",
+    //         background: "white",
+    //         borderRadius: state.isFocused ? "2rem" : "2rem",
+    //         borderColor: state.isFocused ? "var(--primary-color)" : "var(--primary-color)",
+    //         // boxShadow: state.isFocused ? null : null,
+    //         "&:hover": {
+    //             borderColor: state.isFocused ? "var(--primary-color)" : "var(--primary-color)"
+    //         }
+    //     }),
+    //     menu: (base) => ({
+    //         ...base,
+    //         borderRadius: 0,
+    //         marginTop: 0
+    //     }),
+    //     menuList: (base) => ({
+    //         ...base,
+    //         padding: 0
+    //     })
+    // };
+
+
+
     useEffect(() => {
         getEmployees();
     }, [loading]);
@@ -62,10 +88,6 @@ function EmployeePage() {
     return (
         <>
             <section className="page-container">
-                {loading && <p>Loading = true</p>}
-                {optionList && <p>Option list = true</p>}
-                {employees && <p>Employees = true</p>}
-
                 {/*ERROR NOG INBOUWEN + CONTROLE OP DATA*/}
                 <h1 className="page-title">Medewerker</h1>
                 {loading && <>
@@ -73,12 +95,11 @@ function EmployeePage() {
                         <form>
                             <Select
                                 options={optionList}
+                                // styles={customStyles}
                                 value={id}
                                 defaultMenuIsOpen="true"
                                 onChange={handleChange}
                             />
-                            <p>*** Selected Value</p>
-                            <div>{id}</div>
 
                             <div className="retrieve-data">
                                     {id &&
@@ -87,7 +108,7 @@ function EmployeePage() {
                                             <div>{employees[id].lastName}</div>
                                             <div>{employees[id].functionName}</div>
                                             <div>{employees[id].id}</div>
-                                            <div>{employees[id].enabled}</div>
+                                            <div>{employees[id].enabled.toString()}</div>
 
                                         </>
                                     }

@@ -2,128 +2,113 @@ import React, {useState, useEffect} from 'react';
 import Select from 'react-select';
 import './EmployeePage.css';
 import axios from "axios";
-import {logDOM} from "@testing-library/react";
 
 function EmployeePage() {
+    const token = localStorage.getItem('token');
     const [error, toggleError] = useState(false);
     const [id, setId] = useState('');
     const [employees, setEmployees] = useState([]);
-    const [filteredNames, setFilteredNames] = useState([]);
     const [optionList, setOptionList] = useState([]);
-    const [name, setName] = useState('');
-    const token = localStorage.getItem('token');
-    const [selectedValue, setSelectedValue] = useState(1);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        async function getEmployees() {
-            toggleError(false);
-            try {
-                const result = await axios.get(`http://localhost:8080/employees/`, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                setEmployees(result.data);
-
-            } catch (e) {
-                toggleError(true);
-                console.error(e);
-            }
-        }
         getEmployees();
-
-    }, []);
-
-
-    useEffect(() => {
-        function searchEmployee() {
-            console.log('search');
-            console.log(employees);
-
-            let found = employees.filter((employee) => {
-                return (employee.lastName.includes(name) || employee.firstName.includes(name)) ;
-                }
-            )
-            console.log(found);
-            setFilteredNames(found);
-            const dropDownList = []
-            for (let i = 0; i < found.length; i++ ) {
-                let fullName = found[i].firstName + ' ' + found[i].lastName;
-                let dropDownItem = {
-                    label: fullName,
-                    value: found[i].id
-                }
-                dropDownList.push(dropDownItem);
-            }
-            console.log(dropDownList);
-            setOptionList(dropDownList);
-
-        }
-        searchEmployee();
-    }, [name]);
-
-    useEffect( () => {
-
-    },[filteredNames]);
+    }, [loading]);
 
 
     const handleChange = e => {
-        setSelectedValue(e.value);
+        // setSelectedValue(e.value);
+        setId(e.value);
+    }
+
+    async function getEmployees() {
+        toggleError(false);
+        try {
+            const result = await axios.get(`http://localhost:8080/employees/`, {
+                headers: {
+                    "Content-Type": "application/json", Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (result.data && result.data.length > 0) {
+                setEmployees(result.data);
+            }
+
+            setLoading(true);
+
+            const dropDownList = [];
+            for (let i = 0; i < employees.length; i++) {
+                let fullName = employees[i].firstName + ' ' + employees[i].lastName;
+                let dropDownItem = {
+                    label: fullName,
+                    value: i
+                }
+                dropDownList.push(dropDownItem);
+                setOptionList(dropDownList);
+            }
+
+        } catch (e) {
+            toggleError(true);
+            console.error(e);
+        }
+
+        console.log('EMPLOYEES');
+        console.log(employees);
+        console.log('OPTIONLIST');
+        console.log(optionList);
     }
 
 
     return (
-        <section className="page-container">
-            <h1 className="page-title">Medewerker</h1>
-            <div className="employee-content">
-                <form>
-                    {/*<p className="retrieve-field">ipsum.</p>*/}
-                    <label htmlFor="search">
-                        <input
-                            className="retrieve-field"
-                            type="text"
-                            id="search"
-                            name="search"
-                            // value={name}
-                            placeholder="medewerkersnaam"
-                            onChange={(e) => setName(e.target.value)}
-                        />
-                    </label>
+        <>
+            <section className="page-container">
+                {loading && <p>Loading = true</p>}
+                {optionList && <p>Option list = true</p>}
+                {employees && <p>Employees = true</p>}
 
-                    <Select
-                        options={optionList}
-                        value={selectedValue}
-                        defaultMenuIsOpen="true"
-                        onChange={handleChange}
-                    />
-                    <p>*** Selected Value</p>
-                    <div>{selectedValue}</div>
+                {/*ERROR NOG INBOUWEN + CONTROLE OP DATA*/}
+                <h1 className="page-title">Medewerker</h1>
+                {loading && <>
+                    <div className="employee-content">
+                        <form>
+                            <Select
+                                options={optionList}
+                                value={id}
+                                defaultMenuIsOpen="true"
+                                onChange={handleChange}
+                            />
+                            <p>*** Selected Value</p>
+                            <div>{id}</div>
 
-                    <div className="retrieve-data">
+                            <div className="retrieve-data">
+                                    {id &&
+                                        <>
+                                            <div>{employees[id].firstName}</div>
+                                            <div>{employees[id].lastName}</div>
+                                            <div>{employees[id].functionName}</div>
+                                            <div>{employees[id].id}</div>
+                                            <div>{employees[id].enabled}</div>
 
-                            <>
-                                <p>Lorem@Consecteur.com</p>
+                                        </>
+                                    }
+                            </div>
+                        </form>
+
+                        <form>
+                            <p className="update-button">Lorem ipsum.</p>
+                            <div className="update-data">
+                                <p>Lorem</p>
                                 <p>Ipsum</p>
                                 <p>Dolor</p>
                                 <p>Sit</p>
-                            </>
-                        }
+                            </div>
+                        </form>
                     </div>
-                </form>
+                </>}
+            </section>
 
-                <form>
-                    <p className="update-button">Lorem ipsum.</p>
-                    <div className="update-data">
-                        <p>Lorem@Consecteur.com</p>
-                        <p>Ipsum</p>
-                        <p>Dolor</p>
-                        <p>Sit</p>
-                    </div>
-                </form>
-            </div>
-        </section>
-    );
+        </>)
+        ;
 }
 
 export default EmployeePage;

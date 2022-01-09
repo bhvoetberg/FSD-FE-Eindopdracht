@@ -1,25 +1,19 @@
-import React from 'react';
-import 'InputElement.css';
+import React from "react";
 
-function InputElement({ errors, register, name, label, inputType, validationRules }) {
+
+function InputElement({type, name, placeholder, display, id, value, checked}) {
     return (
-        <>
-            <label htmlFor={`${name}-field`}>
-                {label}:
-            </label>
-
-            {/*Ternary operator om een textarea of een normaal input-veld weer te geven*/}
-            {inputType === "textarea"
-                ? <textarea id={`${name}-field`} cols="30" rows="10" {...register(name, validationRules)}></textarea>
-                : (<>
-                    <input
-                        type={inputType}
-                        id={`${name}-field`}
-                        {...register(name, validationRules)}
-                    />
-                    {errors[name] && <p>{errors[name].message}</p>}
-                </>)}
-        </>
+        <label htmlFor={id}>{display}
+            <input
+                type={type}
+                name={name}
+                placeholder={placeholder}
+                display={display}
+                id={id}
+                value={value}
+                checked={checked}
+            />
+        </label>
     );
 }
 

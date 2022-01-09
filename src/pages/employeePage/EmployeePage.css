@@ -1,16 +1,51 @@
-.employee-content {
+.employee-content{
     display: flex;
     flex-direction: row;
     gap: 1rem;
 }
-
 
 .employee-content > * {
     flex-basis: 100%;
     min-width: 35ch;
 }
 
-.retrieve-data,
+#select {
+    padding: 0;
+    text-align: center;
+}
+
+.retrieve-data {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    background: var(--offwhite-color);
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.retrieve-data > * {
+    background: var(--primary-color);
+    color: var(--offwhite-color);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    text-align: center;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+
+//UPDATE + NEW
+
+.update-button {
+    background: var(--primary-color);
+    color: var(--offwhite-color);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    text-align: center;
+    padding: 1.2rem;
+}
+
 .update-data {
     display: flex;
     flex-direction: column;
@@ -21,46 +56,30 @@
     padding: 1rem;
 }
 
-.update-button,
-.retrieve-field,
-.retrieve-data > *,
-.update-data > * {
-    border-radius: var(--border-radius);
-    padding: 0.5rem;
-    text-align: center;
-}
-
-.update-button,
-.retrieve-data > * {
-    background: var(--primary-color);
-    color: var(--offwhite-color);
-}
-
-.update-button {
-   height: 3.5rem;
-   line-height: 2.5rem;
-}
-
-
-.retrieve-field,
-.update-data > * {
+input {
     background: var(--offwhite-color);
-    color: var(--inactive-color);
+    color: var(--primary-color);
     border: 1px solid var(--primary-color);
-    font-style: italic;
-}
-
-input:focus {
-    color: var(--primary-color);
-}
-
-
-.Select {
-    background: blue;
-}
-
-
-form > div:first-child {
-    color: var(--primary-color);
+    border-radius: var(--border-radius);
     text-align: center;
+    padding: 0.5rem;
+}
+
+#update {
+    background: var(--primary-color);
+}
+
+
+.radio {
+    display: flex;
+    flex-direction: row;
+    flex-basis: 0;
+    border-style: dashed;
+    justify-content: space-evenly;
+    text-align: center;
+}
+
+.radio * {
+    width: 8ch;
+
 }

@@ -1,36 +1,30 @@
 import React, {useState, useEffect} from 'react';
 import Select from 'react-select';
-import {set, useForm} from "react-hook-form";
-import axios from "axios";
-
 import './EmployeePage.css';
-
+import '../../components/InputElement/InputElement'
+import axios from "axios";
 import InputElement from "../../components/InputElement/InputElement";
 import selectStyles from "../../helpers/selectStyles";
 
 
-
 function EmployeePage() {
-    const { register, handleSubmit } = useForm();
-
+    const token = localStorage.getItem('token');
     const [error, toggleError] = useState(false);
     const [id, setId] = useState('');
     const [employees, setEmployees] = useState([]);
+    const [optionList, setOptionList] = useState([]);
     const [loading, setLoading] = useState(false);
-
     const selectedStyles = selectStyles();
-    const token = localStorage.getItem('token');
-    const dropDownList = [];
 
-    function onFormSubmit(data) {
-        console.log(data);
-    }
+
+    useEffect(() => {
+        getEmployees();
+    }, [loading]);
 
 
     const handleChange = e => {
         setId(e.value);
     }
-
 
     async function getEmployees() {
         toggleError(false);
@@ -40,7 +34,23 @@ function EmployeePage() {
                     "Content-Type": "application/json", Authorization: `Bearer ${token}`,
                 },
             });
-            setEmployees(result.data);
+
+            if (result.data && result.data.length > 0) {
+                setEmployees(result.data);
+            }
+            setLoading(true);
+
+            const dropDownList = [];
+            for (let i = 0; i < employees.length; i++) {
+                let fullName = employees[i].firstName + ' ' + employees[i].lastName;
+                let dropDownItem = {
+                    label: fullName,
+                    value: i
+                }
+                dropDownList.push(dropDownItem);
+            }
+            setOptionList(dropDownList);
+
         } catch (e) {
             toggleError(true);
             console.error(e);
@@ -48,34 +58,16 @@ function EmployeePage() {
     }
 
 
-    useEffect(() => {
-        getEmployees();
-    }, []);
-
-
-
-    useEffect(() => {
-        for (let i = 0; i < employees.length; i++) {
-            let fullName = employees[i].firstName + ' ' + employees[i].lastName;
-            let dropDownItem = {
-                label: fullName,
-                value: i
-            }
-            dropDownList.push(dropDownItem);
-        }
-    }, [employees]);
-
-
     return (
         <>
             <section className="page-container">
                 {/*ERROR NOG INBOUWEN + CONTROLE OP DATA*/}
                 <h1 className="page-title">Medewerker</h1>
-                {/*{loading && <>*/}
+                {loading && <>
                     <div className="employee-content">
-                        <form onSubmit={handleSubmit(onFormSubmit)}>
+                        <form>
                             <Select
-                                options={dropDownList}
+                                options={optionList}
                                 styles={selectedStyles}
                                 value={id}
                                 defaultMenuIsOpen="false"
@@ -112,7 +104,7 @@ function EmployeePage() {
                             </button>
                         </form>
                     </div>
-                {/*</>}*/}
+                </>}
             </section>
 
         </>)

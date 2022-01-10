@@ -29,18 +29,14 @@ function ClientPage() {
         try {
             console.log("In data zit:");
             console.log(data.firstName);
-            const result = await axios.post('http://localhost:8080/clients', {
-                firstName: data.firstName
-                // lastName: data.lastName
-            }, {
+            const result = await axios.post('http://localhost:8080/clients', data,
+            {
                 headers: {
                     "Content-Type": "application/json", Authorization: `Bearer ${token}`,
                 }
             });
-
             console.log("RESULTAAT POST");
             console.log(result);
-
 
         } catch(e) {
             console.error(e);

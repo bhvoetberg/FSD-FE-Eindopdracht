@@ -2,15 +2,18 @@ import React, {useEffect, useState} from 'react';
 import Select from "react-select";
 import {set, useForm} from 'react-hook-form';
 import axios from "axios";
+
+import './ClientPage.css';
+
 import InputElement from "../../components/InputElement/InputElement";
 import selectStyles from "../../helpers/selectStyles";
 
 
 function ClientPage() {
-    const { register, handleSubmit } = useForm();
+    const {register, handleSubmit} = useForm();
 
     const [error, toggleError] = useState(false);
-    const [id, setId] = useState('');
+    const [clientId, setClientId] = useState('');
     const [clients, setClients] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -18,11 +21,38 @@ function ClientPage() {
     const token = localStorage.getItem('token');
     const dropDownList = [];
 
-
-    function onFormSubmit(data) {
+    async function onFormSubmit(data) {
+        console.log("SUBMIITTED DATA")
         console.log(data);
+        toggleError(false);
+
+        try {
+            console.log("In data zit:");
+            console.log(data.firstName);
+            const result = await axios.post('http://localhost:8080/clients', {
+                firstName: data.firstName
+                // lastName: data.lastName
+            }, {
+                headers: {
+                    "Content-Type": "application/json", Authorization: `Bearer ${token}`,
+                }
+            });
+
+            console.log("RESULTAAT POST");
+            console.log(result);
+
+
+        } catch(e) {
+            console.error(e);
+            toggleError(true);
+        }
     }
 
+    const handleChange = e => {
+        setClientId(e.value);
+        console.log("CLIENTID");
+        console.log(clientId);
+    }
 
     async function getClients() {
         toggleError(false);
@@ -33,6 +63,8 @@ function ClientPage() {
                 },
             });
             setClients(result.data);
+            console.log("Opgehaald is:");
+            console.log(result);
         } catch (e) {
             toggleError(true);
             console.error(e);
@@ -45,7 +77,7 @@ function ClientPage() {
 
 
     //useState is asynchronous. Resultingly, setClients will not make clients
-    //immediately available. Making a dropdownlist, now start once clients is 'effected'.
+    //immediately available. Making a dropdownlist now starts only after 'clients' is 'effected'.
     useEffect(() => {
         for (let i = 0; i < clients.length; i++) {
             let fullName = clients[i].firstName + ' ' + clients[i].lastName;
@@ -55,72 +87,102 @@ function ClientPage() {
             }
             dropDownList.push(dropDownItem);
         }
-    }, [clients]);
+    }, [clients, clientId]);
+
 
     return (
+        <>
         <div className="page-container">
             <h1 className="page-title">Client</h1>
+            <Select
+                options={dropDownList}
+                styles={selectedStyles}
+                value={clientId}
+                defaultMenuIsOpen="true"
+                onChange={handleChange}
+                placeholder="Kies uit de lijst ..."
+                id="select"
+            />
+            <div className="retrieve-data">
+                {clientId &&
+                    <>
+                        <div>{clients[clientId].firstName}</div>
+                        <div>{clients[clientId].lastName}</div>
+                        <div>{clients[clientId].dataOfBirth}</div>
+                        <div>{clients[clientId].telPharmacy}</div>
+                        <div>{clients[clientId].telGeneralPractitioner}</div>
+
+                        <div>{clients[clientId].enabled.toString()}</div>
+                    </>
+                }
+            </div>
             <form onSubmit={handleSubmit(onFormSubmit)}>
-                <Select
-                    options={dropDownList}
-                    styles={selectedStyles}
-                    value={id}
-                    defaultMenuIsOpen="false"
-                    placeholder="Kies uit de lijst ..."
-                    id="select"
-                />
-            <fieldset>
-                    <legend>Gegevens</legend>
-                    <label htmlFor="details-name">
-                        Naam:
+
+                    <label htmlFor="first-name">
                         <input
                             type="text"
-                            id="details-name"
-                            {...register("name")}
+                            id="first-name"
+                            placeholder="Voornaam"
+                            {...register("firstName")}
                         />
                     </label>
-
-                    <label htmlFor="details-age">
-                        Leeftijd:
+                    <label htmlFor="last-name">
                         <input
-                            type="number"
-                            id="details-age"
-                            {...register("age")}
+                            type="text"
+                            id="last-name"
+                            placeholder="Achternaam"
+                            {...register("lastName")}
                         />
                     </label>
-                </fieldset>
-
-                <fieldset>
-                    <legend>Jouw review</legend>
-
-                    <label htmlFor="recipe-comments">
-                        Opmerkingen:
-                        <textarea
-                            {...register("comments")}
-                            id="recipe-comments"
-                            rows="4"
-                            cols="40"
-                            placeholder="Wat vond je van het recept?"
-                        >
-          </textarea>
-                    </label>
-
-                    <label htmlFor="recipe-newsletter">
+                    <label htmlFor="data-of-birth">
                         <input
-                            type="checkbox"
-                            {...register("newsletter")}
+                            type="text"
+                            id="date-of-birth"
+                            placeholder="Geboortedatum"
+                            {...register("dateOfBirth")}
                         />
-                        Ik schrijf me in voor de nieuwsbrief
+                    </label>
+                    <label htmlFor="room-number">
+                        <input
+                            type="text"
+                            id="room-number"
+                            placeholder="Kamernummer"
+                            {...register("roomNumber")}
+                        />
+                    </label>
+                    <label htmlFor="tel-pharmacy">
+                        <input
+                            type="text"
+                            id="tel-pharmacy"
+                            placeholder="Telefoon apotheek"
+                            {...register("telPharmacy")}
+                        />
+                    </label>
+                    <label htmlFor="tel-general-practitioner">
+                        <input
+                            type="text"
+                            id="tel-general-practitioner"
+                            placeholder="Telefoon apotheek"
+                            {...register("telGeneralPractitioner")}
+                        />
                     </label>
 
-                    <button type="submit">
-                        Versturen
-                    </button>
-                </fieldset>
-            </form>
+                <label htmlFor="enabled">Actief
+                    <input
+                        type="checkbox"
+                        {...register("enabled")}
+                    />
+                </label>
 
+                <button type="submit">
+                    Versturen
+                </button>
+
+
+        </form>
         </div>
-    );
+</>
+);
 }
 
 export default ClientPage;

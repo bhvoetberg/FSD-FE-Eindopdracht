@@ -14,7 +14,7 @@ function EmployeePage() {
     const { register, handleSubmit } = useForm();
 
     const [error, toggleError] = useState(false);
-    const [id, setId] = useState('');
+    const [employeeId, setEmployeeId] = useState('');
     const [employees, setEmployees] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -22,13 +22,14 @@ function EmployeePage() {
     const token = localStorage.getItem('token');
     const dropDownList = [];
 
+
     function onFormSubmit(data) {
         console.log(data);
     }
 
 
     const handleChange = e => {
-        setId(e.value);
+        setEmployeeId(e.value);
     }
 
 
@@ -63,11 +64,10 @@ function EmployeePage() {
             }
             dropDownList.push(dropDownItem);
         }
-    }, [employees]);
+    }, [employees, employeeId]);
 
 
     return (
-        <>
             <section className="page-container">
                 {/*ERROR NOG INBOUWEN + CONTROLE OP DATA*/}
                 <h1 className="page-title">Medewerker</h1>
@@ -77,19 +77,19 @@ function EmployeePage() {
                             <Select
                                 options={dropDownList}
                                 styles={selectedStyles}
-                                value={id}
-                                defaultMenuIsOpen="false"
+                                value={employeeId}
+                                defaultMenuIsOpen="true"
                                 onChange={handleChange}
                                 placeholder="Kies uit de lijst ..."
                                 id="select"
                             />
                             <div className="retrieve-data">
-                                {id &&
+                                {employeeId &&
                                     <>
-                                        <div>{employees[id].firstName}</div>
-                                        <div>{employees[id].lastName}</div>
-                                        <div>{employees[id].functionName}</div>
-                                        <div>{employees[id].enabled.toString()}</div>
+                                        <div>{employees[employeeId].firstName}</div>
+                                        <div>{employees[employeeId].lastName}</div>
+                                        <div>{employees[employeeId].functionName}</div>
+                                        <div>{employees[employeeId].enabled.toString()}</div>
                                     </>
                                 }
                             </div>
@@ -114,9 +114,7 @@ function EmployeePage() {
                     </div>
                 {/*</>}*/}
             </section>
-
-        </>)
-        ;
+        );
 }
 
 export default EmployeePage;

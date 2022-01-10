@@ -9,9 +9,8 @@ import InputElement from "../../components/InputElement/InputElement";
 import selectStyles from "../../helpers/selectStyles";
 
 
-
 function EmployeePage() {
-    const { register, handleSubmit } = useForm();
+    const {register, handleSubmit} = useForm();
 
     const [error, toggleError] = useState(false);
     const [employeeId, setEmployeeId] = useState('');
@@ -23,8 +22,21 @@ function EmployeePage() {
     const dropDownList = [];
 
 
-    function onFormSubmit(data) {
-        console.log(data);
+    async function onFormSubmit(data) {
+        toggleError(false);
+        try {
+            const result = await axios.post('http://localhost:8080/employees', data,
+                {
+                    headers: {
+                        "Content-Type": "application/json", Authorization: `Bearer ${token}`,
+                    }
+                });
+            console.log("RESULTAAT POST");
+            console.log(result);
+        } catch (e) {
+            console.error(e);
+            toggleError(true);
+        }
     }
 
 
@@ -48,11 +60,9 @@ function EmployeePage() {
         }
     }
 
-
     useEffect(() => {
         getEmployees();
     }, []);
-
 
 
     useEffect(() => {
@@ -68,53 +78,53 @@ function EmployeePage() {
 
 
     return (
-            <section className="page-container">
-                {/*ERROR NOG INBOUWEN + CONTROLE OP DATA*/}
-                <h1 className="page-title">Medewerker</h1>
-                {/*{loading && <>*/}
-                    <div className="employee-content">
-                        <form onSubmit={handleSubmit(onFormSubmit)}>
-                            <Select
-                                options={dropDownList}
-                                styles={selectedStyles}
-                                value={employeeId}
-                                defaultMenuIsOpen="true"
-                                onChange={handleChange}
-                                placeholder="Kies uit de lijst ..."
-                                id="select"
-                            />
-                            <div className="retrieve-data">
-                                {employeeId &&
-                                    <>
-                                        <div>{employees[employeeId].firstName}</div>
-                                        <div>{employees[employeeId].lastName}</div>
-                                        <div>{employees[employeeId].functionName}</div>
-                                        <div>{employees[employeeId].enabled.toString()}</div>
-                                    </>
-                                }
-                            </div>
-                        </form>
-
-                        <form>
-                            <InputElement type="button" name="update" placeholder="update" id="update"/>
-                            <div className="update-data">
-                                <InputElement type="text" name="firstname" placeholder="Voornaam" id="firstname"/>
-                                <InputElement type="text" name="lastname" placeholder="Achternaam" id="lastname"/>
-                                <InputElement type="text" name="function" placeholder="Functie" id="function"/>
-                                <div className="radio">
-                                    <InputElement type="radio" name="enabled" display="Actief" id="true"
-                                                  checked="checked"/>
-                                    <InputElement type="radio" name="enabled" display="Inactief" id="false "/>
-                                </div>
-                            </div>
-                            <button type="submit">
-                                Verzenden
-                            </button>
-                        </form>
+        <section className="page-container">
+            {/*ERROR NOG INBOUWEN + CONTROLE OP DATA*/}
+            <h1 className="page-title">Medewerker</h1>
+            {/*{loading && <>*/}
+            <div className="employee-content">
+                <div>
+                    <Select
+                        options={dropDownList}
+                        styles={selectedStyles}
+                        value={employeeId}
+                        defaultMenuIsOpen="true"
+                        onChange={handleChange}
+                        placeholder="Kies uit de lijst ..."
+                        id="select"
+                    />
+                    <div className="retrieve-data">
+                        {employeeId &&
+                            <>
+                                <div>{employees[employeeId].firstName}</div>
+                                <div>{employees[employeeId].lastName}</div>
+                                <div>{employees[employeeId].functionName}</div>
+                                <div>{employees[employeeId].enabled.toString()}</div>
+                            </>
+                        }
                     </div>
-                {/*</>}*/}
-            </section>
-        );
+                </div>
+
+                <form onSubmit={handleSubmit(onFormSubmit)}>
+                    <InputElement type="button" name="update" placeholder="update" id="update"/>
+                    <div className="update-data">
+                        <InputElement type="text" name="firstname" placeholder="Voornaam" id="firstname"/>
+                        <InputElement type="text" name="lastname" placeholder="Achternaam" id="lastname"/>
+                        <InputElement type="text" name="function" placeholder="Functie" id="function"/>
+                        <div className="radio">
+                            <InputElement type="radio" name="enabled" display="Actief" id="true"
+                                          checked="checked"/>
+                            <InputElement type="radio" name="enabled" display="Inactief" id="false "/>
+                        </div>
+                    </div>
+                    <button type="submit">
+                        Verzenden
+                    </button>
+                </form>
+            </div>
+            {/*</>}*/}
+        </section>
+    );
 }
 
 export default EmployeePage;

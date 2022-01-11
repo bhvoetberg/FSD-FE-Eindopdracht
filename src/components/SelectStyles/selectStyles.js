@@ -1,3 +1,5 @@
+//These styles are used withing Select from "react-select"
+
 function selectStyles() {
     const selectStyles = {
         control: (base, state) => ({

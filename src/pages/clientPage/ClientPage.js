@@ -3,27 +3,28 @@ import Select from "react-select";
 import {useForm} from 'react-hook-form';
 import axios from "axios";
 
-import OnFormSubmit from "../../helpers/useOnFormSubmit";
-
 import './ClientPage.css';
 
 import InputElement from "../../components/InputElement/InputElement";
-import selectStyles from "../../helpers/selectStyles";
+import selectStyles from "../../components/SelectStyles/selectStyles";
 
 function ClientPage() {
-    const {register, handleSubmit} = useForm();
+    const {register, handleSubmit, formState: {errors}} = useForm();
 
     const [error, toggleError] = useState(false);
     const [clientId, setClientId] = useState('');
     const [clients, setClients] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [updated, toggleUpdated] = useState(false);
 
-    const selectedStyles = selectStyles();
+    // const selectStyles = selectStyles();
     const token = localStorage.getItem('token');
     const dropDownList = [];
 
+
     async function onFormSubmit(data) {
         toggleError(false);
+        toggleUpdated(false);
         try {
             const result = await axios.post('http://localhost:8080/clients', data,
                 {
@@ -33,11 +34,13 @@ function ClientPage() {
                 });
             console.log("RESULTAAT POST");
             console.log(result);
+            toggleUpdated(true);
         } catch (e) {
             console.error(e);
             toggleError(true);
         }
     }
+
 
     const handleChange = e => {
         setClientId(e.value);
@@ -52,7 +55,6 @@ function ClientPage() {
                 },
             });
             setClients(result.data);
-            console.log("Opgehaald is:");
             console.log(result);
         } catch (e) {
             toggleError(true);
@@ -62,7 +64,7 @@ function ClientPage() {
 
     useEffect(() => {
         getClients();
-    }, []);
+    }, [updated]);
 
 
     //useState is asynchronous. Resultingly, setClients will not make clients
@@ -81,13 +83,13 @@ function ClientPage() {
 
     return (
         <>
-            <div className="page-container">
+            <section className="page-container">
                 <h1 className="page-title">Client</h1>
                 <div className="employee-content">
                     <div>
                         <Select
                             options={dropDownList}
-                            styles={selectedStyles}
+                            styles={selectStyles}
                             value={clientId}
                             defaultMenuIsOpen="true"
                             onChange={handleChange}
@@ -107,30 +109,38 @@ function ClientPage() {
                             }
                         </div>
                     </div>
-                    <form onSubmit={handleSubmit(onFormSubmit)}>
 
-                        <label htmlFor="first-name">
-                            <input
-                                type="text"
-                                id="first-name"
-                                placeholder="Voornaam"
-                                {...register("firstName")}
-                            />
-                        </label>
+                    <form onSubmit={handleSubmit(onFormSubmit)}>
+                        <InputElement
+                            errors={errors}
+                            register={register}
+                            name="firstName"
+                            placeholder="Voornaam"
+                            inputType="text"
+                            validationRules={{
+                                required: "Voornaam is verplicht"
+                            }}
+                        />
                         <label htmlFor="last-name">
                             <input
                                 type="text"
                                 id="last-name"
                                 placeholder="Achternaam"
-                                {...register("lastName")}
+                                {...register("lastName", {
+                                    required: true,
+                                    message: "Achternaam is verplicht"
+                                })}
                             />
                         </label>
-                        <label htmlFor="data-of-birth">
+                        <label htmlFor="last-name">
                             <input
                                 type="text"
                                 id="date-of-birth"
                                 placeholder="Geboortedatum"
-                                {...register("dateOfBirth")}
+                                {...register("dateOfBirth", {
+                                    required: true,
+                                    message: "Geboortedatum verplicht"
+                                })}
                             />
                         </label>
                         <label htmlFor="room-number">
@@ -145,7 +155,7 @@ function ClientPage() {
                             <input
                                 type="text"
                                 id="tel-pharmacy"
-                                placeholder="Telefoon apotheek"
+                                placeholder="Telefoonnummer apotheek"
                                 {...register("telPharmacy")}
                             />
                         </label>
@@ -153,24 +163,24 @@ function ClientPage() {
                             <input
                                 type="text"
                                 id="tel-general-practitioner"
-                                placeholder="Telefoon huisarts"
+                                placeholder="Telefoonnummer arts"
                                 {...register("telGeneralPractitioner")}
                             />
                         </label>
 
-                        <label htmlFor="enabled">Actief
-                            <input
-                                type="checkbox"
-                                {...register("enabled")}
-                            />
-                        </label>
+                        {/*<label htmlFor="enabled">Actief*/}
+                        {/*    <input*/}
+                        {/*        type="checkbox"*/}
+                        {/*        {...register("enabled")}*/}
+                        {/*    />*/}
+                        {/*</label>*/}
 
                         <button type="submit">
                             Versturen
                         </button>
                     </form>
                 </div>
-            </div>
+            </section>
         </>
     );
 }

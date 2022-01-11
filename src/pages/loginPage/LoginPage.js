@@ -1,12 +1,12 @@
 import React, {useContext, useState} from 'react';
-import { AuthContext } from '../../context/AuthContext';
+import {AuthContext} from '../../context/AuthContext';
 import axios from 'axios';
 
 function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, toggleError] = useState(false);
-    const { login } = useContext(AuthContext);
+    const {login, isAuth, logout} = useContext(AuthContext);
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -18,10 +18,9 @@ function LoginPage() {
                 password: password,
             });
 
-            // geef de JWT token aan de login-functie van de context mee
             login(result.data.jwt);
 
-        } catch(e) {
+        } catch (e) {
             console.error(e);
             toggleError(true);
         }
@@ -29,40 +28,54 @@ function LoginPage() {
 
     return (
         <section className="page-container">
-            <h1 className="page-title">Login</h1>
+            {isAuth ?
+                <>
+                    <button
+                        type="submit"
+                        className="form-button"
+                        onClick={logout}
+                    >
+                        Uitloggen
+                    </button>
+                </>
+                :
+                <>
 
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="email">
-                    <input
-                        type="text"
-                        id="email"
-                        name="username"
-                        value={username}
-                        placeholder="gebruikersnaam"
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                </label>
+                    <h1 className="page-title">Inloggen</h1>
 
-                <label htmlFor="password">
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        value={password}
-                        placeholder="wachtwoord"
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </label>
-                {error && <p className="error">Combinatie van gebruikersnaam en wachtwoord is onjuist!</p>}
+                    <form onSubmit={handleSubmit}>
+                        <label htmlFor="email">
+                            <input
+                                type="text"
+                                id="email"
+                                name="username"
+                                value={username}
+                                placeholder="gebruikersnaam"
+                                onChange={(e) => setUsername(e.target.value)}
+                            />
+                        </label>
 
-                <button
-                    type="submit"
-                    className="form-button"
-                >
-                    Inloggen
-                </button>
-            </form>
+                        <label htmlFor="password">
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                value={password}
+                                placeholder="wachtwoord"
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </label>
+                        {error && <p className="error">Combinatie van gebruikersnaam en wachtwoord is onjuist!</p>}
 
+                        <button
+                            type="submit"
+                            className="form-button"
+                        >
+                            Inloggen
+                        </button>
+                    </form>
+                </>
+            }
         </section>
     );
 }

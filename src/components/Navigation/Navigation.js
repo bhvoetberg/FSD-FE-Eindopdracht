@@ -1,8 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {NavLink} from 'react-router-dom';
 import './Navigation.css';
+import { AuthContext} from "../../context/AuthContext";
 
 function Navigation() {
+    const {isAuth, logout} = useContext(AuthContext);
+
     return (
         <nav>
             <div className="navigation-container">
@@ -11,7 +14,11 @@ function Navigation() {
                         <NavLink to="/" exact activeClassName="active-link">Home</NavLink>
                     </li>
                     <li>
-                        <NavLink to="/login" activeClassName="active-link">Login</NavLink>
+                        {isAuth ?
+                            <NavLink to="/login" activeClassName="active-link">Uitloggen</NavLink>
+                            :
+                            <NavLink to="/login" activeClassName="active-link">Inloggen</NavLink>
+                        }
                     </li>
                     <li>
                         <NavLink to="/planning" activeClassName="active-link">Planning</NavLink>

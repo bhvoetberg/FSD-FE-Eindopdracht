@@ -7,19 +7,24 @@ import './ClientPage.css';
 
 import InputElement from "../../components/InputElement/InputElement";
 import selectStyles from "../../components/SelectStyles/selectStyles";
+import MultiSelectElement from "../../components/multiSelectElement/MultiSelectElement";
 
 function ClientPage() {
-    const {register, handleSubmit, formState: {errors}} = useForm();
+    const {register, handleSubmit, formState: {errors}, watch} = useForm();
 
     const [error, toggleError] = useState(false);
     const [clientId, setClientId] = useState('');
     const [clients, setClients] = useState([]);
     const [loading, setLoading] = useState(false);
     const [updated, toggleUpdated] = useState(false);
+    const [changeStatus, toggleChangeStatus] = useState(true);
 
     // const selectStyles = selectStyles();
     const token = localStorage.getItem('token');
     const dropDownList = [];
+    const handleChange = e => {
+        setClientId(e.value);
+    }
 
 
     async function onFormSubmit(data) {
@@ -39,11 +44,6 @@ function ClientPage() {
             console.error(e);
             toggleError(true);
         }
-    }
-
-
-    const handleChange = e => {
-        setClientId(e.value);
     }
 
     async function getClients() {
@@ -67,8 +67,6 @@ function ClientPage() {
     }, [updated]);
 
 
-    //useState is asynchronous. Resultingly, setClients will not make clients
-    //immediately available. Making a dropdownlist now starts only after 'clients' is 'effected'.
     useEffect(() => {
         for (let i = 0; i < clients.length; i++) {
             let fullName = clients[i].firstName + ' ' + clients[i].lastName;
@@ -85,6 +83,7 @@ function ClientPage() {
         <>
             <section className="page-container">
                 <h1 className="page-title">Client</h1>
+                {/*<MultiSelectElement test selectType="radio"/>*/}
                 <div className="employee-content">
                     <div>
                         <Select
@@ -105,6 +104,7 @@ function ClientPage() {
                                     <div>{clients[clientId].telPharmacy}</div>
                                     <div>{clients[clientId].telGeneralPractitioner}</div>
                                     <div>{clients[clientId].enabled.toString()}</div>
+
                                 </>
                             }
                         </div>

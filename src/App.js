@@ -33,7 +33,7 @@ function App() {
                     <LoginPage/>
                 </Route>
                 <Route exact path="/planning">
-                    {isAuth ? <PlanningPage /> : <Redirect to="/" />}
+                    {isAuth ? <PlanningPage /> : <Redirect to="/login" />}
                     {/*<PlanningPage/>*/}
                 </Route>
                 <Route exact path="/realisation">

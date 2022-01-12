@@ -6,44 +6,96 @@ import axios from "axios";
 import './ClientPage.css';
 
 import InputElement from "../../components/InputElement/InputElement";
-import selectStyles from "../../components/SelectStyles/selectStyles";
-import MultiSelectElement from "../../components/multiSelectElement/MultiSelectElement";
+import MultiSelectElement from "../../components/MultiSelectElement/MultiSelectElement";
+
 
 function ClientPage() {
-    const {register, handleSubmit, formState: {errors}, watch} = useForm();
-
+    const {register, handleSubmit, formState: {errors}, reset} = useForm();
     const [error, toggleError] = useState(false);
     const [clientId, setClientId] = useState('');
     const [clients, setClients] = useState([]);
-    const [loading, setLoading] = useState(false);
     const [updated, toggleUpdated] = useState(false);
-    const [changeStatus, toggleChangeStatus] = useState(true);
+    const checked = true;
 
-    // const selectStyles = selectStyles();
     const token = localStorage.getItem('token');
     const dropDownList = [];
+
     const handleChange = e => {
+        console.log("Value on change select");
+        console.log(e.value);
         setClientId(e.value);
+        toggleUpdated(!updated);
     }
+
+    const handleChangeRadio = e => {
+        checked = !checked;
+    }
+
+    // T.b.v. React-Select
+    const selectStyles = {
+        control: (base, state) => ({
+            ...base,
+            color: "var(--primary-color)",
+            background: "var(--offwhite-color)",
+            borderRadius: state.isFocused ? "2rem" : "2rem",
+            borderColor: state.isFocused ? "var(--primary-color)" : "var(--primary-color)",
+            // boxShadow: state.isFocused ? null : null,
+            "&:hover": {
+                borderColor: state.isFocused ? "var(--primary-color)" : "var(--primary-color)"
+            }
+        }),
+        menu: (base) => ({
+            ...base,
+            borderRadius: 0,
+            marginTop: 0
+        }),
+        menuList: (base) => ({
+            ...base,
+            padding: 0
+        })
+    };
 
 
     async function onFormSubmit(data) {
         toggleError(false);
         toggleUpdated(false);
-        try {
-            const result = await axios.post('http://localhost:8080/clients', data,
-                {
-                    headers: {
-                        "Content-Type": "application/json", Authorization: `Bearer ${token}`,
-                    }
-                });
-            console.log("RESULTAAT POST");
-            console.log(result);
-            toggleUpdated(true);
-        } catch (e) {
-            console.error(e);
-            toggleError(true);
+        if (checked === false) {
+            try {
+                const result = await axios.post('http://localhost:8080/clients', data,
+                    {
+                        headers: {
+                            "Content-Type": "application/json", Authorization: `Bearer ${token}`,
+                        }
+                    });
+                console.log("RESULTAAT POST");
+                console.log(result);
+                toggleUpdated(true);
+            } catch (e) {
+                console.error(e);
+                toggleError(true);
+            }
+        } else {
+            let RecordId = clientId - 1;
+            console.log('put element');
+            console.log(data);
+            console.log(data.id);
+            console.log(data[RecordId]);
+            try {
+                const result = await axios.put('http://localhost:8080/clients/2', data,
+                    {
+                        headers: {
+                            "Content-Type": "application/json", Authorization: `Bearer ${token}`,
+                        }
+                    });
+                console.log("RESULTAAT PUT");
+                console.log(result);
+                toggleUpdated(true);
+            } catch (e) {
+                console.error(e);
+                toggleError(true);
+            }
         }
+        getClients();
     }
 
     async function getClients() {
@@ -62,6 +114,7 @@ function ClientPage() {
         }
     }
 
+
     useEffect(() => {
         getClients();
     }, [updated]);
@@ -79,107 +132,154 @@ function ClientPage() {
     }, [clients, clientId]);
 
 
+    useEffect(() => {
+        //To reset defaultValues in component InputElement
+        reset();
+    }, [clientId]);
+
+
     return (
         <>
             <section className="page-container">
                 <h1 className="page-title">Client</h1>
-                {/*<MultiSelectElement test selectType="radio"/>*/}
-                <div className="employee-content">
-                    <div>
-                        <Select
-                            options={dropDownList}
-                            styles={selectStyles}
-                            value={clientId}
-                            defaultMenuIsOpen="true"
-                            onChange={handleChange}
-                            placeholder="Kies uit de lijst ..."
-                            id="select"
-                        />
-                        <div className="retrieve-data">
-                            {clientId &&
-                                <>
-                                    <div>{clients[clientId].firstName}</div>
-                                    <div>{clients[clientId].lastName}</div>
-                                    <div>{clients[clientId].dataOfBirth}</div>
-                                    <div>{clients[clientId].telPharmacy}</div>
-                                    <div>{clients[clientId].telGeneralPractitioner}</div>
-                                    <div>{clients[clientId].enabled.toString()}</div>
 
-                                </>
-                            }
-                        </div>
-                    </div>
+                {/*Gegevens aanpassen of nieuw */}
+                <div className="radio-wrapper">
+                    <MultiSelectElement
+                        errors={errors}
+                        register={register}
+                        name="radio"
+                        label="Aanpassen"
+                        selectType="radio"
+                        defaultChecked="true"
+                    />
+                    <MultiSelectElement
+                        errors={errors}
+                        register={register}
+                        name="radio"
+                        label="Nieuw"
+                        selectType="radio"
+                    />
 
-                    <form onSubmit={handleSubmit(onFormSubmit)}>
-                        <InputElement
-                            errors={errors}
-                            register={register}
-                            name="firstName"
-                            placeholder="Voornaam"
-                            inputType="text"
-                            validationRules={{
-                                required: "Voornaam is verplicht"
-                            }}
-                        />
-                        <label htmlFor="last-name">
-                            <input
-                                type="text"
-                                id="last-name"
-                                placeholder="Achternaam"
-                                {...register("lastName", {
-                                    required: true,
-                                    message: "Achternaam is verplicht"
-                                })}
-                            />
-                        </label>
-                        <label htmlFor="last-name">
-                            <input
-                                type="text"
-                                id="date-of-birth"
-                                placeholder="Geboortedatum"
-                                {...register("dateOfBirth", {
-                                    required: true,
-                                    message: "Geboortedatum verplicht"
-                                })}
-                            />
-                        </label>
-                        <label htmlFor="room-number">
-                            <input
-                                type="text"
-                                id="room-number"
-                                placeholder="Kamernummer"
-                                {...register("roomNumber")}
-                            />
-                        </label>
-                        <label htmlFor="tel-pharmacy">
-                            <input
-                                type="text"
-                                id="tel-pharmacy"
-                                placeholder="Telefoonnummer apotheek"
-                                {...register("telPharmacy")}
-                            />
-                        </label>
-                        <label htmlFor="tel-general-practitioner">
-                            <input
-                                type="text"
-                                id="tel-general-practitioner"
-                                placeholder="Telefoonnummer arts"
-                                {...register("telGeneralPractitioner")}
-                            />
-                        </label>
-
-                        {/*<label htmlFor="enabled">Actief*/}
-                        {/*    <input*/}
-                        {/*        type="checkbox"*/}
-                        {/*        {...register("enabled")}*/}
-                        {/*    />*/}
-                        {/*</label>*/}
-
-                        <button type="submit">
-                            Versturen
-                        </button>
-                    </form>
+                    {/*<div className="radio">*/}
+                    {/*    <input type="radio" name="register-mode" display="Actief" id="true"*/}
+                    {/*           defaultChecked="true"/>*/}
+                    {/*    Aanpassen*/}
+                    {/*    <input type="radio" name="register-mode" display="Inactief" id="false "/>*/}
+                    {/*    Nieuw*/}
+                    {/*</div>*/}
                 </div>
+
+                {error && <p>Er is iets misgegaan met het laden</p>}
+
+                <div className="client-content">
+                    <Select
+                        options={dropDownList}
+                        styles={selectStyles}
+                        value={clientId}
+                        defaultMenuIsOpen="false"
+                        onChange={handleChange}
+                        placeholder="Kies uit de lijst ..."
+                        id="select"
+                    />
+                </div>
+
+
+                {clientId > 0 &&
+                    <>
+                        <form onSubmit={handleSubmit(onFormSubmit)}>
+                            <InputElement
+                                errors={errors}
+                                register={register}
+                                name="firstName"
+                                value={clients[clientId].firstName}
+                                placeholder="Voornaam"
+                                inputType="text"
+                                validationRules={{
+                                    required: "Voornaam is verplicht"
+                                }}
+                            />
+
+                            <InputElement
+                                errors={errors}
+                                register={register}
+                                name="lastName"
+                                value={clients[clientId].lastName}
+                                placeholder="Achternaam"
+                                inputType="text"
+                                validationRules={{
+                                    required: "Achternaam is verplicht"
+                                }}
+                            />
+                            <InputElement
+                                errors={errors}
+                                register={register}
+                                name="roomNumber"
+                                value={clients[clientId].roomNumber}
+                                placeholder="Kamernummer"
+                                inputType="text"
+                                validationRules={{
+                                    required: "Kamernummer is verplicht"
+                                }}
+                            />
+                            <InputElement
+                                errors={errors}
+                                register={register}
+                                name="dateOfBirth"
+                                value={clients[clientId].dateOfBirth}
+                                placeholder="Geboortedatum"
+                                inputType="text"
+                                validationRules={{
+                                    required: "Geboortedatum is verplicht"
+                                }}
+                            />
+                            <InputElement
+                                errors={errors}
+                                register={register}
+                                name="telPharmacy"
+                                value={clients[clientId].telPharmacy}
+                                placeholder="Telefoon apotheek"
+                                inputType="text"
+                                validationRules={{
+                                    required: "Telefoon apotheek is verplicht"
+                                }}
+                            />
+                            <InputElement
+                                errors={errors}
+                                register={register}
+                                name="telGeneralPractitioner"
+                                value={clients[clientId].telGeneralPractitioner}
+                                placeholder="Telefoon arts"
+                                inputType="text"
+                                validationRules={{
+                                    required: "Telefoon arts is verplicht"
+                                }}
+                            />
+                            <InputElement
+                                errors={errors}
+                                register={register}
+                                name="id"
+                                value={clients[clientId].id}
+                                placeholder="id "
+                                inputType="text"
+                                validationRules={{
+                                    required: "Telefoon arts is verplicht"
+                                }}
+                            />
+
+                            {/*<label htmlFor="enabled">Actief*/}
+                            {/*    <input*/}
+                            {/*        type="checkbox"*/}
+                            {/*        {...register("enabled")}*/}
+                            {/*    />*/}
+                            {/*</label>*/}
+
+                            <button type="submit">
+                                Versturen
+                            </button>
+                        </form>
+                    </>}
+
             </section>
         </>
     );

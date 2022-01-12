@@ -47,7 +47,7 @@ h1{
 input, button {
     border-radius: var(--border-radius);
     height: 3rem;
-    width: 400px;
+    width: 300px;
     font-size: inherit;
     text-align: center;
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 
-function InputElement({ errors, register, name, placeholder, inputType, validationRules }) {
+function InputElement({ errors, register, name, value, placeholder, inputType, validationRules }) {
+
     return (
         <>
             <label htmlFor={`${name}-field`}>
@@ -13,6 +14,7 @@ function InputElement({ errors, register, name, placeholder, inputType, validati
                         id={`${name}-field`}
                         placeholder={placeholder}
                         {...register(name, validationRules)}
+                        defaultValue={value}
                     />
                     {errors[name] && <p>{errors[name].message}</p>}
                 </>)}

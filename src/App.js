@@ -1,7 +1,6 @@
 import React, {useContext} from 'react';
 import '../src/App.css';
 import {
-    BrowserRouter as Router,
     Switch,
     Route, Redirect,
 } from 'react-router-dom';

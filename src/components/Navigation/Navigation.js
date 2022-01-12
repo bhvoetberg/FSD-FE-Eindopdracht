@@ -4,7 +4,7 @@ import './Navigation.css';
 import { AuthContext} from "../../context/AuthContext";
 
 function Navigation() {
-    const {isAuth, logout} = useContext(AuthContext);
+    const {isAuth} = useContext(AuthContext);
 
     return (
         <nav>

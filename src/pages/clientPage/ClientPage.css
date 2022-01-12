@@ -3,21 +3,24 @@
     flex-direction: column;
 }
 
+.page-title {
+    margin-bottom: 3rem;
+}
+
 .radio-wrapper {
     display: flex;
     justify-content: flex-start;
     margin-bottom: 2rem;
 }
 
-.radio {
+.radio-wrapper > * {
     display: flex;
     align-self: center;
     flex-direction: row;
-    width: 400px;
+    width: 200px;
     justify-content: space-evenly;
     align-items: center;
     border-style: none;
-    margin-bottom: 2rem;
 }
 
 .client-content{

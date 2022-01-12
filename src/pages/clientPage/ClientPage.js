@@ -15,7 +15,8 @@ function ClientPage() {
     const [clientId, setClientId] = useState('');
     const [clients, setClients] = useState([]);
     const [updated, toggleUpdated] = useState(false);
-    const checked = true;
+    const [radio, setRadio] = useState('put');
+
 
     const token = localStorage.getItem('token');
     const dropDownList = [];
@@ -25,10 +26,6 @@ function ClientPage() {
         console.log(e.value);
         setClientId(e.value);
         toggleUpdated(!updated);
-    }
-
-    const handleChangeRadio = e => {
-        checked = !checked;
     }
 
     // T.b.v. React-Select
@@ -59,7 +56,8 @@ function ClientPage() {
     async function onFormSubmit(data) {
         toggleError(false);
         toggleUpdated(false);
-        if (checked === false) {
+        if (radio === "post") {
+            console.log("Hier ben ik")
             try {
                 const result = await axios.post('http://localhost:8080/clients', data,
                     {
@@ -121,6 +119,8 @@ function ClientPage() {
 
 
     useEffect(() => {
+        console.log("RADIOSTATE")
+        console.log(radio);
         for (let i = 0; i < clients.length; i++) {
             let fullName = clients[i].firstName + ' ' + clients[i].lastName;
             let dropDownItem = {
@@ -129,7 +129,7 @@ function ClientPage() {
             }
             dropDownList.push(dropDownItem);
         }
-    }, [clients, clientId]);
+    }, [clients, clientId, updated]);
 
 
     useEffect(() => {
@@ -140,34 +140,27 @@ function ClientPage() {
 
     return (
         <>
+
             <section className="page-container">
                 <h1 className="page-title">Client</h1>
 
+                <p>RADIO</p>
+                {radio}
+                <p>CLIENTID</p>
+                {clientId}
+                <p>DROPDOWN</p>
+                {dropDownList.entries()}
+
                 {/*Gegevens aanpassen of nieuw */}
                 <div className="radio-wrapper">
-                    <MultiSelectElement
-                        errors={errors}
-                        register={register}
-                        name="radio"
-                        label="Aanpassen"
-                        selectType="radio"
-                        defaultChecked="true"
-                    />
-                    <MultiSelectElement
-                        errors={errors}
-                        register={register}
-                        name="radio"
-                        label="Nieuw"
-                        selectType="radio"
-                    />
-
-                    {/*<div className="radio">*/}
-                    {/*    <input type="radio" name="register-mode" display="Actief" id="true"*/}
-                    {/*           defaultChecked="true"/>*/}
-                    {/*    Aanpassen*/}
-                    {/*    <input type="radio" name="register-mode" display="Inactief" id="false "/>*/}
-                    {/*    Nieuw*/}
-                    {/*</div>*/}
+                    <div className="radio">
+                        <input type="radio" name="register-mode" checked={radio === "put"} value="put"
+                        onChange={(e)=>{setRadio(e.target.value)}} id="true"/>
+                        Aanpassen
+                        <input type="radio" name="register-mode" checked={radio === "post"} value="post"
+                               onChange={(e)=>{setRadio(e.target.value)}} id="false "/>
+                        Nieuw
+                    </div>
                 </div>
 
                 {error && <p>Er is iets misgegaan met het laden</p>}
@@ -255,17 +248,18 @@ function ClientPage() {
                                     required: "Telefoon arts is verplicht"
                                 }}
                             />
-                            <InputElement
-                                errors={errors}
-                                register={register}
-                                name="id"
-                                value={clients[clientId].id}
-                                placeholder="id "
-                                inputType="text"
-                                validationRules={{
-                                    required: "Telefoon arts is verplicht"
-                                }}
-                            />
+                            {(radio === "put") &&
+                                <>
+                                    <InputElement
+                                        errors={errors}
+                                        register={register}
+                                        name="id"
+                                        value={clients[clientId].id}
+                                        placeholder="id "
+                                        inputType="text"
+                                    />
+                            </>}
+
 
                             {/*<label htmlFor="enabled">Actief*/}
                             {/*    <input*/}
@@ -285,4 +279,4 @@ function ClientPage() {
     );
 }
 
-export default ClientPage;
+export default ClientPage

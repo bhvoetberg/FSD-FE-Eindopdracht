@@ -13,7 +13,7 @@ import EmployeePage from './pages/employeePage/EmployeePage';
 import ClientPage from './pages/clientPage/ClientPage';
 import MedicinePage from './pages/medicinePage/MedicinePage';
 import MedicationPage from './pages/medicationPage/MedicationPage';
-import Navigation from "./components/Navigation/Navigation";
+import Navigation from "./components/navigation/Navigation";
 
 
 function App() {

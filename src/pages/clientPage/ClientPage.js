@@ -1,100 +1,28 @@
 import React, {useEffect, useState} from 'react';
-import Select from "react-select";
 import {useForm} from 'react-hook-form';
 import axios from "axios";
-
-import './ClientPage.css';
-
+import SingleSelectElement from "../../components/singleSelectElement/SingleSelectElement";
+import Button from "../../components/button/Button";
 import InputElement from "../../components/InputElement/InputElement";
-import MultiSelectElement from "../../components/MultiSelectElement/MultiSelectElement";
 
 
 function ClientPage() {
-    const {register, handleSubmit, formState: {errors}, reset} = useForm();
-    const [error, toggleError] = useState(false);
-    const [clientId, setClientId] = useState('');
-    const [clients, setClients] = useState([]);
-    const [updated, toggleUpdated] = useState(false);
-    const [radio, setRadio] = useState('put');
-
 
     const token = localStorage.getItem('token');
-    const dropDownList = [];
+    const [error, toggleError] = useState(false);
+    const [clients, setClients] = useState([]);
+    const [updated, toggleUpdated] = useState(false);
+    const {handleSubmit, register, formState: {errors}, watch, reset} = useForm({
+        mode: 'onChange'
+    });
 
-    const handleChange = e => {
-        console.log("Value on change select");
-        console.log(e.value);
-        setClientId(e.value);
-        toggleUpdated(!updated);
-    }
+    const [firstName, setFirstName] = useState('');
+    //
+    // useEffect(() => {
+    //     setID(localStorage.getItem('ID'))
+    //     setFirstName(localStorage.getItem('First Name'));
+    // },[]);
 
-    // T.b.v. React-Select
-    const selectStyles = {
-        control: (base, state) => ({
-            ...base,
-            color: "var(--primary-color)",
-            background: "var(--offwhite-color)",
-            borderRadius: state.isFocused ? "2rem" : "2rem",
-            borderColor: state.isFocused ? "var(--primary-color)" : "var(--primary-color)",
-            // boxShadow: state.isFocused ? null : null,
-            "&:hover": {
-                borderColor: state.isFocused ? "var(--primary-color)" : "var(--primary-color)"
-            }
-        }),
-        menu: (base) => ({
-            ...base,
-            borderRadius: 0,
-            marginTop: 0
-        }),
-        menuList: (base) => ({
-            ...base,
-            padding: 0
-        })
-    };
-
-
-    async function onFormSubmit(data) {
-        toggleError(false);
-        toggleUpdated(false);
-        if (radio === "post") {
-            console.log("Hier ben ik")
-            try {
-                const result = await axios.post('http://localhost:8080/clients', data,
-                    {
-                        headers: {
-                            "Content-Type": "application/json", Authorization: `Bearer ${token}`,
-                        }
-                    });
-                console.log("RESULTAAT POST");
-                console.log(result);
-                toggleUpdated(true);
-            } catch (e) {
-                console.error(e);
-                toggleError(true);
-            }
-        } else {
-            let RecordId = clientId - 1;
-            console.log('put element');
-            console.log(data);
-            console.log(data.id);
-            console.log(data[RecordId]);
-            try {
-                const result = await axios.put('http://localhost:8080/clients/2', data,
-                    {
-                        headers: {
-                            "Content-Type": "application/json", Authorization: `Bearer ${token}`,
-                        }
-                    });
-                console.log("RESULTAAT PUT");
-                console.log(result);
-                toggleUpdated(true);
-            } catch (e) {
-                console.error(e);
-                toggleError(true);
-            }
-        }
-        getClients();
-    }
 
     async function getClients() {
         toggleError(false);
@@ -105,6 +33,7 @@ function ClientPage() {
                 },
             });
             setClients(result.data);
+            console.log("Getclients aangeroepen")
             console.log(result);
         } catch (e) {
             toggleError(true);
@@ -112,171 +41,70 @@ function ClientPage() {
         }
     }
 
+    const recordId = watch("selected-client");
+
+    // useEffect(() => {
+    //     if (recordId > 0) {
+    //         setFirstName(clients[recordId].firstName);
+    //         console.log("Firstname na change");
+    //         console.log(firstName);
+    //     }
+    // }, [recordId])
+
+
+    function onFormSubmit(data) {
+        console.log(data);
+    }
 
     useEffect(() => {
         getClients();
     }, [updated]);
 
-
-    useEffect(() => {
-        console.log("RADIOSTATE")
-        console.log(radio);
-        for (let i = 0; i < clients.length; i++) {
-            let fullName = clients[i].firstName + ' ' + clients[i].lastName;
-            let dropDownItem = {
-                label: fullName,
-                value: i
-            }
-            dropDownList.push(dropDownItem);
-        }
-    }, [clients, clientId, updated]);
-
-
-    useEffect(() => {
-        //To reset defaultValues in component InputElement
-        reset();
-    }, [clientId]);
-
+    console.log(clients, recordId);
 
     return (
-        <>
+        <div>
+            <form name="client-input" onSubmit={handleSubmit(onFormSubmit)}>
+                <SingleSelectElement
+                    errors={errors}
+                    register={register}
+                    name="selected-client"
+                    label="Kies client"
+                >
+                    {clients.map((option, i) => {
+                        return (<option key={option.id} value={i}>{option.firstName} {option.lastName}</option>);
+                    })}
+                </SingleSelectElement>
 
-            <section className="page-container">
-                <h1 className="page-title">Client</h1>
-
-                <p>RADIO</p>
-                {radio}
-                <p>CLIENTID</p>
-                {clientId}
-                <p>DROPDOWN</p>
-                {dropDownList.entries()}
-
-                {/*Gegevens aanpassen of nieuw */}
-                <div className="radio-wrapper">
-                    <div className="radio">
-                        <input type="radio" name="register-mode" checked={radio === "put"} value="put"
-                        onChange={(e)=>{setRadio(e.target.value)}} id="true"/>
-                        Aanpassen
-                        <input type="radio" name="register-mode" checked={radio === "post"} value="post"
-                               onChange={(e)=>{setRadio(e.target.value)}} id="false "/>
-                        Nieuw
-                    </div>
-                </div>
-
-                {error && <p>Er is iets misgegaan met het laden</p>}
-
-                <div className="client-content">
-                    <Select
-                        options={dropDownList}
-                        styles={selectStyles}
-                        value={clientId}
-                        defaultMenuIsOpen="false"
-                        onChange={handleChange}
-                        placeholder="Kies uit de lijst ..."
-                        id="select"
-                    />
-                </div>
+                <p>Local storage</p>
+                {localStorage.getItem('error')}
 
 
-                {clientId > 0 &&
+                {recordId &&
                     <>
-                        <form onSubmit={handleSubmit(onFormSubmit)}>
-                            <InputElement
-                                errors={errors}
-                                register={register}
-                                name="firstName"
-                                value={clients[clientId].firstName}
-                                placeholder="Voornaam"
-                                inputType="text"
-                                validationRules={{
-                                    required: "Voornaam is verplicht"
-                                }}
-                            />
+                        {<p>Record ID</p>}
+                        {recordId}
 
-                            <InputElement
-                                errors={errors}
-                                register={register}
-                                name="lastName"
-                                value={clients[clientId].lastName}
-                                placeholder="Achternaam"
-                                inputType="text"
-                                validationRules={{
-                                    required: "Achternaam is verplicht"
-                                }}
-                            />
-                            <InputElement
-                                errors={errors}
-                                register={register}
-                                name="roomNumber"
-                                value={clients[clientId].roomNumber}
-                                placeholder="Kamernummer"
-                                inputType="text"
-                                validationRules={{
-                                    required: "Kamernummer is verplicht"
-                                }}
-                            />
-                            <InputElement
-                                errors={errors}
-                                register={register}
-                                name="dateOfBirth"
-                                value={clients[clientId].dateOfBirth}
-                                placeholder="Geboortedatum"
-                                inputType="text"
-                                validationRules={{
-                                    required: "Geboortedatum is verplicht"
-                                }}
-                            />
-                            <InputElement
-                                errors={errors}
-                                register={register}
-                                name="telPharmacy"
-                                value={clients[clientId].telPharmacy}
-                                placeholder="Telefoon apotheek"
-                                inputType="text"
-                                validationRules={{
-                                    required: "Telefoon apotheek is verplicht"
-                                }}
-                            />
-                            <InputElement
-                                errors={errors}
-                                register={register}
-                                name="telGeneralPractitioner"
-                                value={clients[clientId].telGeneralPractitioner}
-                                placeholder="Telefoon arts"
-                                inputType="text"
-                                validationRules={{
-                                    required: "Telefoon arts is verplicht"
-                                }}
-                            />
-                            {(radio === "put") &&
-                                <>
-                                    <InputElement
-                                        errors={errors}
-                                        register={register}
-                                        name="id"
-                                        value={clients[clientId].id}
-                                        placeholder="id "
-                                        inputType="text"
-                                    />
-                            </>}
-
-
-                            {/*<label htmlFor="enabled">Actief*/}
-                            {/*    <input*/}
-                            {/*        type="checkbox"*/}
-                            {/*        {...register("enabled")}*/}
-                            {/*    />*/}
-                            {/*</label>*/}
-
-                            <button type="submit">
-                                Versturen
-                            </button>
-                        </form>
+                        <InputElement
+                            errors={errors}
+                            register={register}
+                            name="firstName"
+                            value={clients[recordId].firstName}
+                            placeholder="Voornaam"
+                            inputType="text"
+                            validationRules={{
+                                required: "Voornaam is verplicht"
+                            }}
+                        />
                     </>}
 
-            </section>
-        </>
+
+                <Button type="submit">
+                    Update
+                </Button>
+            </form>
+        </div>
     );
 }
 
-export default ClientPage
+export default ClientPage;

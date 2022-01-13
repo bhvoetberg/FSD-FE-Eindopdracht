@@ -6,7 +6,7 @@ import axios from "axios";
 import './EmployeePage.css';
 
 import InputElement from "../../components/InputElement/InputElement";
-import selectStyles from "../../components/SelectStyles/selectStyles";
+import selectStyles from "../../components/selectStyles/selectStyles";
 
 
 function EmployeePage() {

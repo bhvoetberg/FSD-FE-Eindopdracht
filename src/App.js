@@ -13,7 +13,9 @@ import EmployeePage from './pages/employeePage/EmployeePage';
 import ClientPage from './pages/clientPage/ClientPage';
 import MedicinePage from './pages/medicinePage/MedicinePage';
 import MedicationPage from './pages/medicationPage/MedicationPage';
+import PhotoPage from './pages/photoPage/PhotoPage';
 import Navigation from "./components/navigation/Navigation";
+
 
 
 function App() {
@@ -49,6 +51,9 @@ function App() {
                 </Route>
                 <Route exact path="/medication">
                     <MedicationPage/>
+                </Route>
+                <Route exact path="/photo">
+                    <PhotoPage/>
                 </Route>
             </Switch>
 

@@ -38,6 +38,9 @@ function Navigation() {
                     <li>
                         <NavLink to="/medication" activeClassName="active-link">Medicatie</NavLink>
                     </li>
+                    <li>
+                        <NavLink to="/photo" activeClassName="active-link">Photo</NavLink>
+                    </li>
 
                 </ul>
             </div>

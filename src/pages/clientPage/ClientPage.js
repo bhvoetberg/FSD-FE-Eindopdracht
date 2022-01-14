@@ -65,19 +65,28 @@ function ClientPage() {
     return (
         <div>
             <form name="client-input" onSubmit={handleSubmit(onFormSubmit)}>
-                <SingleSelectElement
-                    errors={errors}
-                    register={register}
-                    name="selected-client"
-                    label="Kies client"
-                >
+
+
+                <select id="client-selection" {...register("selected-client")}>
                     {clients.map((option, i) => {
                         return (<option key={option.id} value={i}>{option.firstName} {option.lastName}</option>);
                     })}
-                </SingleSelectElement>
+                </select>
+                {<p>Register</p>}
 
-                <p>Local storage</p>
-                {localStorage.getItem('error')}
+
+
+
+                {/*<SingleSelectElement*/}
+                {/*    errors={errors}*/}
+                {/*    register={register}*/}
+                {/*    name="selected-client"*/}
+                {/*    label="Kies client"*/}
+                {/*>*/}
+                {/*    {clients.map((option, i) => {*/}
+                {/*        return (<option key={option.id} value={i}>{option.firstName} {option.lastName}</option>);*/}
+                {/*    })}*/}
+                {/*</SingleSelectElement>*/}
 
 
                 {recordId &&

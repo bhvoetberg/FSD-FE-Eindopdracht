@@ -6,7 +6,6 @@ import axios from "axios";
 import './ClientPage.css';
 
 import InputElement from "../../components/InputElement/InputElement";
-import MultiSelectElement from "../../components/multiSelectElement/MultiSelectElement";
 
 
 function ClientPage() {
@@ -32,8 +31,6 @@ function ClientPage() {
 
 
 
-
-
     // T.b.v. React-Select
     const selectStyles = {
         control: (base, state) => ({
@@ -42,7 +39,6 @@ function ClientPage() {
             background: "var(--offwhite-color)",
             borderRadius: state.isFocused ? "2rem" : "2rem",
             borderColor: state.isFocused ? "var(--primary-color)" : "var(--primary-color)",
-            // boxShadow: state.isFocused ? null : null,
             "&:hover": {
                 borderColor: state.isFocused ? "var(--primary-color)" : "var(--primary-color)"
             }
@@ -101,7 +97,7 @@ function ClientPage() {
             }
         }
         console.log("Haal update van clients");
-        getClients();
+        await getClients();
     }
 
     async function getClients() {

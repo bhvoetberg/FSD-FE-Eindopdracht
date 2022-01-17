@@ -1,0 +1,62 @@
+.page-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.page-title {
+    margin-bottom: 3rem;
+}
+
+
+.content{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 1rem;
+}
+
+.input-type {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+}
+
+label{
+    background: var(--primary-color);
+    color: var(--offwhite-color);
+    border-radius: 25px;
+    border-style: solid;
+
+    width: 400px;
+    text-align: center;
+    padding: 6px;
+}
+
+textarea {
+    border-radius: 25px;
+    border: 1px solid blue;
+    width: 400px;
+}
+
+input, button {
+    border-radius: var(--border-radius);
+    height: 2rem;
+    width: 400px;
+    font-size: inherit;
+    text-align: center;
+}
+
+input {
+    background: var(--offwhite-color);
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    outline: none;
+}
+
+button {
+    background: var(--primary-color);
+    border: 0;
+    color: var(--offwhite-color);
+}

@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import Select from 'react-select';
+import AsyncSelect from "react-select/async";
 import {useForm} from "react-hook-form";
 import axios from "axios";
 
 import './EmployeePage.css';
 
-import InputElement from "../../components/InputElement/InputElement";
-import selectStyles from "../../components/selectStyles/selectStyles";
+import InputElement from "../../components/inputElement/InputElement";
+import {Link} from "react-router-dom";
 
 
 function EmployeePage() {
@@ -14,70 +14,81 @@ function EmployeePage() {
 
     const [error, toggleError] = useState(false);
     const [employeeId, setEmployeeId] = useState('');
-    const [employees, setEmployees] = useState([]);
+    const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [updated, toggleUpdated] = useState(false);
+    const [inputValue, setInputValue] = useState('');
+    const [selectedValue, setSelectedValue] = useState(null);
 
     // const selectStyles = selectStyles();
     const token = localStorage.getItem('token');
     const dropDownList = [];
 
-
-    async function onFormSubmit(data) {
-        toggleError(false);
-        toggleUpdated(false);
-        try {
-            const result = await axios.post('http://localhost:8080/employees', data,
-                {
-                    headers: {
-                        "Content-Type": "application/json", Authorization: `Bearer ${token}`,
-                    }
-                });
-            console.log("RESULTAAT POST");
-            console.log(result);
-            toggleUpdated(true);
-        } catch (e) {
-            console.error(e);
-            toggleError(true);
-        }
+    const handleInputChange = value => {
+        setInputValue(value);
     }
 
-
-    const handleChange = e => {
-        setEmployeeId(e.value);
+    const handleChange = value => {
+        setSelectedValue(value);
     }
 
+    // async function onFormSubmit(data) {
+    //     toggleError(false);
+    //     toggleUpdated(false);
+    //     try {
+    //         const result = await axios.post('http://localhost:8080/employees', data,
+    //             {
+    //                 headers: {
+    //                     "Content-Type": "application/json", Authorization: `Bearer ${token}`,
+    //                 }
+    //             });
+    //         console.log("RESULTAAT POST");
+    //         console.log(result);
+    //         toggleUpdated(true);
+    //     } catch (e) {
+    //         console.error(e);
+    //         toggleError(true);
+    //     }
+    // }
 
-    async function getEmployees() {
-        toggleError(false);
+    // async function getEmployees() {
+    //     toggleError(false);
+    //     try {
+    //         const result = await axios.get(`http://localhost:8080/employees/`, {
+    //             headers: {
+    //                 "Content-Type": "application/json", Authorization: `Bearer ${token}`,
+    //             },
+    //         });
+    //         result = await result.data;
+    //         setEmployees(result.data);
+    //     } catch (e) {
+    //         toggleError(true);
+    //         console.error(e);
+    //     }
+    // }
+
+
+    async function getData() {
         try {
-            const result = await axios.get(`http://localhost:8080/employees/`, {
+            let result = await axios.get(`http://localhost:8080/employees/`, {
                 headers: {
                     "Content-Type": "application/json", Authorization: `Bearer ${token}`,
                 },
             });
-            setEmployees(result.data);
+            result = await result.data;
+            // setMedName(result.medName);
+            console.log("GETDATA AANGEROEPEN")
+            setData(result);
+            console.log(result);
         } catch (e) {
-            toggleError(true);
             console.error(e);
         }
     }
 
     useEffect(() => {
-        getEmployees();
-    }, [updated]);
-
-
-    useEffect(() => {
-        for (let i = 0; i < employees.length; i++) {
-            let fullName = employees[i].firstName + ' ' + employees[i].lastName;
-            let dropDownItem = {
-                label: fullName,
-                value: i
-            }
-            dropDownList.push(dropDownItem);
-        }
-    }, [employees, employeeId]);
+        getData();
+        console.log("Useeffect aangeroepen")
+    }, []);
 
 
     return (
@@ -87,67 +98,35 @@ function EmployeePage() {
             {/*{loading && <>*/}
             <div className="employee-content">
                 <div>
-                    <Select
-                        options={dropDownList}
-                        styles={selectStyles}
+                    {/*<p>Employee ID</p>*/}
+                    {/*{employeeId}*/}
+                    <p>Selected value: {selectedValue ? "a" : "b"}</p>
+                    <AsyncSelect
+                        cacheOptions
+                        defaultOptions
                         value={employeeId}
-                        defaultMenuIsOpen="true"
+                        getOptionLabel={(e => e.firstName)}
+                        loadOptions={getData}
+                        onInputChange={handleInputChange}
                         onChange={handleChange}
-                        placeholder="Kies uit de lijst ..."
-                        id="select"
                     />
-                    <div className="retrieve-data">
-                        {employeeId &&
-                            <>
-                                <div>{employees[employeeId].firstName}</div>
-                                <div>{employees[employeeId].lastName}</div>
-                                <div>{employees[employeeId].functionName}</div>
-                                <div>{employees[employeeId].enabled.toString()}</div>
-                            </>
-                        }
-                    </div>
+                    {/*<div className="retrieve-data">*/}
+                    {/*    {employeeId &&*/}
+                    {/*        <>*/}
+                    {/*<div>{employees[dropDownRecord].firstName}</div>*/}
+                    {/*<div>{employees[dropDownRecord].lastName}</div>*/}
+                    {/*<div>{employees[dropDownRecord].functionName}</div>*/}
+                    {/*<div>{employees[dropDownRecord].id}</div>*/}
+                    {/*<div>{employees[dropDownRecord].enabled.toString()}</div>*/}
+
+                    {/*            </>*/}
+                    {/*        }*/}
+                    {/*    </div>*/}
                 </div>
 
-                <form onSubmit={handleSubmit(onFormSubmit)}>
-                    <div className="update-data">
-                        <InputElement
-                            errors={errors}
-                            register={register}
-                            name="firstName"
-                            placeholder="Voornaam"
-                            inputType="text"
-                            validationRules={{
-                                required: "Voornaam is verplicht"
-                            }}
-                        />
-                        <InputElement
-                            errors={errors}
-                            register={register}
-                            name="lastName"
-                            placeholder="Voornaam"
-                            inputType="text"
-                            validationRules={{
-                                required: "Achternaam is verplicht"
-                            }}
-                        />
-                        <InputElement
-                            errors={errors}
-                            register={register}
-                            name="function"
-                            placeholder="Functie"
-                            inputType="text"
-                        />
-
-                        {/*<div className="radio">*/}
-                        {/*    <InputElement type="radio" name="enabled" display="Actief" id="true"*/}
-                        {/*                  checked="checked"/>*/}
-                        {/*    <InputElement type="radio" name="enabled" display="Inactief" id="false "/>*/}
-                        {/*</div>*/}
-                    </div>
-                    <button type="submit">
-                        Verzenden
-                    </button>
-                </form>
+                {/*<Link to={"employee-update/" + [employeeId].id}>*/}
+                {/*    <button className="update">Update</button>*/}
+                {/*</Link>*/}
             </div>
             {/*</>}*/}
         </section>

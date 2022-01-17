@@ -5,7 +5,7 @@ import Select from "react-select";
 
 import './ClientPage.css';
 
-import InputElement from "../../components/InputElement/InputElement";
+import InputElement from "../../components/inputElement/InputElement";
 
 function ClientPage() {
     const {register, handleSubmit, formState: {errors}, reset} = useForm();
@@ -87,7 +87,7 @@ function ClientPage() {
 
 
     useEffect(() => {
-        //To reset defaultValues in component InputElement
+        //To reset defaultValues in component inputElement
         reset();
     }, [clientId]);
 
@@ -148,7 +148,7 @@ function ClientPage() {
                                 }}
                             />
 
-                            {/*<InputElement*/}
+                            {/*<inputElement*/}
                             {/*    errors={errors}*/}
                             {/*    register={register}*/}
                             {/*    name="lastName"*/}
@@ -159,7 +159,7 @@ function ClientPage() {
                             {/*        required: "Achternaam is verplicht"*/}
                             {/*    }}*/}
                             {/*/>*/}
-                            {/*<InputElement*/}
+                            {/*<inputElement*/}
                             {/*    errors={errors}*/}
                             {/*    register={register}*/}
                             {/*    name="roomNumber"*/}
@@ -170,7 +170,7 @@ function ClientPage() {
                             {/*        required: "Kamernummer is verplicht"*/}
                             {/*    }}*/}
                             {/*/>*/}
-                            {/*<InputElement*/}
+                            {/*<inputElement*/}
                             {/*    errors={errors}*/}
                             {/*    register={register}*/}
                             {/*    name="dateOfBirth"*/}
@@ -181,7 +181,7 @@ function ClientPage() {
                             {/*        required: "Geboortedatum is verplicht"*/}
                             {/*    }}*/}
                             {/*/>*/}
-                            {/*<InputElement*/}
+                            {/*<inputElement*/}
                             {/*    errors={errors}*/}
                             {/*    register={register}*/}
                             {/*    name="telPharmacy"*/}
@@ -192,7 +192,7 @@ function ClientPage() {
                             {/*        required: "Telefoon apotheek is verplicht"*/}
                             {/*    }}*/}
                             {/*/>*/}
-                            {/*<InputElement*/}
+                            {/*<inputElement*/}
                             {/*    errors={errors}*/}
                             {/*    register={register}*/}
                             {/*    name="telGeneralPractitioner"*/}
@@ -205,7 +205,7 @@ function ClientPage() {
                             {/*/>*/}
                             {/*{(radio === "put") &&*/}
                             {/*    <>*/}
-                            {/*        <InputElement*/}
+                            {/*        <inputElement*/}
                             {/*            errors={errors}*/}
                             {/*            register={register}*/}
                             {/*            name="id"*/}

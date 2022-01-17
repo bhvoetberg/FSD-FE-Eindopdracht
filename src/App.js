@@ -15,6 +15,8 @@ import MedicinePage from './pages/medicinePage/MedicinePage';
 import MedicationPage from './pages/medicationPage/MedicationPage';
 import PhotoPage from './pages/photoPage/PhotoPage';
 import Navigation from "./components/navigation/Navigation";
+import MedicineUpdatePage from "./pages/medicinePage/medicineUpdatePage/MedicineUpdatePage";
+import EmployeeUpdatePage from "./pages/employeePage/EmployeeUpdate";
 
 
 
@@ -43,11 +45,17 @@ function App() {
                 <Route exact path="/employee">
                     <EmployeePage/>
                 </Route>
+                <Route path="/employee-update/:id">
+                    <EmployeeUpdatePage/>
+                </Route>
                 <Route exact path="/client">
                     <ClientPage/>
                 </Route>
                 <Route exact path="/medicine">
                     <MedicinePage/>
+                </Route>
+                <Route path="/medicine-update/:id">
+                    <MedicineUpdatePage/>
                 </Route>
                 <Route exact path="/medication">
                     <MedicationPage/>

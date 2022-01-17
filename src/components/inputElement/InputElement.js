@@ -1,10 +1,13 @@
 import React from 'react';
 
-function InputElement({ errors, register, name, value, placeholder, inputType, validationRules }) {
+import './InputElement.css';
+
+function InputElement({ errors, register, name, value, label, placeholder, inputType, validationRules }) {
 
     return (
-        <>
+        <div className="input-type">
             <label htmlFor={`${name}-field`}>
+                {label}
             </label>
             {inputType === "textarea"
                 ? <textarea id={`${name}-field`} cols="30" rows="10" {...register(name, validationRules)}></textarea>
@@ -13,12 +16,12 @@ function InputElement({ errors, register, name, value, placeholder, inputType, v
                         type={inputType}
                         id={`${name}-field`}
                         placeholder={placeholder}
-                        {...register(name, validationRules)}
                         defaultValue={value}
+                        {...register(name, validationRules)}
                     />
                     {errors[name] && <p>{errors[name].message}</p>}
                 </>)}
-        </>
+        </div>
     );
 }
 

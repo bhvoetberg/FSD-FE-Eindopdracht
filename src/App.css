@@ -24,7 +24,7 @@
 html{
     background: var(--bg-color);
     font-family: "Roboto Light", sans-serif ;
-    font-size: 18px;
+    font-size: 24px;
     color: var(--primary-color);
     scroll-behavior: smooth;
 }
@@ -44,26 +44,26 @@ h1{
     font-style: italic;
 }
 
-input, button {
-    border-radius: var(--border-radius);
-    height: 3rem;
-    width: 300px;
-    font-size: inherit;
-    text-align: center;
-}
+/*input, button {*/
+/*    border-radius: var(--border-radius);*/
+/*    height: 2rem;*/
+/*    width: 300px;*/
+/*    font-size: inherit;*/
+/*    text-align: center;*/
+/*}*/
 
-input {
-    background: var(--offwhite-color);
-    border: 1px solid var(--inactive-color);
-    color: var(--primary-color);
-    outline: none;
-}
+/*input {*/
+/*    background: var(--offwhite-color);*/
+/*    border: 1px solid var(--primary-color);*/
+/*    color: var(--primary-color);*/
+/*    outline: none;*/
+/*}*/
 
-button {
-    background: var(--primary-color);
-    border: 0;
-    color: var(--offwhite-color);
-}
+/*button {*/
+/*    background: var(--primary-color);*/
+/*    border: 0;*/
+/*    color: var(--offwhite-color);*/
+/*}*/
 
 input:active,
 input:focus{
@@ -75,11 +75,6 @@ input:focus{
     color: var(--primary-color);
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
 
 
 /*Generic page styles*/

@@ -5,17 +5,17 @@ import axios from "axios";
 
 import './ClientPage.css';
 
-import InputElement from "../../components/InputElement/InputElement";
+import InputElement from "../../components/inputElement/InputElement";
 
 
 function ClientPage() {
     const {register, handleSubmit, formState: {errors}, reset} = useForm();
+    const [dataLoaded, toggleDataLoaded] = useState(false);
     const [error, toggleError] = useState(false);
     const [clientId, setClientId] = useState(null);
     const [clients, setClients] = useState([]);
     const [updated, toggleUpdated] = useState(false);
     const [radio, setRadio] = useState('put');
-
 
     const token = localStorage.getItem('token');
     const dropDownList = [];
@@ -28,7 +28,6 @@ function ClientPage() {
         setClientId(dropDownList[e.value].value);
         toggleUpdated(!updated);
     }
-
 
 
     // T.b.v. React-Select
@@ -53,7 +52,6 @@ function ClientPage() {
             padding: 0
         })
     };
-
 
     async function onFormSubmit(data) {
         toggleError(false);
@@ -111,6 +109,9 @@ function ClientPage() {
             setClients(result.data);
             console.log("Getclients aangeroepen")
             console.log(result);
+            if (result.data.length > 0) {
+                toggleDataLoaded(true);
+            }
         } catch (e) {
             toggleError(true);
             console.error(e);
@@ -143,150 +144,153 @@ function ClientPage() {
 
     }, [clients, clientId, updated]);
 
-
-    useEffect(() => {
-        //To reset defaultValues in component InputElement
-        reset();
-    }, [clientId]);
+    //
+    // useEffect(() => {
+    //     //To reset defaultValues in component inputElement
+    //     reset();
+    // }, [clientId]);
 
 
     return (
         <>
-            <section className="page-container">
-                <h1 className="page-title">Client</h1>
-
-                <p>RADIO {radio}</p>
-                <p>CLIENTID in lokale lijst {clientId}</p>
-
-
-
-
-                {/*Gegevens aanpassen of nieuw */}
-                <div className="radio-wrapper">
-                    <div className="radio">
-                        <input type="radio" name="register-mode" checked={radio === "put"} value="put"
-                               onChange={(e)=>setRadio(e.target.value)} id="true"/>
-                        Aanpassen
-                        <input type="radio" name="register-mode" checked={radio === "post"} value="post"
-                               onChange={(e)=>setRadio(e.target.value)} id="false "/>
-                        Nieuw
-                    </div>
-                </div>
-
-                {error && <p>Er is iets misgegaan met het laden</p>}
-
-                {(radio === "put") &&
+            {(dataLoaded === false) && "Nog geen data, draait backend?"}
+            <>
+                {dataLoaded &&
                     <>
-                        <div className="client-content">
-                            <Select
-                                options={dropDownList}
-                                styles={selectStyles}
-                                defaultMenuIsOpen="false"
-                                onChange={handleChange}
-                                placeholder="Kies uit de lijst ..."
-                                id="select"
-                            />
-                        </div>
-                    </>
-                }
+                        <section className="page-container">
+                            <h1 className="page-title">Client</h1>
 
-                {clientId > 0 &&
-                    <>
-                        <form name="client-input" onSubmit={handleSubmit(onFormSubmit)}>
-                            <InputElement
-                                errors={errors}
-                                register={register}
-                                name="firstName"
-                                value={clients[clientId].firstName}
-                                placeholder="Voornaam"
-                                inputType="text"
-                                validationRules={{
-                                    required: "Voornaam is verplicht"
-                                }}
-                            />
+                            <p>RADIO = {radio}</p>
+                            <p>CLIENTID in lokale lijst = {clientId}</p>
 
-                            {/*<InputElement*/}
-                            {/*    errors={errors}*/}
-                            {/*    register={register}*/}
-                            {/*    name="lastName"*/}
-                            {/*    value={clients[clientId].lastName}*/}
-                            {/*    placeholder="Achternaam"*/}
-                            {/*    inputType="text"*/}
-                            {/*    validationRules={{*/}
-                            {/*        required: "Achternaam is verplicht"*/}
-                            {/*    }}*/}
-                            {/*/>*/}
-                            {/*<InputElement*/}
-                            {/*    errors={errors}*/}
-                            {/*    register={register}*/}
-                            {/*    name="roomNumber"*/}
-                            {/*    value={clients[clientId].roomNumber}*/}
-                            {/*    placeholder="Kamernummer"*/}
-                            {/*    inputType="text"*/}
-                            {/*    validationRules={{*/}
-                            {/*        required: "Kamernummer is verplicht"*/}
-                            {/*    }}*/}
-                            {/*/>*/}
-                            {/*<InputElement*/}
-                            {/*    errors={errors}*/}
-                            {/*    register={register}*/}
-                            {/*    name="dateOfBirth"*/}
-                            {/*    value={clients[clientId].dateOfBirth}*/}
-                            {/*    placeholder="Geboortedatum"*/}
-                            {/*    inputType="text"*/}
-                            {/*    validationRules={{*/}
-                            {/*        required: "Geboortedatum is verplicht"*/}
-                            {/*    }}*/}
-                            {/*/>*/}
-                            {/*<InputElement*/}
-                            {/*    errors={errors}*/}
-                            {/*    register={register}*/}
-                            {/*    name="telPharmacy"*/}
-                            {/*    value={clients[clientId].telPharmacy}*/}
-                            {/*    placeholder="Telefoon apotheek"*/}
-                            {/*    inputType="text"*/}
-                            {/*    validationRules={{*/}
-                            {/*        required: "Telefoon apotheek is verplicht"*/}
-                            {/*    }}*/}
-                            {/*/>*/}
-                            {/*<InputElement*/}
-                            {/*    errors={errors}*/}
-                            {/*    register={register}*/}
-                            {/*    name="telGeneralPractitioner"*/}
-                            {/*    value={clients[clientId].telGeneralPractitioner}*/}
-                            {/*    placeholder="Telefoon arts"*/}
-                            {/*    inputType="text"*/}
-                            {/*    validationRules={{*/}
-                            {/*        required: "Telefoon arts is verplicht"*/}
-                            {/*    }}*/}
-                            {/*/>*/}
-                            {/*{(radio === "put") &&*/}
-                            {/*    <>*/}
-                            {/*        <InputElement*/}
-                            {/*            errors={errors}*/}
-                            {/*            register={register}*/}
-                            {/*            name="id"*/}
-                            {/*            value={clients[clientId].id}*/}
-                            {/*            placeholder="id "*/}
-                            {/*            inputType="text"*/}
-                            {/*        />*/}
-                            {/*</>}*/}
+                            {/*Gegevens aanpassen of nieuw */}
+                            <div className="radio-wrapper">
+                                <div className="radio">
+                                    <input type="radio" name="register-mode" checked={radio === "put"} value="put"
+                                           onChange={(e) => setRadio(e.target.value)} id="true"/>
+                                    Aanpassen
+                                    <input type="radio" name="register-mode" checked={radio === "post"} value="post"
+                                           onChange={(e) => setRadio(e.target.value)} id="false "/>
+                                    Nieuw
+                                </div>
+                            </div>
+
+                            {error && <p>Er is iets misgegaan met het laden</p>}
+
+                            {(radio === "put") &&
+                                <>
+                                    <div className="client-content">
+                                        <Select
+                                            options={dropDownList}
+                                            styles={selectStyles}
+                                            defaultMenuIsOpen="false"
+                                            onChange={handleChange}
+                                            placeholder="Kies uit de lijst ..."
+                                            id="select"
+                                        />
+                                    </div>
+                                </>
+                            }
+
+                            {clientId > 0 &&
+                                <>
+                                    <form name="client-input" onSubmit={handleSubmit(onFormSubmit)}>
+                                        <InputElement
+                                            errors={errors}
+                                            register={register}
+                                            name="firstName"
+                                            value={clients[clientId].firstName}
+                                            placeholder="Voornaam"
+                                            inputType="text"
+                                            validationRules={{
+                                                required: "Voornaam is verplicht"
+                                            }}
+                                        />
+
+                                        {/*<inputElement*/}
+                                        {/*    errors={errors}*/}
+                                        {/*    register={register}*/}
+                                        {/*    name="lastName"*/}
+                                        {/*    value={clients[clientId].lastName}*/}
+                                        {/*    placeholder="Achternaam"*/}
+                                        {/*    inputType="text"*/}
+                                        {/*    validationRules={{*/}
+                                        {/*        required: "Achternaam is verplicht"*/}
+                                        {/*    }}*/}
+                                        {/*/>*/}
+                                        {/*<inputElement*/}
+                                        {/*    errors={errors}*/}
+                                        {/*    register={register}*/}
+                                        {/*    name="roomNumber"*/}
+                                        {/*    value={clients[clientId].roomNumber}*/}
+                                        {/*    placeholder="Kamernummer"*/}
+                                        {/*    inputType="text"*/}
+                                        {/*    validationRules={{*/}
+                                        {/*        required: "Kamernummer is verplicht"*/}
+                                        {/*    }}*/}
+                                        {/*/>*/}
+                                        {/*<inputElement*/}
+                                        {/*    errors={errors}*/}
+                                        {/*    register={register}*/}
+                                        {/*    name="dateOfBirth"*/}
+                                        {/*    value={clients[clientId].dateOfBirth}*/}
+                                        {/*    placeholder="Geboortedatum"*/}
+                                        {/*    inputType="text"*/}
+                                        {/*    validationRules={{*/}
+                                        {/*        required: "Geboortedatum is verplicht"*/}
+                                        {/*    }}*/}
+                                        {/*/>*/}
+                                        {/*<inputElement*/}
+                                        {/*    errors={errors}*/}
+                                        {/*    register={register}*/}
+                                        {/*    name="telPharmacy"*/}
+                                        {/*    value={clients[clientId].telPharmacy}*/}
+                                        {/*    placeholder="Telefoon apotheek"*/}
+                                        {/*    inputType="text"*/}
+                                        {/*    validationRules={{*/}
+                                        {/*        required: "Telefoon apotheek is verplicht"*/}
+                                        {/*    }}*/}
+                                        {/*/>*/}
+                                        {/*<inputElement*/}
+                                        {/*    errors={errors}*/}
+                                        {/*    register={register}*/}
+                                        {/*    name="telGeneralPractitioner"*/}
+                                        {/*    value={clients[clientId].telGeneralPractitioner}*/}
+                                        {/*    placeholder="Telefoon arts"*/}
+                                        {/*    inputType="text"*/}
+                                        {/*    validationRules={{*/}
+                                        {/*        required: "Telefoon arts is verplicht"*/}
+                                        {/*    }}*/}
+                                        {/*/>*/}
+                                        {/*{(radio === "put") &&*/}
+                                        {/*    <>*/}
+                                        {/*        <inputElement*/}
+                                        {/*            errors={errors}*/}
+                                        {/*            register={register}*/}
+                                        {/*            name="id"*/}
+                                        {/*            value={clients[clientId].id}*/}
+                                        {/*            placeholder="id "*/}
+                                        {/*            inputType="text"*/}
+                                        {/*        />*/}
+                                        {/*</>}*/}
 
 
-                            <label htmlFor="enabled">Actief
-                                <input
-                                    type="checkbox"
-                                    {...register("enabled")}
-                                />
-                            </label>
+                                        <label htmlFor="enabled">Actief
+                                            <input
+                                                type="checkbox"
+                                                {...register("enabled")}
+                                            />
+                                        </label>
 
-                            <button type="submit">
-                                Versturen
-                            </button>
-                        </form>
+                                        <button type="submit">
+                                            Versturen
+                                        </button>
+                                    </form>
+                                </>}
+
+                        </section>
                     </>}
-
-            </section>
+            </>
         </>
     );
 }

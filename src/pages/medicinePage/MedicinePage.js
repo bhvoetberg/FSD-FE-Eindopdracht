@@ -9,6 +9,9 @@ function MedicinePage(props) {
     const token = localStorage.getItem('token');
     const [data, setData] = useState([]);
     const [medName, setMedName] = useState("");
+    const dosageForms = {
+        'label': ''
+    }
 
 
     useEffect(() => {
@@ -34,6 +37,9 @@ function MedicinePage(props) {
     return (
         <div className="page-container">
             <h1 className="page-title">Medicijn</h1>
+            <Link to={"./medicine-new"}>
+                <button className="new">Nieuw</button>
+            </Link>
             <div className="content">
                 {data.map((item) =>
                     <>

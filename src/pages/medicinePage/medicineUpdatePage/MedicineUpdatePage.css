@@ -24,10 +24,11 @@
 }
 
 label{
-    background: var(--primary-color);
-    color: var(--offwhite-color);
+    background: var(--inactive-color);
+    color: var(--primary-color);
     border-radius: 25px;
     border-style: solid;
+    border-width: 1px;
 
     width: 400px;
     text-align: center;
@@ -36,8 +37,11 @@ label{
 
 textarea {
     border-radius: 25px;
-    border: 1px solid blue;
+    border: 1px solid var(--primary-color);
     width: 400px;
+    padding: 12px;
+    font-size: inherit;
+    color: var(--primary-color);
 }
 
 input, button {

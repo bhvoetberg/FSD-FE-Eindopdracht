@@ -3,26 +3,20 @@ import './MultiSelectElement.css';
 
 // Dit kan een radio of checkbox zijn
 function MultiSelectElement(
-    {errors, register, name, label, validationRules, selectType, value, stateValue}) {
-    console.log("state en value")
-    console.log(stateValue);
-    console.log(value);
+    {errors, register, name, label, validationRules, selectType, value}) {
     return (
-        <>
+        <div className="input-type">
             <label htmlFor={`${name}-field`}>
-                <input
-                    ref={register}
-                    type={selectType}
-                    id={`${name}-field`}
-                    value={value}
-                    // checked={{stateValue} === {value}}
-                    // defaultChecked="true"
-                    {...register(name, validationRules)}
-                />
-                {label}:
+                {label}
             </label>
+            <input
+                type={selectType}
+                id={`${name}-field`}
+                value={value}
+                {...register(name, validationRules)}
+            />
             {errors[name] && <p>{errors[name].message}</p>}
-        </>
+        </div>
     );
 }
 

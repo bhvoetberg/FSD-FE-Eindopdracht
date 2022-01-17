@@ -9,7 +9,7 @@
     box-sizing: border-box;
 }
 
-:root{
+:root {
     --bg-color: #FFFADE;
     --primary-color: #8A84EE;
     --inactive-color: #E8E3FF;
@@ -21,15 +21,15 @@
     margin-right: 2rem;
 }
 
-html{
+html {
     background: var(--bg-color);
-    font-family: "Roboto Light", sans-serif ;
+    font-family: "Roboto Light", sans-serif;
     font-size: 24px;
     color: var(--primary-color);
     scroll-behavior: smooth;
 }
 
-h1{
+h1 {
     color: var(--primary-color);
     font-size: 2rem;
 }
@@ -39,51 +39,9 @@ h1{
 }
 
 
-::placeholder {
-    color: var(--signal-color);
-    font-style: italic;
-}
-
-/*input, button {*/
-/*    border-radius: var(--border-radius);*/
-/*    height: 2rem;*/
-/*    width: 300px;*/
-/*    font-size: inherit;*/
-/*    text-align: center;*/
-/*}*/
-
-/*input {*/
-/*    background: var(--offwhite-color);*/
-/*    border: 1px solid var(--primary-color);*/
-/*    color: var(--primary-color);*/
-/*    outline: none;*/
-/*}*/
-
-/*button {*/
-/*    background: var(--primary-color);*/
-/*    border: 0;*/
-/*    color: var(--offwhite-color);*/
-/*}*/
-
-input:active,
-input:focus{
-    border-color: var(--primary-color);
-}
-
-:active {
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-}
-
-
-
 /*Generic page styles*/
 .page-container {
     margin-top: 1rem;
     margin-bottom: 1rem;
-}
-
-.page-title {
-    margin-bottom: 3rem;
 }
 

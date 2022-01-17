@@ -3,7 +3,7 @@ import './SingleSelectElement.css';
 
 function SingleSelectElement({ errors, register, name, label, validationRules, children }) {
   return (
-    <>
+    <div className="input-type">
       <label htmlFor={`${name}-field`}>
         {label}:
       </label>
@@ -13,7 +13,7 @@ function SingleSelectElement({ errors, register, name, label, validationRules, c
       </select>
 
       {errors[name] && <p>{errors[name].message}</p>}
-    </>
+    </div>
   );
 }
 

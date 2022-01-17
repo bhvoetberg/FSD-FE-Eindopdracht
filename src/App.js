@@ -10,13 +10,16 @@ import LoginPage from './pages/loginPage/LoginPage';
 import PlanningPage from './pages/planningPage/PlanningPage';
 import RealisationPage from './pages/realisationPage/RealisationPage';
 import EmployeePage from './pages/employeePage/EmployeePage';
+import EmployeeUpdatePage from "./pages/employeePage/EmployeeUpdate";
 import ClientPage from './pages/clientPage/ClientPage';
 import MedicinePage from './pages/medicinePage/MedicinePage';
+import MedicineNewPage from "./pages/medicinePage/medicineNewPage/medicineNewPage";
+import MedicineUpdatePage from "./pages/medicinePage/medicineUpdatePage/MedicineUpdatePage";
+
 import MedicationPage from './pages/medicationPage/MedicationPage';
 import PhotoPage from './pages/photoPage/PhotoPage';
 import Navigation from "./components/navigation/Navigation";
-import MedicineUpdatePage from "./pages/medicinePage/medicineUpdatePage/MedicineUpdatePage";
-import EmployeeUpdatePage from "./pages/employeePage/EmployeeUpdate";
+
 
 
 
@@ -49,16 +52,21 @@ function App() {
                     <EmployeeUpdatePage/>
                 </Route>
                 <Route exact path="/client">
-                    <ClientPage/>
+                    <ClientPage />
                 </Route>
+
                 <Route exact path="/medicine">
-                    <MedicinePage/>
+                    <MedicinePage />
                 </Route>
-                <Route path="/medicine-update/:id">
+                <Route exact path="/medicine-update/:id">
                     <MedicineUpdatePage/>
                 </Route>
+                <Route exact path="/medicine-new">
+                    <MedicineNewPage />
+                </Route>
+
                 <Route exact path="/medication">
-                    <MedicationPage/>
+                    <MedicationPage />
                 </Route>
                 <Route exact path="/photo">
                     <PhotoPage/>

@@ -8,6 +8,7 @@ function LoginPage() {
     const [error, toggleError] = useState(false);
     const {login, isAuth, logout} = useContext(AuthContext);
 
+
     async function handleSubmit(e) {
         e.preventDefault();
         toggleError(false);

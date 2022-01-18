@@ -33,23 +33,23 @@ function App() {
             </header>
             <Switch>
                 <Route exact path="/">
-                    <HomePage/>
+                    <HomePage />
                 </Route>
                 <Route exact path="/login">
-                    <LoginPage/>
+                    <LoginPage />
                 </Route>
                 <Route exact path="/planning">
                     {isAuth ? <PlanningPage /> : <Redirect to="/login" />}
                     {/*<PlanningPage/>*/}
                 </Route>
                 <Route exact path="/realisation">
-                    <RealisationPage/>
+                    <RealisationPage />
                 </Route>
                 <Route exact path="/employee">
-                    <EmployeePage/>
+                    <EmployeePage />
                 </Route>
                 <Route path="/employee-update/:id">
-                    <EmployeeUpdatePage/>
+                    <EmployeeUpdatePage />
                 </Route>
                 <Route exact path="/client">
                     <ClientPage />

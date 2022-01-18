@@ -5,12 +5,34 @@ import axios from "axios";
 function PhotoPage() {
     const url = 'http://localhost:8080/clientphoto/3/photo';
     const token = localStorage.getItem('token');
+    const [data, setData] = useState({
+        description: null,
+        base64: null
+    })
 
+    async function submit(data) {
+        try {
+            const result = await axios.put('http://localhost:8080/clientphoto/3/photo',
+                data,
+                {
+                    headers: {
+                        "Content-Type": "application/json", Authorization: `Bearer ${token}`,
+                    }
+                });
+            console.log(result);
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
     const uploadImage = async (e) => {
         const file = e.target.files[0];
-        const base64 = await convertBase64(file);
-        console.log(base64);
+        const converted = await convertBase64(file);
+        setData({
+            description: "nog aanmaken in page",
+            base64: converted
+        })
+        submit(data);
     };
 
     const convertBase64 = (file) => {
@@ -25,24 +47,6 @@ function PhotoPage() {
             };
         });
     };
-
-
-    async function submit(data) {
-        console.log('DATA');
-        console.log(data);
-        try {
-            const result = await axios.post('http://localhost:8080/clientphoto/3/photo',
-                data,
-                {
-                    headers: {
-                        "Content-Type": "application/json", Authorization: `Bearer ${token}`,
-                    }
-                });
-        } catch (e) {
-            console.log('Iets');
-        }
-    }
-
 
     return (
         <>

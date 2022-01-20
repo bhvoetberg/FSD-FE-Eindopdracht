@@ -3,7 +3,6 @@ import {useHistory, withRouter} from 'react-router-dom'
 import axios from "axios";
 import {useForm} from "react-hook-form";
 
-
 import '../ClientUpdatePage/ClientUpdatePage.css'
 
 import Button from "../../../components/button/Button"
@@ -17,11 +16,12 @@ function ClientUpdatePage(props) {
         mode: 'onChange',
     });
     const [data, setData] = useState([]);
-    const [photo, setPhoto] = useState({
-        description: null,
-        base64: null
-    })
+    const photo = {
+        photo: null
+    }
     const history = useHistory();
+
+    //Functionality for the client details.
 
     async function getData() {
         try {
@@ -31,6 +31,7 @@ function ClientUpdatePage(props) {
                 },
             });
             result = await result.data;
+
             setData(result);
         } catch (e) {
             console.error(e);
@@ -45,6 +46,7 @@ function ClientUpdatePage(props) {
                         "Content-Type": "application/json", Authorization: `Bearer ${token}`,
                     }
                 });
+            console.log(result);
             history.push('/client');
         } catch (e) {
             console.error(e);
@@ -53,33 +55,24 @@ function ClientUpdatePage(props) {
 
     useEffect(() => {
         getData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
 
-    async function submit(data) {
-        try {
-            console.log("foto post gestart");
-            const result = await axios.patch('http://localhost:8080/clients/3',
-                data,
-                {
-                    headers: {
-                        "Content-Type": "application/json", Authorization: `Bearer ${token}`,
-                    }
-                });
-            console.log(result);
-        } catch (e) {
-            console.log(e);
-        }
-    }
+    //Functionality for the photo: change and delete
 
     const uploadImage = async (e) => {
-        const file = e.target.files[0];
-        const converted = await convertBase64(file);
-        setPhoto({
-            photo: converted
-        })
-        submit(photo);
-    };
+        if (e.target.files.length === 1) {
+            const file = e.target.files[0];
+            // const converted = await convertBase64(file);
+            // photo.photo = converted;
+            photo.photo = await convertBase64(file);
+            await submit(photo);
+        }
+        else{
+            console.log("Geen file gekozen")
+        }
+    }
 
     const convertBase64 = (file) => {
         return new Promise((resolve, reject) => {
@@ -94,6 +87,40 @@ function ClientUpdatePage(props) {
         });
     };
 
+    async function submit(data) {
+        try {
+            const result = await axios.patch('http://localhost:8080/clients/' + props.match.params.id,
+                data,
+                {
+                    headers: {
+                        "Content-Type": "application/json", Authorization: `Bearer ${token}`,
+                    }
+                });
+            console.log(result);
+            await getData();
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+
+
+    async function deletePhoto() {
+        console.log('http://localhost:8080/clients/' + props.match.params.id +'/photo');
+        try {
+            const result = await axios.delete('http://localhost:8080/clients/' + props.match.params.id +'/photo',
+                {
+                    headers: {
+                        "Content-Type": "application/json", Authorization: `Bearer ${token}`,
+                    }
+                });
+            console.log(result);
+            await getData();
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     return (
         <div>
             <div className="page-container">
@@ -104,9 +131,9 @@ function ClientUpdatePage(props) {
                             <img src={data.photo} alt={`Foto van ${data.firstName} ${data.lastName} `}
                                  title={data.firstName}/>}
                         <div className="photo-buttons">
-                            <button>Verwijder foto</button>
+                            <button onClick={deletePhoto}>Verwijder foto</button>
                             <label htmlFor="add-photo">Selecteer een file:
-                                <input type="file" placeholder="Voeg foto toe ..." name="add-photo"
+                                <input type="file"  name="add-photo" accept="image/*"
                                        onChange={(e) => {
                                            uploadImage(e);
                                        }}/>

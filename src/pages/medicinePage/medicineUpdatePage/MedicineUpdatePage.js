@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {withRouter} from 'react-router-dom'
+import {useHistory, withRouter} from 'react-router-dom'
 import axios from "axios";
 import {useForm} from "react-hook-form";
 
@@ -16,6 +16,7 @@ function MedicineUpdatePage(props) {
         mode: 'onChange',
     });
     const [data, setData] = useState([]);
+    const history = useHistory();
 
     useEffect(() => {
         getData();
@@ -45,6 +46,7 @@ function MedicineUpdatePage(props) {
                         "Content-Type": "application/json", Authorization: `Bearer ${token}`,
                     }
                 });
+            history.push('/medicine');
         } catch (e) {
             console.error(e);
         }
@@ -120,6 +122,7 @@ function MedicineUpdatePage(props) {
                         validationRules={{
                         }}
                     />
+                    <p>{data.photo}</p>
                     <Button type="submit">
                         Update
                     </Button>

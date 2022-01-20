@@ -3,9 +3,9 @@ import {useForm} from 'react-hook-form';
 import axios from "axios";
 import Select from "react-select";
 
-import './ClientPage.css';
+import '../ClientPage.css';
 
-import InputElement from "../../components/inputElement/InputElement";
+import InputElement from "../../../components/inputElement/InputElement";
 
 function ClientPage() {
     const {register, handleSubmit, formState: {errors}, reset} = useForm();

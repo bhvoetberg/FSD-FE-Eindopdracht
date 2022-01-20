@@ -8,7 +8,7 @@ function MedicinePage(props) {
 
     const token = localStorage.getItem('token');
     const [data, setData] = useState([]);
-    const [medName, setMedName] = useState("");
+    const [medName, setMedName] = useState('');
     const dosageForms = {
         'label': ''
     }
@@ -28,13 +28,17 @@ function MedicinePage(props) {
             result = await result.data;
             setMedName(result.medName);
             setData(result);
+            console.log("Getdata gestart");
+            console.log(result);
+            console.log("Data");
+            console.log(data);
         } catch (e) {
             console.error(e);
         }
     }
 
 
-    return (
+    return ({data} &&
         <div className="page-container">
             <h1 className="page-title">Medicijn</h1>
             <Link to={"./medicine-new"}>

@@ -5,14 +5,15 @@ import axios from "axios";
 function PhotoPage() {
     const url = 'http://localhost:8080/clientphoto/3/photo';
     const token = localStorage.getItem('token');
-    const [data, setData] = useState({
+    const [photo, setPhoto] = useState({
         description: null,
         base64: null
     })
 
     async function submit(data) {
         try {
-            const result = await axios.put('http://localhost:8080/clientphoto/3/photo',
+            console.log("foto post gestart");
+            const result = await axios.patch('http://localhost:8080/clients/3',
                 data,
                 {
                     headers: {
@@ -28,11 +29,10 @@ function PhotoPage() {
     const uploadImage = async (e) => {
         const file = e.target.files[0];
         const converted = await convertBase64(file);
-        setData({
-            description: "nog aanmaken in page",
-            base64: converted
+        setPhoto({
+            photo: converted
         })
-        submit(data);
+        submit(photo);
     };
 
     const convertBase64 = (file) => {

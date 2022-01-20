@@ -20,14 +20,14 @@ function AuthContextProvider({ children }) {
     const history = useHistory();
 
     useEffect(() => {
-        console.log("UseEffect gestart");
+        // console.log("UseEffect gestart");
         const token = localStorage.getItem('token');
         if (token) {
-            console.log("Token  gevonden")
+            // console.log("Token  gevonden")
             const decoded = jwt_decode(token);
             fetchUserData(decoded.sub, token);
         } else {
-            console.log("Token niet gevonden")
+            // console.log("Token niet gevonden")
             toggleIsAuth({
                 isAuth: false,
                 user: {},
@@ -61,10 +61,10 @@ function AuthContextProvider({ children }) {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            console.log("Fetched user data");
-            console.log(result);
-            console.log("isAuth vooraf")
-            console.log(isAuth);
+            // console.log("Fetched user data");
+            // console.log(result);
+            // console.log("isAuth vooraf")
+            // console.log(isAuth);
 
             toggleIsAuth({
                 isAuth: true,
@@ -76,9 +76,8 @@ function AuthContextProvider({ children }) {
                 },
                 status: 'done',
             });
-            console.log("isAuth values na toggle");
-            console.log(isAuth);
-
+            // console.log("isAuth values na toggle");
+            // console.log(isAuth);
 
             if (redirectUrl) {
                 history.push(redirectUrl);

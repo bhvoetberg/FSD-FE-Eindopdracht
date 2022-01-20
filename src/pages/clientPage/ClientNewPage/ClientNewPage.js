@@ -3,14 +3,14 @@ import {useHistory, withRouter} from 'react-router-dom'
 import axios from "axios";
 import {useForm} from "react-hook-form";
 
-import '../medicineNewPage/MedicineNewPage.css';
+import '../ClientNewPage/ClientNewPage.css';
 
 import Button from "../../../components/button/Button"
 import InputElement from "../../../components/inputElement/InputElement";
 import MultiSelectElement from "../../../components/multiSelectElement/MultiSelectElement";
 
 
-function MedicineNewPage(props) {
+function ClientNewPage(props) {
     const token = localStorage.getItem('token');
     const {register, formState: {errors}, handleSubmit} = useForm({
         mode: 'onChange',
@@ -22,13 +22,13 @@ function MedicineNewPage(props) {
         console.log("Te posten data");
         console.log(data);
         try {
-            const result = await axios.post('http://localhost:8080/medicines/', data,
+            const result = await axios.post('http://localhost:8080/clients/', data,
                 {
                     headers: {
                         "Content-Type": "application/json", Authorization: `Bearer ${token}`,
                     }
                 });
-            history.push('/medicine');
+            history.push('/client');
         } catch (e) {
             console.error(e);
         }
@@ -37,75 +37,84 @@ function MedicineNewPage(props) {
     return (
         <div>
             <div className="page-container">
-                <h1 className="page-title">Medicijn nieuw</h1>
-                <form className="content" name="medicine-input" onSubmit={handleSubmit(onFormSubmit)}>
+                <h1 className="page-title">Client nieuw</h1>
+                <form className="content" name="client-input" onSubmit={handleSubmit(onFormSubmit)}>
                     <InputElement
                         errors={errors}
                         register={register}
-                        name="medName"
-                        label="Medicijnnaam"
+                        name="firstName"
+                        label="Voornaamnaam"
                         inputType="text"
-                        value={data.medName}
+                        value={data.firstName}
                         validationRules={{
-                            required: "Medicijnnaam is verplicht",
+                            required: "Voornaam is verplicht",
                         }}
                     />
                     <InputElement
                         errors={errors}
                         register={register}
-                        name="dosageForm"
-                        label="Vorm"
+                        name="lastName"
+                        label="Achternaam"
                         inputType="text"
-                        value={data.dosageForm}
+                        value={data.lastName}
                         validationRules={{
-                            required: "Vorm is verplicht",
+                            required: "Achternaam is verplicht",
                         }}
                     />
 
                     <InputElement
                         errors={errors}
                         register={register}
-                        name="administerMethod"
-                        label="Toedieningsvorm"
+                        name="dateOfBirth"
+                        label="Geboortedatum"
                         inputType="text"
-                        value={data.administerMethod}
+                        value={data.dateOfBirth}
                         validationRules={{
-                            required: "Toedieningsvorm is verplicht",
+                            required: "Geboortedatum  is verplicht",
                         }}
                     />
 
                     <MultiSelectElement
                         errors={errors}
                         register={register}
-                        name="perilous"
-                        label="Risicovol"
-                        value={data.perilous}
+                        name="enabled"
+                        label="Actief"
+                        value={data.enabled}
                         selectType="checkbox"
                     />
 
                     <InputElement
                         errors={errors}
                         register={register}
-                        name="urlExternalInfo"
-                        label="URL"
+                        name="roomNumber"
+                        label="Kamernummer"
                         inputType="text"
-                        value={data.urlExternalInfo}
+                        value={data.roomNumber}
                         validationRules={{
                         }}
                     />
-
                     <InputElement
                         errors={errors}
                         register={register}
-                        name="instructions"
-                        label="Instructies"
-                        inputType="textarea"
-                        value={data.instructions}
+                        name="telPharmacy"
+                        label="Telefoon apotheek"
+                        inputType="text"
+                        value={data.telPharmacy}
+                        validationRules={{
+                        }}
+                    />
+                    <InputElement
+                        errors={errors}
+                        register={register}
+                        name="telGeneralPractitioner"
+                        label="Telefoon huisarts"
+                        inputType="text"
+                        value={data.telGeneralPractitioner}
                         validationRules={{
                         }}
                     />
                     <Button type="submit">
-                        Update
+                        Voeg toe
                     </Button>
 
                 </form>
@@ -115,4 +124,4 @@ function MedicineNewPage(props) {
     );
 }
 
-export default withRouter(MedicineNewPage);
+export default withRouter(ClientNewPage);

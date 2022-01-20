@@ -12,6 +12,8 @@ import RealisationPage from './pages/realisationPage/RealisationPage';
 import EmployeePage from './pages/employeePage/EmployeePage';
 import EmployeeUpdatePage from "./pages/employeePage/EmployeeUpdate";
 import ClientPage from './pages/clientPage/ClientPage';
+import ClientNewPage from './pages/clientPage/ClientNewPage/ClientNewPage';
+import ClientUpdatePage from './pages/clientPage/ClientUpdatePage/ClientUpdatePage';
 import MedicinePage from './pages/medicinePage/MedicinePage';
 import MedicineNewPage from "./pages/medicinePage/medicineNewPage/medicineNewPage";
 import MedicineUpdatePage from "./pages/medicinePage/medicineUpdatePage/MedicineUpdatePage";
@@ -51,8 +53,15 @@ function App() {
                 <Route path="/employee-update/:id">
                     <EmployeeUpdatePage />
                 </Route>
+
                 <Route exact path="/client">
                     <ClientPage />
+                </Route>
+                <Route exact path="/client-update/:id">
+                    <ClientUpdatePage/>
+                </Route>
+                <Route exact path="/client-new">
+                    <ClientNewPage />
                 </Route>
 
                 <Route exact path="/medicine">

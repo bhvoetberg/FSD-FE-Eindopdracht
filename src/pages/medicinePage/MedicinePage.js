@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom'
 import axios from "axios";
+import arrayObjectKeySorter from '../../helpers/arrayObjectKeySorter'
 
 import './MedicinePage.css';
 
@@ -27,11 +28,8 @@ function MedicinePage(props) {
             });
             result = await result.data;
             setMedName(result.medName);
-            setData(result);
-            console.log("Getdata gestart");
-            console.log(result);
-            console.log("Data");
-            console.log(data);
+            setData(arrayObjectKeySorter(result, 'medName'));
+
         } catch (e) {
             console.error(e);
         }

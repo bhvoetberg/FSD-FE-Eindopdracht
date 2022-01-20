@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom'
 import axios from "axios";
+import arrayObjectKeySorter from '../../helpers/arrayObjectKeySorter'
 
 import './ClientPage.css';
 
@@ -23,7 +24,7 @@ function ClientPage() {
             });
             result = await result.data;
             setClientName(result.clientName);
-            setData(result);
+            setData(arrayObjectKeySorter(result, 'lastName'));
         } catch (e) {
             console.error(e);
         }

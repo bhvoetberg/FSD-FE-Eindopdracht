@@ -3,10 +3,10 @@ import './MultiSelectElement.css';
 
 // Dit kan een radio of checkbox zijn
 function MultiSelectElement(
-    {errors, register, name, label, validationRules, selectType, value}) {
+    {errors, register, name, label, validationRules, selectType, value, labelId}) {
     return (
         <div className="input-type">
-            <label htmlFor={`${name}-field`}>
+            <label htmlFor={`${name}-field`} id={labelId}>
                 {label}
             </label>
             <input

@@ -5,7 +5,7 @@ import arrayObjectKeySorter from '../../helpers/arrayObjectKeySorter'
 
 import './MedicinePage.css';
 
-function MedicinePage(props) {
+function MedicinePage() {
 
     const token = localStorage.getItem('token');
     const [data, setData] = useState([]);

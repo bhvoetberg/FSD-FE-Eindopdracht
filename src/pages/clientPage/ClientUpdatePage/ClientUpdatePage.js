@@ -64,8 +64,6 @@ function ClientUpdatePage(props) {
     const uploadImage = async (e) => {
         if (e.target.files.length === 1) {
             const file = e.target.files[0];
-            // const converted = await convertBase64(file);
-            // photo.photo = converted;
             photo.photo = await convertBase64(file);
             await submit(photo);
         }
@@ -102,8 +100,6 @@ function ClientUpdatePage(props) {
             console.log(e);
         }
     }
-
-
 
     async function deletePhoto() {
         console.log('http://localhost:8080/clients/' + props.match.params.id +'/photo');

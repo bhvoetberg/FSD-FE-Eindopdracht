@@ -1,4 +1,5 @@
 import React, {useContext} from 'react';
+
 import '../src/App.css';
 import {
     Switch,
@@ -11,15 +12,20 @@ import PlanningPage from './pages/planningPage/PlanningPage';
 import RealisationPage from './pages/realisationPage/RealisationPage';
 import EmployeePage from './pages/employeePage/EmployeePage';
 import EmployeeUpdatePage from "./pages/employeePage/EmployeeUpdate";
+
 import ClientPage from './pages/clientPage/ClientPage';
 import ClientNewPage from './pages/clientPage/ClientNewPage/ClientNewPage';
 import ClientUpdatePage from './pages/clientPage/ClientUpdatePage/ClientUpdatePage';
+
 import MedicinePage from './pages/medicinePage/MedicinePage';
 import MedicineNewPage from "./pages/medicinePage/medicineNewPage/medicineNewPage";
 import MedicineUpdatePage from "./pages/medicinePage/medicineUpdatePage/MedicineUpdatePage";
 
 import MedicationPage from './pages/medicationPage/MedicationPage';
-import PhotoPage from './pages/photoPage/PhotoPage';
+import UserPage from './pages/userPage/UserPage';
+import UserNewPage from "./pages/userPage/userNewPage/UserNewPage";
+import UserUpdatePage from './pages/userPage/userUpdatePage/UserUpdatePage'
+
 import Navigation from "./components/navigation/Navigation";
 
 
@@ -27,6 +33,7 @@ import Navigation from "./components/navigation/Navigation";
 
 function App() {
     const {isAuth} = useContext(AuthContext);
+
 
     return (
         <>
@@ -77,9 +84,18 @@ function App() {
                 <Route exact path="/medication">
                     <MedicationPage />
                 </Route>
-                <Route exact path="/photo">
-                    <PhotoPage/>
+
+                <Route exact path="/user">
+                    <UserPage/>
                 </Route>
+                <Route exact path="/user-update/:id">
+                    <UserUpdatePage/>
+                </Route>
+                <Route exact path="/user-new">
+                    <UserNewPage />
+                </Route>
+
+
             </Switch>
 
         </>

@@ -3,13 +3,13 @@ import {Link} from 'react-router-dom'
 import axios from "axios";
 import arrayObjectKeySorter from '../../helpers/arrayObjectKeySorter'
 
-import './ClientPage.css';
+import './UserPage.css';
 
-function ClientPage() {
+function UserPage(props) {
 
     const token = localStorage.getItem('token');
     const [data, setData] = useState([]);
-    const [clientName, setClientName] = useState('');
+    const [username, setUsername] = useState('');
 
     useEffect(() => {
         getData();
@@ -17,31 +17,33 @@ function ClientPage() {
 
     async function getData() {
         try {
-            let result = await axios.get(`http://localhost:8080/clients/`, {
+            let result = await axios.get(`http://localhost:8080/users/`, {
                 headers: {
                     "Content-Type": "application/json", Authorization: `Bearer ${token}`,
                 },
             });
             result = await result.data;
-            setClientName(result.clientName);
-            setData(arrayObjectKeySorter(result, 'lastName'));
+            console.log(result);
+            setUsername(result.username);
+            setData(arrayObjectKeySorter(result, 'username'));
+
         } catch (e) {
             console.error(e);
         }
     }
 
+
     return ({data} &&
         <div className="page-container">
-            <h1 className="page-title">Client</h1>
-            <Link to={"./client-new"}>
+            <h1 className="page-title">User</h1>
+            <Link to={"./user-new"}>
                 <button className="new">Nieuw</button>
             </Link>
             <div className="content">
                 {data.map((item) =>
                     <>
-                        <Link to={"client-update/" + item.id} className="item">
-                            <p>{item.firstName}</p>
-                            <p>{item.lastName}</p>
+                        <Link to={"user-update/" + item.username} className="item">
+                            <p>{item.username}</p>
                             <button className="update">Update</button>
                         </Link>
                     </>
@@ -51,4 +53,4 @@ function ClientPage() {
     );
 }
 
-export default ClientPage;
+export default UserPage;

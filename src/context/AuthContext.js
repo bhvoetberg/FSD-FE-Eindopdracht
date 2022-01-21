@@ -34,6 +34,7 @@ function AuthContextProvider({ children }) {
                 status: 'done',
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
     function login(JWT) {

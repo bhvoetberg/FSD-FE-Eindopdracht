@@ -84,7 +84,7 @@ function PlanningPage() {
 
             <div className="content">
                 {data.map((item) =>
-                    <>
+                    <ul key={item.id}>
                         <Link to={"planning-update/" + item.id} className="item">
                             {item.enabled === true
                                 ?
@@ -103,7 +103,7 @@ function PlanningPage() {
                                 </>
                             }
                         </Link>
-                    </>
+                    </ul>
                 )}
             </div>
         </div>

@@ -9,10 +9,11 @@ function UserPage(props) {
 
     const token = localStorage.getItem('token');
     const [data, setData] = useState([]);
-    const [username, setUsername] = useState('');
+    // const [username, setUsername] = useState('');
 
     useEffect(() => {
         getData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     async function getData() {
@@ -24,7 +25,7 @@ function UserPage(props) {
             });
             result = await result.data;
             console.log(result);
-            setUsername(result.username);
+            // setUsername(result.username);
             setData(arrayObjectKeySorter(result, 'username'));
 
         } catch (e) {
@@ -41,12 +42,12 @@ function UserPage(props) {
             </Link>
             <div className="content">
                 {data.map((item) =>
-                    <>
+                    <ul key={item.id}>
                         <Link to={"user-update/" + item.username} className="item">
                             <p>{item.username}</p>
                             <button className="update">Update</button>
                         </Link>
-                    </>
+                    </ul>
                 )}
             </div>
         </div>

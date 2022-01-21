@@ -9,10 +9,11 @@ function ClientPage() {
 
     const token = localStorage.getItem('token');
     const [data, setData] = useState([]);
-    const [clientName, setClientName] = useState('');
+    // const [clientName, setClientName] = useState('');
 
     useEffect(() => {
         getData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     async function getData() {
@@ -23,7 +24,7 @@ function ClientPage() {
                 },
             });
             result = await result.data;
-            setClientName(result.clientName);
+            // setClientName(result.clientName);
             setData(arrayObjectKeySorter(result, 'lastName'));
         } catch (e) {
             console.error(e);
@@ -38,13 +39,13 @@ function ClientPage() {
             </Link>
             <div className="content">
                 {data.map((item) =>
-                    <>
+                    <ul key={item.id}>
                         <Link to={"client-update/" + item.id} className="item">
                             <p>{item.firstName}</p>
                             <p>{item.lastName}</p>
                             <button className="update">Update</button>
                         </Link>
-                    </>
+                    </ul>
                 )}
             </div>
         </div>

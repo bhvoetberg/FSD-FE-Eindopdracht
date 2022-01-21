@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {AuthContext} from "../../context/AuthContext";
 
 
@@ -9,6 +9,7 @@ function HomePage() {
 
     useEffect(() => {
         console.log(user);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
     return (
@@ -16,8 +17,6 @@ function HomePage() {
             <h1>Home</h1>
             {user && <p>Hoi {user.username}</p>}
         </div>
-
-
     );
 }
 

@@ -20,6 +20,7 @@ function MedicineUpdatePage(props) {
 
     useEffect(() => {
         getData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     async function getData() {
@@ -29,8 +30,8 @@ function MedicineUpdatePage(props) {
                     "Content-Type": "application/json", Authorization: `Bearer ${token}`,
                 },
             });
-            result = await result.data;
-            setData(result);
+            const received = await result.data;
+            setData(received);
         } catch (e) {
             console.error(e);
         }
@@ -47,6 +48,7 @@ function MedicineUpdatePage(props) {
                     }
                 });
             history.push('/medicine');
+            console.log(result);
         } catch (e) {
             console.error(e);
         }

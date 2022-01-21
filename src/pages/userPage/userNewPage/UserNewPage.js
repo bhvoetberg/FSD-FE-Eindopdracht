@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import {useHistory, withRouter} from 'react-router-dom'
 import axios from "axios";
 import {useForm} from "react-hook-form";
@@ -16,6 +16,7 @@ function UserNewPage(props) {
         mode: 'onChange',
     });
     const [data, setData] = useState([]);
+
     const history = useHistory();
 
     async function onFormSubmit(data) {
@@ -26,6 +27,7 @@ function UserNewPage(props) {
                         "Content-Type": "application/json", Authorization: `Bearer ${token}`,
                     }
                 });
+            console.log(result);
             history.push('/user');
         } catch (e) {
             console.error(e);

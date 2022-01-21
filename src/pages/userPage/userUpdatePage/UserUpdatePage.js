@@ -21,18 +21,18 @@ function UserUpdatePage(props) {
 
     useEffect(() => {
         getData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     async function getData() {
         try {
-            let result = await axios.get(`http://localhost:8080/users/` + props.match.params.id, {
+            const result = await axios.get(`http://localhost:8080/users/` + props.match.params.id, {
                 headers: {
                     "Content-Type": "application/json", Authorization: `Bearer ${token}`,
                 },
             });
-            result = await result.data;
-            setData(result);
-            console.log(result);
+            const received =  await result.data;
+            setData(received);
         } catch (e) {
             console.error(e);
         }
@@ -47,6 +47,7 @@ function UserUpdatePage(props) {
                     }
                 });
             history.push('/user');
+            console.log(result);
         } catch (e) {
             console.error(e);
         }

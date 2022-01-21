@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import {useHistory, withRouter} from 'react-router-dom'
 import axios from "axios";
 import {useForm} from "react-hook-form";
@@ -28,6 +28,7 @@ function ClientNewPage(props) {
                         "Content-Type": "application/json", Authorization: `Bearer ${token}`,
                     }
                 });
+            console.log(result);
             history.push('/client');
         } catch (e) {
             console.error(e);

@@ -1,88 +1,114 @@
 import React, {useState, useEffect} from "react";
-import {useHistory, withRouter} from 'react-router-dom';
+import {useHistory, withRouter} from 'react-router-dom'
 import axios from "axios";
 import {useForm} from "react-hook-form";
-
-
-import '../userUpdatePage/UserUpdatePage.css';
 
 import Button from "../../../components/button/Button"
 import InputElement from "../../../components/inputElement/InputElement";
 import MultiSelectElement from "../../../components/multiSelectElement/MultiSelectElement";
 
+import '../employeeUpdatePage/EmployeeUpdatePage.css';
 
-function UserUpdatePage(props) {
+
+function EmployeeUpdatePage(props) {
     const token = localStorage.getItem('token');
     const {register, formState: {errors}, handleSubmit} = useForm({
         mode: 'onChange',
     });
     const [data, setData] = useState([]);
+    const photo = {
+        photo: null
+    }
     const history = useHistory();
-
-    useEffect(() => {
-        getData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     async function getData() {
         try {
-            const result = await axios.get(`http://localhost:8080/users/` + props.match.params.id, {
+            let result = await axios.get(`http://localhost:8080/employees/` + props.match.params.id, {
                 headers: {
                     "Content-Type": "application/json", Authorization: `Bearer ${token}`,
                 },
             });
-            const received =  await result.data;
-            setData(received);
+            result = await result.data;
+            setData(result);
         } catch (e) {
             console.error(e);
         }
     }
 
     async function onFormSubmit(data) {
-        console.log("Te posten data");
-        console.log(props.match.params.id);
-        console.log(data)
         try {
-            const result = await axios.put('http://localhost:8080/users/' + props.match.params.id, data,
+            const result = await axios.put('http://localhost:8080/employees/' + props.match.params.id, data,
                 {
                     headers: {
                         "Content-Type": "application/json", Authorization: `Bearer ${token}`,
                     }
                 });
-            history.push('/user');
             console.log(result);
+            history.push('/employee');
         } catch (e) {
             console.error(e);
         }
     }
 
+    useEffect(() => {
+        getData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+
+      async function submit(data) {
+        try {
+            const result = await axios.patch('http://localhost:8080/clients/' + props.match.params.id,
+                data,
+                {
+                    headers: {
+                        "Content-Type": "application/json", Authorization: `Bearer ${token}`,
+                    }
+                });
+            console.log(result);
+            await getData();
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+
     return (
         <div>
             <div className="page-container">
-                <h1 className="page-title">User update</h1>
-                <form className="content" name="client-input" onSubmit={handleSubmit(onFormSubmit)}>
-                    <p>Gebruikersnaam {data.username}</p>
+                <h1 className="page-title">Employee update</h1>
+                <form className="content" name="employee-input" onSubmit={handleSubmit(onFormSubmit)}>
+
                     <InputElement
                         errors={errors}
                         register={register}
-                        name="password"
-                        label="Wachtwoord"
-                        inputType="password"
-                        value={data.password}
+                        name="firstName"
+                        label="Voornaam"
+                        inputType="text"
+                        value={data.firstName}
                         validationRules={{
-                            required: "Wachtwoord is verplicht",
+                            required: "Voornaam is verplicht",
+                        }}
+                    />
+                    <InputElement
+                        errors={errors}
+                        register={register}
+                        name="lastName"
+                        label="Achternaam"
+                        inputType="text"
+                        value={data.lastName}
+                        validationRules={{
+                            required: "Achternaam is verplicht",
                         }}
                     />
 
                     <InputElement
                         errors={errors}
                         register={register}
-                        name="email"
-                        label="email"
+                        name="function"
+                        label="Functie"
                         inputType="text"
-                        value={data.email}
-                        validationRules={{
-                        }}
+                        value={data.function}
                     />
 
                     <MultiSelectElement
@@ -95,7 +121,7 @@ function UserUpdatePage(props) {
                     />
 
                     <Button type="submit">
-                        Update
+                        Pas aan
                     </Button>
 
                 </form>
@@ -105,4 +131,4 @@ function UserUpdatePage(props) {
     );
 }
 
-export default withRouter(UserUpdatePage);
+export default withRouter(EmployeeUpdatePage);

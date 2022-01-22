@@ -34,7 +34,7 @@ function MedicinePage() {
     return ({data} &&
         <div className="page-container">
             <h1 className="page-title">Medicijn</h1>
-            <Link to={"./medicine-new"}>
+            <Link to={"/medicine-new"}>
                 <button className="new">Nieuw</button>
             </Link>
             <div className="content">

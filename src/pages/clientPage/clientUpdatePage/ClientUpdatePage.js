@@ -3,7 +3,7 @@ import {useHistory, withRouter} from 'react-router-dom'
 import axios from "axios";
 import {useForm} from "react-hook-form";
 
-import '../ClientUpdatePage/ClientUpdatePage.css'
+import './ClientUpdatePage.css'
 
 import Button from "../../../components/button/Button"
 import InputElement from "../../../components/inputElement/InputElement";

@@ -24,9 +24,6 @@ function Navigation() {
                         <NavLink to="/planning" activeClassName="active-link">Planning</NavLink>
                     </li>
                     <li>
-                        <NavLink to="/realisation" activeClassName="active-link">Uitvoering</NavLink>
-                    </li>
-                    <li>
                         <NavLink to="/employee" activeClassName="active-link">Medewerker</NavLink>
                     </li>
                     <li>

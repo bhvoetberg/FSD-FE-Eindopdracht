@@ -53,7 +53,7 @@ function App() {
                     {isAuth ? <PlanningPage /> : <Redirect to="/login" />}
                     {/*<PlanningPage/>*/}
                 </Route>
-                <Route exact path="/realisation">
+                <Route exact path="/realisation/:id">
                     <RealisationPage />
                 </Route>
 
@@ -100,7 +100,6 @@ function App() {
                 <Route exact path="/user-new">
                     <UserNewPage />
                 </Route>
-
 
             </Switch>
 

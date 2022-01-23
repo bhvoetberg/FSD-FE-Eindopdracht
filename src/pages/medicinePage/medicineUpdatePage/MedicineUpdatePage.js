@@ -126,7 +126,7 @@ function MedicineUpdatePage(props) {
                     />
 
                     <Button type="submit">
-                        Update
+                        Pas aan
                     </Button>
 
                 </form>

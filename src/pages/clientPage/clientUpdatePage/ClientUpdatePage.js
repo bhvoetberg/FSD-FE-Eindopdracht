@@ -31,7 +31,6 @@ function ClientUpdatePage(props) {
                 },
             });
             result = await result.data;
-
             setData(result);
         } catch (e) {
             console.error(e);

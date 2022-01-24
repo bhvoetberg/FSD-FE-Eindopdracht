@@ -17,6 +17,7 @@ function UserUpdatePage(props) {
         mode: 'onChange',
     });
     const [data, setData] = useState([]);
+    const [isChecked, setIsChecked] = useState(null);
     const history = useHistory();
 
     useEffect(() => {
@@ -31,8 +32,9 @@ function UserUpdatePage(props) {
                     "Content-Type": "application/json", Authorization: `Bearer ${token}`,
                 },
             });
-            const received =  await result.data;
+            const received = await result.data;
             setData(received);
+            setIsChecked(received.enabled);
         } catch (e) {
             console.error(e);
         }
@@ -61,7 +63,11 @@ function UserUpdatePage(props) {
             <div className="page-container">
                 <h1 className="page-title">User update</h1>
                 <form className="content" name="client-input" onSubmit={handleSubmit(onFormSubmit)}>
-                    <p>Gebruikersnaam {data.username}</p>
+                    <div className="username">
+                        <p>Gebruikersnaam </p>
+                        <div>{data.username}</div>
+                    </div>
+
                     <InputElement
                         errors={errors}
                         register={register}
@@ -81,18 +87,31 @@ function UserUpdatePage(props) {
                         label="email"
                         inputType="text"
                         value={data.email}
-                        validationRules={{
-                        }}
+                        validationRules={{}}
                     />
 
-                    <MultiSelectElement
-                        errors={errors}
-                        register={register}
-                        name="enabled"
-                        label="Actief"
-                        value={data.enabled}
-                        selectType="checkbox"
-                    />
+                    {/*<MultiSelectElement*/}
+                    {/*    errors={errors}*/}
+                    {/*    register={register}*/}
+                    {/*    name="enabled"*/}
+                    {/*    label="Actief"*/}
+
+                    {/*    checked={isChecked}*/}
+                    {/*    selectType="checkbox"*/}
+                    {/*/>*/}
+
+                    <div className="input-type">
+                        <label htmlFor="enabled-field">
+                            Actief
+                        </label>
+                        <input
+                            type="checkbox"
+                            checked={isChecked}
+                            onChange={(e) => {
+                                setIsChecked(e.target.checked)
+                            }}
+                        />
+                    </div>
 
                     <Button type="submit">
                         Update

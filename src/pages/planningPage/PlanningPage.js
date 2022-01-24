@@ -81,7 +81,6 @@ function PlanningPage() {
                     />
                 </div>
 
-
             <div className="content">
                 {data.map((item) =>
                     <ul key={item.id}>

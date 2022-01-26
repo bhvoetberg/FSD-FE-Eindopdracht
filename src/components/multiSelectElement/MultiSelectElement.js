@@ -1,10 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './MultiSelectElement.css';
 
 // Dit kan een radio of checkbox zijn
 function MultiSelectElement(
-    {errors, register, name, label, validationRules, selectType, value, labelId, checked}) {
-    const [isChecked, setIsChecked] = useState(null) ;
+    {errors, register, name, label, validationRules, selectType, value, labelId}) {
     return (
         <div className="input-type">
             <label htmlFor={`${name}-field`} id={labelId}>
@@ -13,9 +12,7 @@ function MultiSelectElement(
             <input
                 type={selectType}
                 id={`${name}-field`}
-                // value={value}
-                checked={checked}
-                onChange={(e) => {setIsChecked(e.target.checked)}}
+                value={value}
                 {...register(name, validationRules)}
             />
             {errors[name] && <p>{errors[name].message}</p>}

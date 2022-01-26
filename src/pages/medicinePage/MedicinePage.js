@@ -42,7 +42,7 @@ function MedicinePage() {
                     <ul key={item.id}>
                         <Link to={"medicine-update/" + item.id} className="item">
                             <p>{item.medName}</p>
-                            <button className="update">Update</button>
+                            <button className="update">Pas aan</button>
                         </Link>
                     </ul>
                 )}

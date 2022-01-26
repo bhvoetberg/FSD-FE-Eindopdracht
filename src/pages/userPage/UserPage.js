@@ -45,7 +45,7 @@ function UserPage(props) {
                     <ul key={item.id}>
                         <Link to={"user-update/" + item.username} className="item">
                             <p>{item.username}</p>
-                            <button className="update">Update</button>
+                            <button className="update">Aanpassen</button>
                         </Link>
                     </ul>
                 )}

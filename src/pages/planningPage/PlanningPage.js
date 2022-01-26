@@ -17,7 +17,6 @@ function PlanningPage() {
         mode: 'onChange',
     });
 
-
     useEffect(() => {
         getData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -33,12 +32,15 @@ function PlanningPage() {
                 },
             });
             result = await result.data;
+            console.log("Planning result");
+            console.log(result);
 
             if (showAll) {
                 setData(arrayObjectKeySorter(result, 'planTime'));
             } else {
                 const filteredResult = result.filter(function (item) {
-                    return item.enabled === true});
+                    return item.enabled === true
+                });
                 setData(arrayObjectKeySorter(filteredResult, 'planTime'));
             }
         } catch (e) {
@@ -47,39 +49,41 @@ function PlanningPage() {
     }
 
     function updateForm(e) {
-        // all = e.target.value;
+        console.log(e);
         if (e.target.value === "true") {
-        setShowAll(false)}
+            setShowAll(false)
+        }
         if (e.target.value === "false") {
-            setShowAll(true)}
+            setShowAll(true)
+        }
     }
 
     return ({data} &&
         <div className="page-container">
             <h1 className="page-title">Planning</h1>
 
-                <Link to={"./planning-new"}>
-                    <button className="new">Nieuw</button>
-                </Link>
-                <div className="filter" onChange={((e) => updateForm(e))}>
-                    <MultiSelectElement
-                        errors={errors}
-                        register={register}
-                        name="filter"
-                        label="Exclusief voltooid"
-                        value="true"
-                        selectType="radio"
-                        labelId="inclusive"
-                    />
-                    <MultiSelectElement
-                        errors={errors}
-                        register={register}
-                        name="filter"
-                        value="false"
-                        label="Inclusief voltooid"
-                        selectType="radio"
-                    />
-                </div>
+            <Link to={"./planning-new"}>
+                <button className="new">Nieuw</button>
+            </Link>
+            <div className="filter" onChange={((e) => updateForm(e))}>
+                <MultiSelectElement
+                    errors={errors}
+                    register={register}
+                    name="filter"
+                    label="Exclusief voltooid"
+                    value="true"
+                    selectType="radio"
+                    labelId="inclusive"
+                />
+                <MultiSelectElement
+                    errors={errors}
+                    register={register}
+                    name="filter"
+                    value="false"
+                    label="Inclusief voltooid"
+                    selectType="radio"
+                />
+            </div>
 
             <div className="content">
                 {data.map((item) =>

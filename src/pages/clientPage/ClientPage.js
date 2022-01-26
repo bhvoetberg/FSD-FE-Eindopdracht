@@ -43,7 +43,7 @@ function ClientPage() {
                         <Link to={"client-update/" + item.id} className="item">
                             <p>{item.firstName}</p>
                             <p>{item.lastName}</p>
-                            <button className="update">Update</button>
+                            <button className="update">Aanpassen</button>
                         </Link>
                     </ul>
                 )}

@@ -15,7 +15,6 @@ function RealisationPage(props) {
         mode: 'onChange',
     });
     const [data, setData] = useState('');
-    const [pending, togglePending] = useState(true);
     const history = useHistory();
 
     useEffect(() => {
@@ -39,21 +38,18 @@ function RealisationPage(props) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    console.log("Data na use-effect")
-    console.log(data);
-
 
     async function onFormSubmit(data) {
         console.log("Te posten data");
         console.log(data);
         try {
-            const result = await axios.put('http://localhost:8080/planning/' + props.match.params.id, data,
+            const result = await axios.patch('http://localhost:8080/planning/' + props.match.params.id, data,
                 {
                     headers: {
                         "Content-Type": "application/json", Authorization: `Bearer ${token}`,
                     }
                 });
-            history.push('/planning');
+            // history.push('/planning');
             console.log(result);
         } catch (e) {
             console.error(e);
@@ -63,51 +59,102 @@ function RealisationPage(props) {
 
     return (
         <div>
-            {data && <>
-                {data.client.firstName}
-                <div className="page-container">
-                    <h1 className="page-title">Uitvoering</h1>
-                    <form className="content" name="realisation-input" onSubmit={handleSubmit(onFormSubmit)}>
+            {data &&
+                <>
+                    <div className="page-container">
+                        <h1 className="page-title">Uitvoering</h1>
+
                         <div className="client-info">
-                            <p>{data.client.firstName} {data.client.lastName}</p>
-                            <p>{data.planDate} - {data.planTime}</p>
-
-
-                        <h4>Geboren: </h4>{data.client.dateOfBirth}
-                        <h4>Kamer: </h4>{data.client.roomNumber}
-                        <br/>
-                        <h4>Tel. apotheek: </h4>{data.client.telPharmacy}
-                        <h4>Tel. arts: </h4>{data.client.telGeneralPractitioner}
-                        <img src={data.client.photo} alt={`Foto van ${data.client.firstName} ${data.client.lastName} `}
-                             title={data.client.firstName}/>
-                        </div>
-                        <div className="medication-info">
-                            <h4>{data.medicine.medName}</h4>
-
-                            {data.medicine.perilous ?
-                                <h4>Risicovolle medicatie</h4>
-                                :
-                                <h4>Geen risicovolle medicatie</h4>
-                            }
-                            <h4>{data.medicine.dosageForm}</h4>
-                            <h4>{data.medicine.administerMethod}</h4>
-                            <h4>{data.medicine.instructions}</h4>
-
-
-
-
+                            <div className="client-info-left">
+                                <p>{data.client.firstName} {data.client.lastName}</p>
+                                <p>{data.planDate} - {data.planTime}</p>
+                            </div>
+                            <div className="client-info-middle-field-names">
+                                <text>Geboren:</text>
+                                <text>Kamer:</text>
+                                <br/>
+                                <text>Tel. apotheek:</text>
+                                <text>Tel. arts:</text>
+                            </div>
+                            <div className="client-info-middle-field-data">
+                                <text>{data.client.dateOfBirth}</text>
+                                <text>{data.client.roomNumber}</text>
+                                <br/>
+                                <text>{data.client.telPharmacy}</text>
+                                <text>{data.client.telGeneralPractitioner}</text>
+                            </div>
+                            <div className="client-info-right">
+                                <img src={data.client.photo}
+                                     alt={`Foto van ${data.client.firstName} ${data.client.lastName} `}
+                                     title={data.client.firstName}/>
+                            </div>
                         </div>
 
+                        <div className="medication">
+                            <div className="medication-info">
+                                <div className="medication-info-left">
+                                    <strong><a href={data.medicine.urlExternalInfo} target="_blank"
+                                               className="medicine-name">{data.quantity} stuks {data.medicine.medName}</a></strong>
+                                    <text>Vorm: {data.medicine.dosageForm}</text>
+                                    <text>Inname: {data.medicine.administerMethod}</text>
+                                    <text>Frequentie: {data.medicine.frequency}</text>
+                                </div>
+                                <div className="medication-info-right">
+                                    {data.medicine.perilous ?
+                                        <text className="perilous"><strong>Risicovolle medicatie</strong></text>
+                                    :
+                                        <text>Geen risicovolle medicatie</text>
+                                    }
+                                    <text className="instructions">
+                                        <strong>Instructies: </strong>{data.medicine.instructions}
+                                    </text>
 
+                                </div>
+                            </div>
 
+                            <form className="form-content" name="realisation-input"
+                                  onSubmit={handleSubmit(onFormSubmit)}>
+                                <div className="execution">
+                                    <div className="form-radio">
+                                        <MultiSelectElement
+                                            errors={errors}
+                                            register={register}
+                                            name="execution"
+                                            label="Aangereikt"
+                                            selectType="radio"
+                                        />
+                                        <MultiSelectElement
+                                            errors={errors}
+                                            register={register}
+                                            name="execution"
+                                            label="Toegediend"
+                                            selectType="radio"
+                                        />
+                                        <MultiSelectElement
+                                            errors={errors}
+                                            register={register}
+                                            name="execution"
+                                            label="Klaargezet"
+                                            selectType="radio"
+                                        />
+                                    </div>
 
-                        <Button type="submit">
-                                 Update
-                        </Button>
+                                </div>
+                                <div className="finish">
+                                    <div className="form-right">
+                                        <p><em>Reg. afwijking (niet functioneel)</em> </p>
+                                    </div>
+                                    <Button type="submit">
+                                        Meld gereed
+                                    </Button>
+                                </div>
 
-                    </form>
-                </div>
-            </>
+                            </form>
+
+                        </div>
+
+                    </div>
+                </>
             }
         </div>
     );

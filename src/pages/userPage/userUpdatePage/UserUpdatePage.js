@@ -90,16 +90,6 @@ function UserUpdatePage(props) {
                         validationRules={{}}
                     />
 
-                    {/*<MultiSelectElement*/}
-                    {/*    errors={errors}*/}
-                    {/*    register={register}*/}
-                    {/*    name="enabled"*/}
-                    {/*    label="Actief"*/}
-
-                    {/*    checked={isChecked}*/}
-                    {/*    selectType="checkbox"*/}
-                    {/*/>*/}
-
                     <div className="input-type">
                         <label htmlFor="enabled-field">
                             Actief

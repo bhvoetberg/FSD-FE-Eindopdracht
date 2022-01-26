@@ -24,7 +24,7 @@
 html {
     background: var(--bg-color);
     font-family: "Roboto Light", sans-serif;
-    font-size: 24px;
+    font-size: 20px;
     color: var(--primary-color);
     scroll-behavior: smooth;
 }

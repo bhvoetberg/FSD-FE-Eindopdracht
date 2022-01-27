@@ -1,25 +1,26 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {NavLink} from 'react-router-dom';
 import './Navigation.css';
 import {AuthContext} from "../../context/AuthContext";
+import {logDOM} from "@testing-library/react";
 
 function Navigation() {
     const {isAuth, user} = useContext(AuthContext);
+    const [hasUserRole, setHasUserRole] = useState(false);
+    const [hasAdminRole, setHasAdminRole] = useState(false);
 
-    // const roleUser = user.authorities.find((role) => {
-    //     return {
-    //         role.authority === 'ROLE_USER'
-    //             ?
-    //             true
-    //             :
-    //             false
-    //     }
-    // });
-    //
-    // console.log("USER")
-    // console.log(user);
-    // console.log("ROLE")
-    // console.log(roleUser)
+    console.log(user.length);
+
+
+    // if (!user.isEmpty() {
+    //     setHasUserRole(user.authorities.some(item =>
+    //         item.authority === "ROLE_ADMIN"));
+    //     setHasAdminRole(user.authorities.some(item =>
+    //         item.authority === "ROLE_ADMIN"));
+    // }
+    // console.log(hasUserRole);
+    // console.log(hasAdminRole);
+
 
     return (
         <nav>
@@ -30,25 +31,33 @@ function Navigation() {
                     </li>
                     {isAuth ?
                         <>
-                            <li>
-                                <NavLink to="/planning" activeClassName="active-link">Planning</NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="/medicine" activeClassName="active-link">Medicijn</NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="/medication" activeClassName="active-link">Medicatie</NavLink>
-                            </li>
+                            {hasUserRole &&
+                                <>
+                                    <li>
+                                        <NavLink to="/planning" activeClassName="active-link">Planning</NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to="/medicine" activeClassName="active-link">Medicijn</NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to="/medication" activeClassName="active-link">Medicatie</NavLink>
+                                    </li>
 
-                            <li>
-                                <NavLink to="/client" activeClassName="active-link">Client</NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="/employee" activeClassName="active-link">Medewerker</NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="/user" activeClassName="active-link">User</NavLink>
-                            </li>
+                                    <li>
+                                        <NavLink to="/client" activeClassName="active-link">Client</NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to="/employee" activeClassName="active-link">Medewerker</NavLink>
+                                    </li>
+                                </>
+                            }
+                            {hasAdminRole &&
+                                <>
+                                    <li>
+                                        <NavLink to="/user" activeClassName="active-link">User</NavLink>
+                                    </li>
+                                </>
+                            }
                             <li>
                                 <NavLink to="/login" activeClassName="active-link">Uitloggen</NavLink>
                             </li>

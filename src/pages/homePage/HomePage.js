@@ -1,18 +1,11 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import {AuthContext} from "../../context/AuthContext";
 
 
 function HomePage() {
     // const {user} = useContext(AuthContext);
     const {isAuth, user} = useContext(AuthContext);
-    console.log("HomePage");
-    console.log("User =")
-    console.log(user.authorities);
 
-    useEffect(() => {
-        console.log(user.authorities);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[]);
 
     return (
         <div className="page-container">

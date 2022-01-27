@@ -90,7 +90,7 @@ function RealisationPage(props) {
                         <div className="medication">
                             <div className="medication-info">
                                 <div className="medication-info-left">
-                                    <strong><a href={data.medicine.urlExternalInfo} target="_blank"
+                                    <strong><a href={data.medicine.urlExternalInfo} target="_blank" rel="noreferrer noopener"
                                                className="medicine-name">{data.quantity} stuks {data.medicine.medName}</a></strong>
                                     <text>Vorm: {data.medicine.dosageForm}</text>
                                     <text>Inname: {data.medicine.administerMethod}</text>

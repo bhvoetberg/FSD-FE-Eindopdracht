@@ -32,8 +32,6 @@ function PlanningPage() {
                 },
             });
             result = await result.data;
-            console.log("Planning result");
-            console.log(result);
 
             if (showAll) {
                 setData(arrayObjectKeySorter(result, 'planTime'));

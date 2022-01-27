@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {useHistory, withRouter} from 'react-router-dom'
 import axios from "axios";
 import {useForm} from "react-hook-form";
@@ -15,12 +15,11 @@ function MedicineNewPage(props) {
     const {register, formState: {errors}, handleSubmit} = useForm({
         mode: 'onChange',
     });
-    const [data, setData] = useState([]);
+    // const [data, setData] = useState([]);
+    let data = {};
     const history = useHistory();
 
     async function onFormSubmit(data) {
-        console.log("Te posten data");
-        console.log(data);
         try {
             const result = await axios.post('http://localhost:8080/medicines/', data,
                 {

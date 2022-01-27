@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {useHistory, withRouter} from 'react-router-dom'
 import axios from "axios";
 import {useForm} from "react-hook-form";
@@ -15,7 +15,8 @@ function UserNewPage(props) {
     const {register, formState: {errors}, handleSubmit} = useForm({
         mode: 'onChange',
     });
-    const [data, setData] = useState([]);
+    // const [data, setData] = useState([]);
+    let data = {};
 
     const history = useHistory();
 

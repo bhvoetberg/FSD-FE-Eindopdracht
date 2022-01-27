@@ -8,7 +8,6 @@ import '../userUpdatePage/UserUpdatePage.css';
 
 import Button from "../../../components/button/Button"
 import InputElement from "../../../components/inputElement/InputElement";
-import MultiSelectElement from "../../../components/multiSelectElement/MultiSelectElement";
 
 
 function UserUpdatePage(props) {

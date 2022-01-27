@@ -6,7 +6,22 @@ import {AuthContext} from "../../context/AuthContext";
 function Navigation() {
     const {isAuth, user} = useContext(AuthContext);
 
-       return (
+    // const roleUser = user.authorities.find((role) => {
+    //     return {
+    //         role.authority === 'ROLE_USER'
+    //             ?
+    //             true
+    //             :
+    //             false
+    //     }
+    // });
+    //
+    // console.log("USER")
+    // console.log(user);
+    // console.log("ROLE")
+    // console.log(roleUser)
+
+    return (
         <nav>
             <div className="navigation-container">
                 <ul>

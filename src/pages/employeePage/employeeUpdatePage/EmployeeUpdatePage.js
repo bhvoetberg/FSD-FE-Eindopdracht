@@ -16,9 +16,9 @@ function EmployeeUpdatePage(props) {
         mode: 'onChange',
     });
     const [data, setData] = useState([]);
-    const photo = {
-        photo: null
-    }
+    // const photo = {
+    //     photo: null
+    // }
     const history = useHistory();
 
     async function getData() {
@@ -56,23 +56,6 @@ function EmployeeUpdatePage(props) {
     }, []);
 
 
-    //   async function submit(data) {
-    //     try {
-    //         const result = await axios.patch('http://localhost:8080/clients/' + props.match.params.id,
-    //             data,
-    //             {
-    //                 headers: {
-    //                     "Content-Type": "application/json", Authorization: `Bearer ${token}`,
-    //                 }
-    //             });
-    //         console.log(result);
-    //         await getData();
-    //     } catch (e) {
-    //         console.log(e);
-    //     }
-    // }
-
-
     return (
         <div>
             <div className="page-container">
@@ -105,10 +88,10 @@ function EmployeeUpdatePage(props) {
                     <InputElement
                         errors={errors}
                         register={register}
-                        name="function"
+                        name="functionName"
                         label="Functie"
                         inputType="text"
-                        value={data.function}
+                        value={data.functionName}
                     />
 
                     <MultiSelectElement

@@ -23,6 +23,7 @@ function HomePage() {
             {isAuth ?
                 <>
                     <text>Op de pagina zijn rechtsbovenin de applicatie-onderdelen verschenen die aan uw gebruikersprofiel zijn toegekend.</text>
+
                 </>
                 :
                 <>

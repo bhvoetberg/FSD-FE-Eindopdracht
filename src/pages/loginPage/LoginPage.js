@@ -8,14 +8,15 @@ import {useForm} from "react-hook-form";
 import {useHistory} from "react-router-dom";
 
 function LoginPage() {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+
     const [error, toggleError] = useState(false);
     const {login, isAuth, logout} = useContext(AuthContext);
     const {register, formState: {errors}, handleSubmit} = useForm({
         mode: 'onChange',
     });
     const history = useHistory();
+    const username = null;
+    const password = null;
 
 
     async function onFormSubmit(data) {

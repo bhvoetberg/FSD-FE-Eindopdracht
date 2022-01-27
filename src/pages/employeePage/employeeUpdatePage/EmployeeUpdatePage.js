@@ -56,21 +56,21 @@ function EmployeeUpdatePage(props) {
     }, []);
 
 
-      async function submit(data) {
-        try {
-            const result = await axios.patch('http://localhost:8080/clients/' + props.match.params.id,
-                data,
-                {
-                    headers: {
-                        "Content-Type": "application/json", Authorization: `Bearer ${token}`,
-                    }
-                });
-            console.log(result);
-            await getData();
-        } catch (e) {
-            console.log(e);
-        }
-    }
+    //   async function submit(data) {
+    //     try {
+    //         const result = await axios.patch('http://localhost:8080/clients/' + props.match.params.id,
+    //             data,
+    //             {
+    //                 headers: {
+    //                     "Content-Type": "application/json", Authorization: `Bearer ${token}`,
+    //                 }
+    //             });
+    //         console.log(result);
+    //         await getData();
+    //     } catch (e) {
+    //         console.log(e);
+    //     }
+    // }
 
 
     return (

@@ -19,18 +19,14 @@ function LoginPage() {
 
 
     async function onFormSubmit(data) {
-        console.log("Data");
-        console.log(data);
         try {
             const result = await axios.post('http://localhost:8080/authenticate', data);
-
             login(result.data.jwt);
-
         } catch (e) {
             console.error(e);
             toggleError(true);
         }
-        history.push('/');
+        // history.push('/');
     }
 
     return (

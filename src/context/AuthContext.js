@@ -62,10 +62,9 @@ function AuthContextProvider({ children }) {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            // console.log("Fetched user data");
-            // console.log(result);
-            // console.log("isAuth vooraf")
-            // console.log(isAuth);
+            console.log("Fetched user data");
+            console.log(result);
+
 
             toggleIsAuth({
                 isAuth: true,
@@ -80,9 +79,9 @@ function AuthContextProvider({ children }) {
             // console.log("isAuth values na toggle");
             // console.log(isAuth);
 
-            if (redirectUrl) {
-                history.push(redirectUrl);
-            }
+            // if (redirectUrl) {
+            //     history.push(redirectUrl);
+            // }
 
         } catch (e) {
             console.error(e);

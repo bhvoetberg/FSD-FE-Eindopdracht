@@ -58,7 +58,8 @@ function MedicineUpdatePage(props) {
         <div>
             <div className="page-container">
                 <h1 className="page-title">Medicijn update</h1>
-                <form className="content" name="client-input" onSubmit={handleSubmit(onFormSubmit)}>
+                <form className="content" name="client-input"
+                      onSubmit={handleSubmit(onFormSubmit)}>
                     <InputElement
                         errors={errors}
                         register={register}

@@ -94,15 +94,15 @@ function PlanningPage() {
                                 <>
                                     <p className="active">{item.planTime} - {item.client.firstName} {item.client.lastName} -
                                         kamer {item.client.roomNumber}</p>
-                                    <label className="active"> </label>
+                                    <label className="active"></label>
                                     <button>Starten</button>
                                 </>
                                 :
                                 <>
                                     <p className="inactive">{item.planTime} - {item.client.firstName} {item.client.lastName} -
                                         kamer {item.client.roomNumber}  </p>
-                                    <label className="inactive"> </label>
-                                    <button className="inactive" disabled>Historie</button>
+                                    <label className="inactive"></label>
+                                    <button className="inactive">Historie</button>
                                 </>
                             }
                         </Link>

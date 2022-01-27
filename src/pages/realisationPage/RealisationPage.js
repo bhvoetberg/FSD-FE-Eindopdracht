@@ -5,17 +5,33 @@ import {useForm} from "react-hook-form";
 
 import '../realisationPage/RealisationPage.css';
 
-import Button from '../../components/button/Button'
-import MultiSelectElement from "../../components/multiSelectElement/MultiSelectElement";
-
-
 function RealisationPage(props) {
     const token = localStorage.getItem('token');
-    const {register, formState: {errors}, handleSubmit} = useForm({
+    const {handleSubmit} = useForm({
         mode: 'onChange',
     });
     const [data, setData] = useState('');
     const history = useHistory();
+
+    async function onFormSubmit() {
+        let data = {
+            enabled: 'false'
+        };
+
+        try {
+            const result = await axios.patch('http://localhost:8080/planning/' + props.match.params.id,
+                data,
+                {
+                    headers: {
+                        "Content-Type": "application/json", Authorization: `Bearer ${token}`,
+                    }
+                });
+            history.push('/planning');
+            console.log(result);
+        } catch (e) {
+            console.error(e);
+        }
+    }
 
     useEffect(() => {
         async function getData() {
@@ -27,8 +43,7 @@ function RealisationPage(props) {
                 });
                 const received = result.data;
                 setData(received);
-                console.log("Data");
-                console.log(data);
+
             } catch (e) {
                 console.error(e);
             }
@@ -37,24 +52,6 @@ function RealisationPage(props) {
         getData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-
-    async function onFormSubmit(data) {
-        console.log("Te posten data");
-        console.log(data);
-        try {
-            const result = await axios.patch('http://localhost:8080/planning/' + props.match.params.id, data,
-                {
-                    headers: {
-                        "Content-Type": "application/json", Authorization: `Bearer ${token}`,
-                    }
-                });
-            // history.push('/planning');
-            console.log(result);
-        } catch (e) {
-            console.error(e);
-        }
-    }
 
 
     return (
@@ -102,7 +99,7 @@ function RealisationPage(props) {
                                 <div className="medication-info-right">
                                     {data.medicine.perilous ?
                                         <text className="perilous"><strong>Risicovolle medicatie</strong></text>
-                                    :
+                                        :
                                         <text>Geen risicovolle medicatie</text>
                                     }
                                     <text className="instructions">
@@ -112,44 +109,14 @@ function RealisationPage(props) {
                                 </div>
                             </div>
 
-                            <form className="form-content" name="realisation-input"
-                                  onSubmit={handleSubmit(onFormSubmit)}>
-                                <div className="execution">
-                                    <div className="form-radio">
-                                        <MultiSelectElement
-                                            errors={errors}
-                                            register={register}
-                                            name="execution"
-                                            label="Aangereikt"
-                                            selectType="radio"
-                                        />
-                                        <MultiSelectElement
-                                            errors={errors}
-                                            register={register}
-                                            name="execution"
-                                            label="Toegediend"
-                                            selectType="radio"
-                                        />
-                                        <MultiSelectElement
-                                            errors={errors}
-                                            register={register}
-                                            name="execution"
-                                            label="Klaargezet"
-                                            selectType="radio"
-                                        />
-                                    </div>
-
-                                </div>
-                                <div className="finish">
-                                    <div className="form-right">
-                                        <p><em>Reg. afwijking (niet functioneel)</em> </p>
-                                    </div>
-                                    <Button type="submit">
-                                        Meld gereed
-                                    </Button>
-                                </div>
-
-                            </form>
+                            {data.enabled
+                                ?
+                                <form onSubmit={handleSubmit(onFormSubmit)}>
+                                    <button type="submit">Meld gereed</button>
+                                </form>
+                                :
+                                <p>Historie</p>
+                            }
 
                         </div>
 

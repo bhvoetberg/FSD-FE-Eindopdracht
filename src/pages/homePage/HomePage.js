@@ -3,9 +3,10 @@ import {AuthContext} from "../../context/AuthContext";
 
 
 function HomePage() {
-    const {user} = useContext(AuthContext);
-    const {isAuth} = useContext(AuthContext);
+    // const {user} = useContext(AuthContext);
+    const {isAuth, user} = useContext(AuthContext);
     console.log("HomePage");
+    console.log("User =")
     console.log(user);
 
     useEffect(() => {
@@ -26,13 +27,11 @@ function HomePage() {
                 </>
                 :
                 <>
-                    <text>Deze applicatie is gemaakt als eindopdracht voor de Bootcamp Full Stack Developer aan de NOVI Hogeschool. Log AUB in.</text>
+                <text>Deze applicatie is gemaakt als eindopdracht voor de Bootcamp Full Stack Developer aan de NOVI Hogeschool.</text>
+                <text>Start de backend en log AUB in.</text>
 
                 </>
             }
-
-
-
 
         </div>
     );

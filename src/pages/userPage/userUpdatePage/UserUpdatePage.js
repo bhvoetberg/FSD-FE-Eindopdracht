@@ -41,7 +41,6 @@ function UserUpdatePage(props) {
     }
 
     async function onFormSubmit(data) {
-        console.log("Te posten data");
         console.log(props.match.params.id);
         console.log(data)
         try {

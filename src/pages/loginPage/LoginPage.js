@@ -26,7 +26,7 @@ function LoginPage() {
             console.error(e);
             toggleError(true);
         }
-        // history.push('/');
+        history.push('/');
     }
 
     return (

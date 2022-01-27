@@ -4,9 +4,9 @@ import './Navigation.css';
 import {AuthContext} from "../../context/AuthContext";
 
 function Navigation() {
-    const {isAuth} = useContext(AuthContext);
+    const {isAuth, user} = useContext(AuthContext);
 
-    return (
+       return (
         <nav>
             <div className="navigation-container">
                 <ul>

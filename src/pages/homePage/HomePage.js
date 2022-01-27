@@ -7,19 +7,18 @@ function HomePage() {
     const {isAuth, user} = useContext(AuthContext);
     console.log("HomePage");
     console.log("User =")
-    console.log(user);
+    console.log(user.authorities);
 
     useEffect(() => {
-        console.log(user);
+        console.log(user.authorities);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
     return (
         <div className="page-container">
             <h1 className="page-title">Home</h1>
-            <h2>Welkom</h2>
 
-            {user && <p>Hoi {user.username}</p>}
+            {user.username && <text>Welkom {user.username},</text>}
 
             {isAuth ?
                 <>

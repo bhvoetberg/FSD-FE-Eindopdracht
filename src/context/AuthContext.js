@@ -8,12 +8,7 @@ export const AuthContext = createContext({});
 function AuthContextProvider({ children }) {
     const [isAuth, toggleIsAuth] = useState({
         isAuth: false,
-        user: {
-            username: null,
-            id: null,
-            authorities: null,
-            enabled: null
-        },
+        user: {},
         status: 'pending',
     });
 
@@ -62,11 +57,9 @@ function AuthContextProvider({ children }) {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            console.log("Fetched user data");
-            console.log(result);
-
 
             toggleIsAuth({
+                ...isAuth,
                 isAuth: true,
                 user: {
                     username: result.data.username,
@@ -76,12 +69,10 @@ function AuthContextProvider({ children }) {
                 },
                 status: 'done',
             });
-            // console.log("isAuth values na toggle");
-            // console.log(isAuth);
 
-            // if (redirectUrl) {
-            //     history.push(redirectUrl);
-            // }
+            if (redirectUrl) {
+                history.push(redirectUrl);
+            }
 
         } catch (e) {
             console.error(e);
@@ -96,7 +87,7 @@ function AuthContextProvider({ children }) {
 
     const contextData = {
         isAuth: isAuth.isAuth,
-        user: isAuth.username,
+        user: isAuth.user,
         login: login,
         logout: logout,
     };

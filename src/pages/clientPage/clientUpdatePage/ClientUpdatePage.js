@@ -7,11 +7,11 @@ import './ClientUpdatePage.css'
 
 import Button from "../../../components/button/Button"
 import InputElement from "../../../components/inputElement/InputElement";
-import MultiSelectElement from "../../../components/multiSelectElement/MultiSelectElement";
 
 
 function ClientUpdatePage(props) {
     const token = localStorage.getItem('token');
+    const [isChecked, setIsChecked] = useState(null);
     const {register, formState: {errors}, handleSubmit} = useForm({
         mode: 'onChange',
     });
@@ -20,6 +20,7 @@ function ClientUpdatePage(props) {
         photo: null
     }
     const history = useHistory();
+
 
     //Functionality for the client details.
 
@@ -30,8 +31,9 @@ function ClientUpdatePage(props) {
                     "Content-Type": "application/json", Authorization: `Bearer ${token}`,
                 },
             });
-            result = await result.data;
-            setData(result);
+            const received = await result.data;
+            setData(received);
+            setIsChecked(received.enabled);
         } catch (e) {
             console.error(e);
         }
@@ -173,14 +175,18 @@ function ClientUpdatePage(props) {
                         }}
                     />
 
-                    <MultiSelectElement
-                        errors={errors}
-                        register={register}
-                        name="enabled"
-                        label="Actief"
-                        value={data.enabled}
-                        selectType="checkbox"
-                    />
+                    <div className="input-type">
+                        <label htmlFor="enabled-field">
+                            Actief
+                        </label>
+                        <input
+                            type="checkbox"
+                            checked={isChecked === true ? true : false}
+                            onChange={(e) => {
+                                setIsChecked(e.target.checked)
+                            }}
+                        />
+                    </div>
 
                     <InputElement
                         errors={errors}

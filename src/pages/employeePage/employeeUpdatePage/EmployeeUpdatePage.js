@@ -5,7 +5,6 @@ import {useForm} from "react-hook-form";
 
 import Button from "../../../components/button/Button"
 import InputElement from "../../../components/inputElement/InputElement";
-import MultiSelectElement from "../../../components/multiSelectElement/MultiSelectElement";
 
 import '../employeeUpdatePage/EmployeeUpdatePage.css';
 
@@ -16,9 +15,7 @@ function EmployeeUpdatePage(props) {
         mode: 'onChange',
     });
     const [data, setData] = useState([]);
-    // const photo = {
-    //     photo: null
-    // }
+    const [isChecked, setIsChecked] = useState(null);
     const history = useHistory();
 
     async function getData() {
@@ -28,8 +25,9 @@ function EmployeeUpdatePage(props) {
                     "Content-Type": "application/json", Authorization: `Bearer ${token}`,
                 },
             });
-            result = await result.data;
-            setData(result);
+            const received = await result.data;
+            setData(received);
+            setIsChecked(received.enabled);
         } catch (e) {
             console.error(e);
         }
@@ -94,14 +92,26 @@ function EmployeeUpdatePage(props) {
                         value={data.functionName}
                     />
 
-                    <MultiSelectElement
-                        errors={errors}
-                        register={register}
-                        name="enabled"
-                        label="Actief"
-                        value={data.enabled}
-                        selectType="checkbox"
-                    />
+                    {/*<MultiSelectElement*/}
+                    {/*    errors={errors}*/}
+                    {/*    register={register}*/}
+                    {/*    name="enabled"*/}
+                    {/*    label="Actief"*/}
+                    {/*    value={data.enabled}*/}
+                    {/*    selectType="checkbox"*/}
+                    {/*/>*/}
+                    <div className="input-type">
+                        <label htmlFor="enabled-field">
+                            Actief
+                        </label>
+                        <input
+                            type="checkbox"
+                            checked={isChecked === true ? true : false}
+                            onChange={(e) => {
+                                setIsChecked(e.target.checked)
+                            }}
+                        />
+                    </div>
 
                     <Button type="submit">
                         Pas aan

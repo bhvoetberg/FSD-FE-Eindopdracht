@@ -24,8 +24,6 @@ function UserPage(props) {
                 },
             });
             result = await result.data;
-            console.log(result);
-            // setUsername(result.username);
             setData(arrayObjectKeySorter(result, 'username'));
 
         } catch (e) {
@@ -42,8 +40,8 @@ function UserPage(props) {
             </Link>
             <div className="content">
                 {data.map((item) =>
-                    <ul key={item.id}>
-                        <Link to={"user-update/" + item.username} className="item">
+                    <ul>
+                        <Link to={"user-update/" + item.username} className="item" key={item.id}>
                             <p>{item.username}</p>
                             <button className="update">Aanpassen</button>
                         </Link>

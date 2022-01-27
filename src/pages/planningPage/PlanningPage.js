@@ -25,7 +25,6 @@ function PlanningPage() {
 
     async function getData() {
         try {
-
             let result = await axios.get(`http://localhost:8080/planning/`, {
                 headers: {
                     "Content-Type": "application/json", Authorization: `Bearer ${token}`,
@@ -47,7 +46,6 @@ function PlanningPage() {
     }
 
     function updateForm(e) {
-        console.log(e);
         if (e.target.value === "true") {
             setShowAll(false)
         }

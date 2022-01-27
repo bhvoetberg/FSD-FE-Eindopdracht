@@ -94,7 +94,7 @@ function UserUpdatePage(props) {
                         </label>
                         <input
                             type="checkbox"
-                            checked={isChecked}
+                            checked={isChecked === true ? true : false}
                             onChange={(e) => {
                                 setIsChecked(e.target.checked)
                             }}

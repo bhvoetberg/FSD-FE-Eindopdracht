@@ -7,8 +7,6 @@ import '../medicineUpdatePage/MedicineUpdatePage.css';
 
 import Button from "../../../components/button/Button"
 import InputElement from "../../../components/inputElement/InputElement";
-import MultiSelectElement from "../../../components/multiSelectElement/MultiSelectElement";
-
 
 function MedicineUpdatePage(props) {
     const token = localStorage.getItem('token');
@@ -16,6 +14,7 @@ function MedicineUpdatePage(props) {
         mode: 'onChange',
     });
     const [data, setData] = useState([]);
+    const [isChecked, setIsChecked] = useState(null);
     const history = useHistory();
 
     useEffect(() => {
@@ -32,6 +31,7 @@ function MedicineUpdatePage(props) {
             });
             const received = await result.data;
             setData(received);
+            setIsChecked(received.perilous);
         } catch (e) {
             console.error(e);
         }
@@ -95,14 +95,18 @@ function MedicineUpdatePage(props) {
                         }}
                     />
 
-                    <MultiSelectElement
-                        errors={errors}
-                        register={register}
-                        name="perilous"
-                        label="Risicovol"
-                        value={data.perilous}
-                        selectType="checkbox"
-                    />
+                    <div className="input-type">
+                        <label htmlFor="enabled-field">
+                            Risicovol
+                        </label>
+                        <input
+                            type="checkbox"
+                            checked={isChecked === true ? true : false}
+                            onChange={(e) => {
+                                setIsChecked(e.target.checked)
+                            }}
+                        />
+                    </div>
 
                     <InputElement
                         errors={errors}

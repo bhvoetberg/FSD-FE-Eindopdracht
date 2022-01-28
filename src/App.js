@@ -1,11 +1,9 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
+import {Switch, Route, Redirect} from 'react-router-dom';
 
 import '../src/App.css';
-import {
-    Switch,
-    Route, Redirect,
-} from 'react-router-dom';
-import { AuthContext } from './context/AuthContext';
+
+import {AuthContext} from './context/AuthContext';
 import HomePage from './pages/homePage/HomePage';
 import LoginPage from './pages/loginPage/LoginPage';
 import PlanningPage from './pages/planningPage/PlanningPage';
@@ -32,10 +30,23 @@ import UserUpdatePage from './pages/userPage/userUpdatePage/UserUpdatePage'
 import Navigation from "./components/navigation/Navigation";
 
 
-
-
 function App() {
-    const {isAuth} = useContext(AuthContext);
+    const {isAuth, user} = useContext(AuthContext);
+    const [hasUserRole, setHasUserRole] = useState(false);
+    const [hasAdminRole, setHasAdminRole] = useState(false);
+
+    useEffect(() => {
+        if (isAuth) {
+            setHasUserRole(user.authorities.some(item =>
+                item.authority === "ROLE_USER"));
+            setHasAdminRole(user.authorities.some(item =>
+                item.authority === "ROLE_ADMIN"));
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isAuth]);
+
+
+
 
     return (
         <>
@@ -44,65 +55,71 @@ function App() {
             </header>
             <Switch>
                 <Route exact path="/">
-                    <HomePage />
+                    <HomePage/>
                 </Route>
                 <Route exact path="/login">
-                    <LoginPage />
-                </Route>
-                <Route exact path="/planning">
-                    {isAuth ? <PlanningPage /> : <Redirect to="/login" />}
-                    {/*<PlanningPage/>*/}
-                </Route>
-                <Route exact path="/realisation/:id">
-                    <RealisationPage />
+                    <LoginPage/>
                 </Route>
 
-                <Route exact path="/employee">
-                    <EmployeePage />
-                </Route>
-                <Route exact path="/employee-update/:id">
-                    <EmployeeUpdatePage/>
-                </Route>
-                <Route exact path="/employee-new">
-                    <EmployeeNewPage />
-                </Route>
+                {isAuth ?
+                    <>
+                        <Route exact path="/planning">
+                            {hasUserRole ? <PlanningPage/> : <Redirect to="/" />}
+                        </Route>
+                        <Route exact path="/realisation/:id">
+                            {hasUserRole ? <RealisationPage/> : <Redirect to="/" />}
+                        </Route>
 
-                <Route exact path="/client">
-                    <ClientPage />
-                </Route>
-                <Route exact path="/client-update/:id">
-                    <ClientUpdatePage/>
-                </Route>
-                <Route exact path="/client-new">
-                    <ClientNewPage />
-                </Route>
+                        <Route exact path="/employee">
+                            {hasUserRole ? <EmployeePage/> : <Redirect to="/" />}
+                        </Route>
+                        <Route exact path="/employee-update/:id">
+                            {hasUserRole ? <EmployeeUpdatePage/> : <Redirect to="/" />}
+                        </Route>
+                        <Route exact path="/employee-new">
+                            {hasUserRole ? <EmployeeNewPage/> : <Redirect to="/" />}
+                        </Route>
 
-                <Route exact path="/medicine">
-                    <MedicinePage />
-                </Route>
-                <Route exact path="/medicine-update/:id">
-                    <MedicineUpdatePage/>
-                </Route>
-                <Route exact path="/medicine-new">
-                    <MedicineNewPage />
-                </Route>
+                        <Route exact path="/client">
+                            {hasUserRole ? <ClientPage/> : <Redirect to="/" />}
+                        </Route>
+                        <Route exact path="/client-update/:id">
+                            {hasUserRole ? <ClientUpdatePage/> : <Redirect to="/" />}
+                        </Route>
+                        <Route exact path="/client-new">
+                            {hasUserRole ? <ClientNewPage/> : <Redirect to="/" />}
+                        </Route>
 
-                <Route exact path="/medication">
-                    <MedicationPage />
-                </Route>
+                        <Route exact path="/medicine">
+                            {hasUserRole ? <MedicinePage/> : <Redirect to="/" />}
+                        </Route>
+                        <Route exact path="/medicine-update/:id">
+                            {hasUserRole ? <MedicineUpdatePage/> : <Redirect to="/" />}
+                        </Route>
+                        <Route exact path="/medicine-new">
+                            {hasUserRole ? <MedicineNewPage/> : <Redirect to="/" />}
+                        </Route>
 
-                <Route exact path="/user">
-                    <UserPage/>
-                </Route>
-                <Route exact path="/user-update/:id">
-                    <UserUpdatePage/>
-                </Route>
-                <Route exact path="/user-new">
-                    <UserNewPage />
-                </Route>
+                        <Route exact path="/medication">
+                            {hasUserRole ? <MedicationPage/> : <Redirect to="/" />}
+                        </Route>
+
+                        <Route exact path="/user">
+                            {hasAdminRole ? <UserPage/> : <Redirect to="/" />}
+                        </Route>
+                        <Route exact path="/user-update/:id">
+                            {hasAdminRole ? <UserUpdatePage/> : <Redirect to="/" />}
+                        </Route>
+                        <Route exact path="/user-new">
+                            {hasAdminRole ? <UserNewPage/> : <Redirect to="/" />}
+                        </Route>
+
+                    </>
+                    :
+                    <Redirect to="/login"/>
+                }
 
             </Switch>
-
         </>
     );
 }

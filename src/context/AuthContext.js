@@ -1,11 +1,11 @@
-import React, { createContext, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, {createContext, useEffect, useState} from 'react';
+import {useHistory} from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 
 export const AuthContext = createContext({});
 
-function AuthContextProvider({ children }) {
+function AuthContextProvider({children}) {
     const [isAuth, toggleIsAuth] = useState({
         isAuth: false,
         user: {},
@@ -15,14 +15,12 @@ function AuthContextProvider({ children }) {
     const history = useHistory();
 
     useEffect(() => {
-        // console.log("UseEffect gestart");
         const token = localStorage.getItem('token');
         if (token) {
-            // console.log("Token  gevonden")
             const decoded = jwt_decode(token);
             fetchUserData(decoded.sub, token);
         } else {
-            // console.log("Token niet gevonden")
+
             toggleIsAuth({
                 isAuth: false,
                 user: {},
@@ -30,7 +28,7 @@ function AuthContextProvider({ children }) {
             });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[]);
+    }, []);
 
     function login(JWT) {
         localStorage.setItem('token', JWT);

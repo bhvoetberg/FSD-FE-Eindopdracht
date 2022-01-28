@@ -31,7 +31,7 @@ function Navigation() {
                     </li>
                     {isAuth ?
                         <>
-                            {hasUserRole &&
+                            {/*{hasUserRole &&*/}
                                 <>
                                     <li>
                                         <NavLink to="/planning" activeClassName="active-link">Planning</NavLink>
@@ -50,14 +50,14 @@ function Navigation() {
                                         <NavLink to="/employee" activeClassName="active-link">Medewerker</NavLink>
                                     </li>
                                 </>
-                            }
-                            {hasAdminRole &&
+                            {/*}*/}
+                            {/*{hasAdminRole &&*/}
                                 <>
                                     <li>
                                         <NavLink to="/user" activeClassName="active-link">User</NavLink>
                                     </li>
                                 </>
-                            }
+                            {/*}*/}
                             <li>
                                 <NavLink to="/login" activeClassName="active-link">Uitloggen</NavLink>
                             </li>

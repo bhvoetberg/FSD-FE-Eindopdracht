@@ -1,0 +1,47 @@
+/*TOC towards CSS structure*/
+
+
+/*General styles*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-color: #FFFADE;
+    --primary-color: #8A84EE;
+    --inactive-color: #E8E3FF;
+    --offwhite-color: #FAF8FF;
+    --signal-color: #ED6462;
+
+    --border-radius: 2rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+html {
+    background: var(--bg-color);
+    font-family: "Roboto Light", sans-serif;
+    font-size: 20px;
+    color: var(--primary-color);
+    scroll-behavior: smooth;
+}
+
+h1 {
+    color: var(--primary-color);
+    font-size: 2rem;
+}
+
+.error {
+    color: var(--signal-color);
+}
+
+
+/*Generic page styles*/
+.page-container {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+

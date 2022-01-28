@@ -15,7 +15,7 @@ function MedicineNewPage(props) {
     const {register, formState: {errors}, handleSubmit} = useForm({
         mode: 'onChange',
     });
-    // const [data, setData] = useState([]);
+
     let data = {};
     const history = useHistory();
 

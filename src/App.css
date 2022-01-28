@@ -1,6 +1,3 @@
-/*TOC towards CSS structure*/
-
-
 /*General styles*/
 
 * {
@@ -37,7 +34,6 @@ h1 {
 .error {
     color: var(--signal-color);
 }
-
 
 /*Generic page styles*/
 .page-container {

@@ -92,14 +92,6 @@ function EmployeeUpdatePage(props) {
                         value={data.functionName}
                     />
 
-                    {/*<MultiSelectElement*/}
-                    {/*    errors={errors}*/}
-                    {/*    register={register}*/}
-                    {/*    name="enabled"*/}
-                    {/*    label="Actief"*/}
-                    {/*    value={data.enabled}*/}
-                    {/*    selectType="checkbox"*/}
-                    {/*/>*/}
                     <div className="input-type">
                         <label htmlFor="enabled-field">
                             Actief

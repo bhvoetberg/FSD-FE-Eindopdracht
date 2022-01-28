@@ -9,19 +9,16 @@ import Button from "../../../components/button/Button"
 import InputElement from "../../../components/inputElement/InputElement";
 import MultiSelectElement from "../../../components/multiSelectElement/MultiSelectElement";
 
-
 function ClientNewPage(props) {
     const token = localStorage.getItem('token');
     const {register, formState: {errors}, handleSubmit} = useForm({
         mode: 'onChange',
     });
-    // const [data, setData] = useState([]);
+
     let data = {};
     const history = useHistory();
 
     async function onFormSubmit(data) {
-        console.log("Te posten data");
-        console.log(data);
         try {
             const result = await axios.post('http://localhost:8080/clients/', data,
                 {

@@ -4,7 +4,6 @@ import {AuthContext} from "../../context/AuthContext";
 import '../homePage/HomePage.css';
 
 function HomePage() {
-    // const {user} = useContext(AuthContext);
     const {isAuth, user} = useContext(AuthContext);
 
 

@@ -9,7 +9,6 @@ function UserPage(props) {
 
     const token = localStorage.getItem('token');
     const [data, setData] = useState([]);
-    // const [username, setUsername] = useState('');
 
     useEffect(() => {
         getData();

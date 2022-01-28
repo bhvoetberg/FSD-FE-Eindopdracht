@@ -29,7 +29,6 @@ import UserUpdatePage from './pages/userPage/userUpdatePage/UserUpdatePage'
 
 import Navigation from "./components/navigation/Navigation";
 
-
 function App() {
     const {isAuth, user} = useContext(AuthContext);
     const [hasUserRole, setHasUserRole] = useState(false);
@@ -44,9 +43,6 @@ function App() {
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isAuth]);
-
-
-
 
     return (
         <>

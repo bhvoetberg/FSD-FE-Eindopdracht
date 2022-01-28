@@ -1,7 +1,7 @@
 import React from 'react';
 import './MultiSelectElement.css';
 
-// Dit kan een radio of checkbox zijn
+// Radio of checkbox zijn
 function MultiSelectElement(
     {errors, register, name, label, validationRules, selectType, value, labelId, checked}) {
     return (

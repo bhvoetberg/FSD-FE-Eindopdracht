@@ -34,9 +34,6 @@
     gap: 1rem;
 }
 
-
-/*//UPDATE + NEW*/
-
 .update-button {
     background: var(--primary-color);
     color: var(--offwhite-color);

@@ -2,25 +2,22 @@ import React, {useContext, useEffect, useState} from 'react';
 import {NavLink} from 'react-router-dom';
 import './Navigation.css';
 import {AuthContext} from "../../context/AuthContext";
-import {logDOM} from "@testing-library/react";
 
 function Navigation() {
     const {isAuth, user} = useContext(AuthContext);
     const [hasUserRole, setHasUserRole] = useState(false);
     const [hasAdminRole, setHasAdminRole] = useState(false);
 
-    console.log(user.length);
 
-
-    // if (!user.isEmpty() {
-    //     setHasUserRole(user.authorities.some(item =>
-    //         item.authority === "ROLE_ADMIN"));
-    //     setHasAdminRole(user.authorities.some(item =>
-    //         item.authority === "ROLE_ADMIN"));
-    // }
-    // console.log(hasUserRole);
-    // console.log(hasAdminRole);
-
+    useEffect(() => {
+        if (isAuth) {
+            setHasUserRole(user.authorities.some(item =>
+                item.authority === "ROLE_USER"));
+            setHasAdminRole(user.authorities.some(item =>
+                item.authority === "ROLE_ADMIN"));
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isAuth]);
 
     return (
         <nav>
@@ -31,7 +28,7 @@ function Navigation() {
                     </li>
                     {isAuth ?
                         <>
-                            {/*{hasUserRole &&*/}
+                            {hasUserRole &&
                                 <>
                                     <li>
                                         <NavLink to="/planning" activeClassName="active-link">Planning</NavLink>
@@ -50,14 +47,14 @@ function Navigation() {
                                         <NavLink to="/employee" activeClassName="active-link">Medewerker</NavLink>
                                     </li>
                                 </>
-                            {/*}*/}
-                            {/*{hasAdminRole &&*/}
+                            }
+                            {hasAdminRole &&
                                 <>
                                     <li>
                                         <NavLink to="/user" activeClassName="active-link">User</NavLink>
                                     </li>
                                 </>
-                            {/*}*/}
+                            }
                             <li>
                                 <NavLink to="/login" activeClassName="active-link">Uitloggen</NavLink>
                             </li>

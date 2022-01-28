@@ -15,7 +15,7 @@ function Navigation() {
                 item.authority === "ROLE_USER"));
             setHasAdminRole(user.authorities.some(item =>
                 item.authority === "ROLE_ADMIN"));
-        };
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isAuth]);
 

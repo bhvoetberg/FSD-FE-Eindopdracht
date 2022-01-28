@@ -10,7 +10,7 @@ import InputElement from "../../../components/inputElement/InputElement";
 import MultiSelectElement from "../../../components/multiSelectElement/MultiSelectElement";
 
 
-function EmployeeNewPage(props) {
+function EmployeeNewPage() {
     const token = localStorage.getItem('token');
     const {register, formState: {errors}, handleSubmit} = useForm({
         mode: 'onChange',
@@ -43,7 +43,7 @@ function EmployeeNewPage(props) {
                         errors={errors}
                         register={register}
                         name="firstName"
-                        label="Voornaamnaam"
+                        label="Voornaam"
                         inputType="text"
                         value={data.firstName}
                         validationRules={{

@@ -10,7 +10,7 @@ import InputElement from "../../../components/inputElement/InputElement";
 import MultiSelectElement from "../../../components/multiSelectElement/MultiSelectElement";
 
 
-function UserNewPage(props) {
+function UserNewPage() {
     const token = localStorage.getItem('token');
     const {register, formState: {errors}, handleSubmit} = useForm({
         mode: 'onChange',

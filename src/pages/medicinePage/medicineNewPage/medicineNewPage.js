@@ -10,7 +10,7 @@ import InputElement from "../../../components/inputElement/InputElement";
 import MultiSelectElement from "../../../components/multiSelectElement/MultiSelectElement";
 
 
-function MedicineNewPage(props) {
+function MedicineNewPage() {
     const token = localStorage.getItem('token');
     const {register, formState: {errors}, handleSubmit} = useForm({
         mode: 'onChange',

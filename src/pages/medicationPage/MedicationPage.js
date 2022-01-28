@@ -1,6 +1,6 @@
 import React from 'react';
 
-function MedicationPage(props) {
+function MedicationPage() {
     return (
         <div className="page-container">
             <h1>Medicatie</h1>

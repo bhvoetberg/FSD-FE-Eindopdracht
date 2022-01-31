@@ -4,13 +4,13 @@ import axios from "axios";
 import {useForm} from "react-hook-form";
 
 
-import '../userUpdatePage/UserUpdatePage.css';
+import '../userAuthorityPage/UserAuthorityPage.css';
 
 import Button from "../../../components/button/Button"
 import InputElement from "../../../components/inputElement/InputElement";
 
 
-function UserUpdatePage(props) {
+function UserAuthorityPage(props) {
     const token = localStorage.getItem('token');
     const {register, formState: {errors}, handleSubmit} = useForm({
         mode: 'onChange',
@@ -60,7 +60,7 @@ function UserUpdatePage(props) {
         <>
             {/*{data.authorities}*/}
             <div className="page-container">
-                <h1 className="page-title">User update</h1>
+                <h1 className="page-title">Gebruiksrechten</h1>
                 <form className="content" name="client-input" onSubmit={handleSubmit(onFormSubmit)}>
                     <div className="username">
                         <p>Gebruikersnaam </p>
@@ -89,7 +89,7 @@ function UserUpdatePage(props) {
                         validationRules={{}}
                     />
 
-                    <Link to={"/user-authority/" + props.match.params.id} className="item">
+                    <Link to={"user-update/" + props.match.params.id} className="item">
                         <button className="update">Gebruiksrechten</button>
                     </Link>
 
@@ -117,4 +117,4 @@ function UserUpdatePage(props) {
     );
 }
 
-export default withRouter(UserUpdatePage);
+export default withRouter(UserAuthorityPage);

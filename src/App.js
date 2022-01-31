@@ -26,6 +26,8 @@ import MedicationPage from './pages/medicationPage/MedicationPage';
 import UserPage from './pages/userPage/UserPage';
 import UserNewPage from "./pages/userPage/userNewPage/UserNewPage";
 import UserUpdatePage from './pages/userPage/userUpdatePage/UserUpdatePage'
+import UserAuthorityPage from './pages/userPage/userAuthorityPage/UserAuthorityPage'
+
 
 import Navigation from "./components/navigation/Navigation";
 
@@ -111,6 +113,9 @@ function App() {
                         </Route>
                         <Route exact path="/user-new">
                             {hasAdminRole ? <UserNewPage/> : <Redirect to="/" />}
+                        </Route>
+                        <Route exact path="/user-authority/:id">
+                            {hasAdminRole ? <UserAuthorityPage/> : <Redirect to="/" />}
                         </Route>
 
                     </>

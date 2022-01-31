@@ -18,15 +18,22 @@ function UserAuthorityPage(props) {
     const [data, setData] = useState([]);
     const [isChecked, setIsChecked] = useState(null);
     const history = useHistory();
+    const url = 'http://localhost:8080/users/' + props.match.params.id + `/authorities`;
+
 
     useEffect(() => {
         getData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    useEffect(() => {
+        console.log(data);
+    },[isChecked]);
+
     async function getData() {
+        console.log(url);
         try {
-            const result = await axios.get(`http://localhost:8080/users/` + props.match.params.id, {
+            const result = await axios.get(url, {
                 headers: {
                     "Content-Type": "application/json", Authorization: `Bearer ${token}`,
                 },
@@ -42,78 +49,46 @@ function UserAuthorityPage(props) {
 
     async function onFormSubmit(data) {
         try {
-            const result = await axios.put('http://localhost:8080/users/' + props.match.params.id, data,
+            const result = await axios.put(url,
                 {
                     headers: {
                         "Content-Type": "application/json", Authorization: `Bearer ${token}`,
                     }
                 });
-            history.push('/user');
             console.log(result);
         } catch (e) {
             console.error(e);
         }
     }
 
+    async function deleteAuthority() {
+        try {
+            const result = await axios.delete(`http://localhost:8080/users/multi_roles/authorities/ROLE_ADMIN`,
+                {
+                    headers: {
+                        "Content-Type": "application/json", Authorization: `Bearer ${token}`,
+                    }
+                });
+            console.log(result);
+            await getData();
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     return (
-        // {data} &&
-        <>
-            {/*{data.authorities}*/}
             <div className="page-container">
                 <h1 className="page-title">Gebruiksrechten</h1>
-                <form className="content" name="client-input" onSubmit={handleSubmit(onFormSubmit)}>
-                    <div className="username">
-                        <p>Gebruikersnaam </p>
-                        <div>{data.username}</div>
+
+                    <div className="content">
+                        {data.map((item) =>
+                            <ul key={item.id}>
+                                    <p>{item.authority}</p>
+                                    <button className="update">Aanpassen</button>
+                            </ul>
+                        )}
                     </div>
-
-                    <InputElement
-                        errors={errors}
-                        register={register}
-                        name="password"
-                        label="Wachtwoord"
-                        inputType="password"
-                        value={data.password}
-                        validationRules={{
-                            required: "Wachtwoord is verplicht",
-                        }}
-                    />
-
-                    <InputElement
-                        errors={errors}
-                        register={register}
-                        name="email"
-                        label="email"
-                        inputType="text"
-                        value={data.email}
-                        validationRules={{}}
-                    />
-
-                    <Link to={"user-update/" + props.match.params.id} className="item">
-                        <button className="update">Gebruiksrechten</button>
-                    </Link>
-
-
-                    <div className="input-type">
-                        <label htmlFor="enabled-field">
-                            Actief
-                        </label>
-                        <input
-                            type="checkbox"
-                            checked={isChecked === true ? true : false}
-                            onChange={(e) => {
-                                setIsChecked(e.target.checked)
-                            }}
-                        />
-                    </div>
-
-                    <Button type="submit">
-                        Pas aan
-                    </Button>
-
-                </form>
             </div>
-        </>
     );
 }
 

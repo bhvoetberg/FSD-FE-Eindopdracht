@@ -7,6 +7,7 @@ function Navigation() {
     const {isAuth, user} = useContext(AuthContext);
     const [hasUserRole, setHasUserRole] = useState(false);
     const [hasAdminRole, setHasAdminRole] = useState(false);
+    const [hasSupervisorRole, setHasSupervisorRole] = useState(false);
 
 
     useEffect(() => {
@@ -15,6 +16,8 @@ function Navigation() {
                 item.authority === "ROLE_USER"));
             setHasAdminRole(user.authorities.some(item =>
                 item.authority === "ROLE_ADMIN"));
+            setHasSupervisorRole(user.authorities.some(item =>
+                item.authority === "ROLE_SUPERVISOR"));
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isAuth]);
@@ -34,17 +37,7 @@ function Navigation() {
                                         <NavLink to="/planning" activeClassName="active-link">Planning</NavLink>
                                     </li>
                                     <li>
-                                        <NavLink to="/medicine" activeClassName="active-link">Medicijn</NavLink>
-                                    </li>
-                                    <li>
                                         <NavLink to="/medication" activeClassName="active-link">Medicatie</NavLink>
-                                    </li>
-
-                                    <li>
-                                        <NavLink to="/client" activeClassName="active-link">Client</NavLink>
-                                    </li>
-                                    <li>
-                                        <NavLink to="/employee" activeClassName="active-link">Medewerker</NavLink>
                                     </li>
                                 </>
                             }
@@ -55,6 +48,23 @@ function Navigation() {
                                     </li>
                                 </>
                             }
+                            {hasSupervisorRole &&
+                                <>
+                                    <li>
+                                        <NavLink to="/client" activeClassName="active-link">Client</NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to="/medicine" activeClassName="active-link">Medicijn</NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to="/medication" activeClassName="active-link">Medicatie</NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to="/employee" activeClassName="active-link">Medewerker</NavLink>
+                                    </li>
+                                </>
+                            }
+
                             <li>
                                 <NavLink to="/login" activeClassName="active-link">Uitloggen</NavLink>
                             </li>

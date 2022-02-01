@@ -21,6 +21,8 @@ function UserNewPage() {
     const history = useHistory();
 
     async function onFormSubmit(data) {
+        console.log("NIEUW USER DATA");
+        console.log(data);
         try {
             const result = await axios.post('http://localhost:8080/users/', data,
                 {

@@ -46,7 +46,8 @@ function HomePage() {
                 <>
                     <h3>Deze applicatie is gemaakt als eindopdracht voor de Bootcamp Full Stack Developer aan de NOVI
                         Hogeschool.</h3>
-                    <h3>Start de backend en log AUB in.</h3>
+                    <h3>Om in te kunnen loggen moet de backend zijn gestart.</h3>
+                    <h3>Log daarna AUB in.</h3>
 
                 </>
             }

@@ -26,6 +26,8 @@ import MedicationPage from './pages/medicationPage/MedicationPage';
 import UserPage from './pages/userPage/UserPage';
 import UserNewPage from "./pages/userPage/userNewPage/UserNewPage";
 import UserUpdatePage from './pages/userPage/userUpdatePage/UserUpdatePage'
+import UserAuthorityPage from './pages/userPage/userAuthorityPage/UserAuthorityPage'
+
 
 import Navigation from "./components/navigation/Navigation";
 
@@ -33,6 +35,7 @@ function App() {
     const {isAuth, user} = useContext(AuthContext);
     const [hasUserRole, setHasUserRole] = useState(false);
     const [hasAdminRole, setHasAdminRole] = useState(false);
+    const [hasSupervisorRole, setHasSupervisorRole] = useState(false);
 
     useEffect(() => {
         if (isAuth) {
@@ -40,6 +43,8 @@ function App() {
                 item.authority === "ROLE_USER"));
             setHasAdminRole(user.authorities.some(item =>
                 item.authority === "ROLE_ADMIN"));
+            setHasSupervisorRole(user.authorities.some(item =>
+                item.authority === "ROLE_SUPERVISOR"));
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isAuth]);
@@ -67,37 +72,37 @@ function App() {
                         </Route>
 
                         <Route exact path="/employee">
-                            {hasUserRole ? <EmployeePage/> : <Redirect to="/" />}
+                            {hasSupervisorRole ? <EmployeePage/> : <Redirect to="/" />}
                         </Route>
                         <Route exact path="/employee-update/:id">
-                            {hasUserRole ? <EmployeeUpdatePage/> : <Redirect to="/" />}
+                            {hasSupervisorRole ? <EmployeeUpdatePage/> : <Redirect to="/" />}
                         </Route>
                         <Route exact path="/employee-new">
-                            {hasUserRole ? <EmployeeNewPage/> : <Redirect to="/" />}
+                            {hasSupervisorRole ? <EmployeeNewPage/> : <Redirect to="/" />}
                         </Route>
 
                         <Route exact path="/client">
-                            {hasUserRole ? <ClientPage/> : <Redirect to="/" />}
+                            {hasSupervisorRole ? <ClientPage/> : <Redirect to="/" />}
                         </Route>
                         <Route exact path="/client-update/:id">
-                            {hasUserRole ? <ClientUpdatePage/> : <Redirect to="/" />}
+                            {hasSupervisorRole ? <ClientUpdatePage/> : <Redirect to="/" />}
                         </Route>
                         <Route exact path="/client-new">
-                            {hasUserRole ? <ClientNewPage/> : <Redirect to="/" />}
+                            {hasSupervisorRole ? <ClientNewPage/> : <Redirect to="/" />}
                         </Route>
 
                         <Route exact path="/medicine">
-                            {hasUserRole ? <MedicinePage/> : <Redirect to="/" />}
+                            {hasSupervisorRole ? <MedicinePage/> : <Redirect to="/" />}
                         </Route>
                         <Route exact path="/medicine-update/:id">
-                            {hasUserRole ? <MedicineUpdatePage/> : <Redirect to="/" />}
+                            {hasSupervisorRole ? <MedicineUpdatePage/> : <Redirect to="/" />}
                         </Route>
                         <Route exact path="/medicine-new">
-                            {hasUserRole ? <MedicineNewPage/> : <Redirect to="/" />}
+                            {hasSupervisorRole ? <MedicineNewPage/> : <Redirect to="/" />}
                         </Route>
 
                         <Route exact path="/medication">
-                            {hasUserRole ? <MedicationPage/> : <Redirect to="/" />}
+                            {(hasUserRole || hasSupervisorRole) ? <MedicationPage/> : <Redirect to="/" />}
                         </Route>
 
                         <Route exact path="/user">
@@ -108,6 +113,9 @@ function App() {
                         </Route>
                         <Route exact path="/user-new">
                             {hasAdminRole ? <UserNewPage/> : <Redirect to="/" />}
+                        </Route>
+                        <Route exact path="/user-authority/:id">
+                            {hasAdminRole ? <UserAuthorityPage/> : <Redirect to="/" />}
                         </Route>
 
                     </>

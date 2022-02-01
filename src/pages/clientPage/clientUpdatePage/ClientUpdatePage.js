@@ -103,7 +103,6 @@ function ClientUpdatePage(props) {
     }
 
     async function deletePhoto() {
-        console.log('http://localhost:8080/clients/' + props.match.params.id +'/photo');
         try {
             const result = await axios.delete('http://localhost:8080/clients/' + props.match.params.id +'/photo',
                 {

@@ -39,7 +39,7 @@ function UserPage() {
             </Link>
             <div className="content">
                 {data.map((item) =>
-                    <ul>
+                    <ul key={item.id}>
                         <Link to={"user-update/" + item.username} className="item" key={item.id}>
                             <p>{item.username}</p>
                             <button className="update">Aanpassen</button>

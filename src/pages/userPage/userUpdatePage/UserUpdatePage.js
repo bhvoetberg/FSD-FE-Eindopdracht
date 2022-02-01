@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {useHistory, withRouter} from 'react-router-dom';
+import {Link, useHistory, withRouter} from 'react-router-dom';
 import axios from "axios";
 import {useForm} from "react-hook-form";
 
@@ -33,15 +33,14 @@ function UserUpdatePage(props) {
             });
             const received = await result.data;
             setData(received);
-            setIsChecked(received.enabled);
+            setIsChecked(result.data.enabled);
+            console.log(data);
         } catch (e) {
             console.error(e);
         }
     }
 
     async function onFormSubmit(data) {
-        console.log(props.match.params.id);
-        console.log(data)
         try {
             const result = await axios.put('http://localhost:8080/users/' + props.match.params.id, data,
                 {
@@ -57,7 +56,9 @@ function UserUpdatePage(props) {
     }
 
     return (
-        <div>
+        // {data} &&
+        <>
+            {/*{data.authorities}*/}
             <div className="page-container">
                 <h1 className="page-title">User update</h1>
                 <form className="content" name="client-input" onSubmit={handleSubmit(onFormSubmit)}>
@@ -88,6 +89,11 @@ function UserUpdatePage(props) {
                         validationRules={{}}
                     />
 
+                    <Link to={"/user-authority/" + props.match.params.id} className="item">
+                        <button className="update">Gebruiksrechten</button>
+                    </Link>
+
+
                     <div className="input-type">
                         <label htmlFor="enabled-field">
                             Actief
@@ -102,13 +108,12 @@ function UserUpdatePage(props) {
                     </div>
 
                     <Button type="submit">
-                        Update
+                        Pas aan
                     </Button>
 
                 </form>
             </div>
-
-        </div>
+        </>
     );
 }
 

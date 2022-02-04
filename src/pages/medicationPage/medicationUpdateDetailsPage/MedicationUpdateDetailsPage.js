@@ -3,12 +3,12 @@ import {useHistory, withRouter} from 'react-router-dom';
 import axios from "axios";
 import {useForm} from "react-hook-form";
 
-import '../medicineUpdatePage/MedicineUpdatePage.css';
+import '../medicationUpdateDetailsPage/MedicationUpdateDetailsPage.css';
 
 import Button from "../../../components/button/Button"
 import InputElement from "../../../components/inputElement/InputElement";
 
-function MedicineUpdatePage(props) {
+function MedicationUpdateDetailsPage(props) {
     const token = localStorage.getItem('token');
     const {register, formState: {errors}, handleSubmit} = useForm({
         mode: 'onChange',
@@ -24,30 +24,33 @@ function MedicineUpdatePage(props) {
 
     async function getData() {
         try {
-            let result = await axios.get(`http://localhost:8080/medicines/` + props.match.params.id, {
+            let result = await axios.get(`http://localhost:8080/planning/` + props.match.params.id, {
                 headers: {
                     "Content-Type": "application/json", Authorization: `Bearer ${token}`,
                 },
             });
             const received = await result.data;
             setData(received);
-            setIsChecked(received.perilous);
+            setIsChecked(received.enabled);
+            console.log("Get")
+            console.log(received)
+            console.log(received);
         } catch (e) {
             console.error(e);
         }
     }
 
     async function onFormSubmit(data) {
-        console.log("Post medicine data");
+        console.log("Te posten");
         console.log(data);
         try {
-            const result = await axios.put('http://localhost:8080/medicines/' + props.match.params.id, data,
+            const result = await axios.patch('http://localhost:8080/planning/' + props.match.params.id, data,
                 {
                     headers: {
                         "Content-Type": "application/json", Authorization: `Bearer ${token}`,
                     }
                 });
-            history.push('/medicine');
+            history.push('/medication');
             console.log(result);
         } catch (e) {
             console.error(e);
@@ -57,79 +60,56 @@ function MedicineUpdatePage(props) {
     return (
         <div>
             <div className="page-container">
-                <h1 className="page-title">Medicijn update</h1>
-                <form className="content" name="client-input"
+                <h1 className="page-title">Medicatie update</h1>
+                <form className="content" name="medication-input"
                       onSubmit={handleSubmit(onFormSubmit)}>
                     <InputElement
                         errors={errors}
                         register={register}
-                        name="medName"
-                        label="Medicijnnaam"
+                        name="planDate"
+                        label="Datum"
                         inputType="text"
-                        value={data.medName}
+                        value={data.planDate}
                         validationRules={{
-                            required: "Medicijnnaam is verplicht",
+                            required: "Datum is verplicht",
                         }}
                     />
                     <InputElement
                         errors={errors}
                         register={register}
-                        name="dosageForm"
-                        label="Vorm"
+                        name="planTime"
+                        label="Tijdstip"
                         inputType="text"
-                        value={data.dosageForm}
+                        value={data.planTime}
                         validationRules={{
-                            required: "Vorm is verplicht",
+                            required: "Tijdstip is verplicht",
                         }}
                     />
 
                     <InputElement
                         errors={errors}
                         register={register}
-                        name="administerMethod"
-                        label="Toedieningsvorm"
+                        name="quantity"
+                        label="Hoeveelheid"
                         inputType="text"
-                        value={data.administerMethod}
+                        value={data.quantity}
                         validationRules={{
-                            required: "Toedieningsvorm is verplicht",
+                            required: "Hoeveelheid is verplicht",
                         }}
                     />
 
                     <div className="input-type">
                         <label htmlFor="enabled-field">
-                            Risicovol
+                            Actieve planning
                         </label>
                         <input
                             type="checkbox"
                             checked={isChecked === true ? true : false}
-                            // value={data.enabled}
                             onChange={(e) => {
                                 setIsChecked(e.target.checked)
                             }}
                         />
                     </div>
-
-                    <InputElement
-                        errors={errors}
-                        register={register}
-                        name="urlExternalInfo"
-                        label="URL"
-                        inputType="text"
-                        value={data.urlExternalInfo}
-                        validationRules={{
-                        }}
-                    />
-
-                    <InputElement
-                        errors={errors}
-                        register={register}
-                        name="instructions"
-                        label="Instructies"
-                        inputType="textarea"
-                        value={data.instructions}
-                        validationRules={{
-                        }}
-                    />
 
                     <Button type="submit">
                         Pas aan
@@ -142,4 +122,4 @@ function MedicineUpdatePage(props) {
     );
 }
 
-export default withRouter(MedicineUpdatePage);
+export default withRouter(MedicationUpdateDetailsPage);

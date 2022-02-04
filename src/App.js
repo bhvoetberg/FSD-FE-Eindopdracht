@@ -22,6 +22,8 @@ import MedicineNewPage from "./pages/medicinePage/medicineNewPage/medicineNewPag
 import MedicineUpdatePage from "./pages/medicinePage/medicineUpdatePage/MedicineUpdatePage";
 
 import MedicationPage from './pages/medicationPage/MedicationPage';
+import MedicationNewPage from "./pages/medicationPage/medicationNewPage/MedicationNewPage";
+import MedicationUpdatePage from "./pages/medicationPage/medicationUpdatePage/MedicationUpdatePage";
 
 import UserPage from './pages/userPage/UserPage';
 import UserNewPage from "./pages/userPage/userNewPage/UserNewPage";
@@ -30,6 +32,8 @@ import UserAuthorityPage from './pages/userPage/userAuthorityPage/UserAuthorityP
 
 
 import Navigation from "./components/navigation/Navigation";
+import MedicationUpdateDetailsPage
+    from "./pages/medicationPage/medicationUpdateDetailsPage/MedicationUpdateDetailsPage";
 
 function App() {
     const {isAuth, user} = useContext(AuthContext);
@@ -103,6 +107,15 @@ function App() {
 
                         <Route exact path="/medication">
                             {(hasUserRole || hasSupervisorRole) ? <MedicationPage/> : <Redirect to="/" />}
+                        </Route>
+                        <Route exact path="/medication-update/:id">
+                            {(hasUserRole || hasSupervisorRole) ? <MedicationUpdatePage/> : <Redirect to="/" />}
+                        </Route>
+                        <Route exact path="/medication-update/medication-update-details/:id">
+                            {(hasUserRole || hasSupervisorRole) ? <MedicationUpdateDetailsPage/> : <Redirect to="/" />}
+                        </Route>
+                        <Route exact path="/medication-new">
+                            {(hasUserRole || hasSupervisorRole) ? <MedicationNewPage/> : <Redirect to="/" />}
                         </Route>
 
                         <Route exact path="/user">

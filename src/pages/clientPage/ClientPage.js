@@ -9,7 +9,6 @@ function ClientPage() {
 
     const token = localStorage.getItem('token');
     const [data, setData] = useState([]);
-    // const [clientName, setClientName] = useState('');
 
     useEffect(() => {
         getData();
@@ -25,6 +24,7 @@ function ClientPage() {
             });
             result = await result.data;
             setData(arrayObjectKeySorter(result, 'lastName'));
+            console.log(data);
         } catch (e) {
             console.error(e);
         }

@@ -8,22 +8,27 @@ import '../medicationNewPage/MedicationNewPage.css';
 
 import Button from "../../../components/button/Button"
 import InputElement from "../../../components/inputElement/InputElement";
-import MultiSelectElement from "../../../components/multiSelectElement/MultiSelectElement";
-import arrayObjectKeySorter from "../../../helpers/arrayObjectKeySorter";
-import SingleSelectElement from "../../../components/singleSelectElement/SingleSelectElement";
 
 
-function MedicationNewPage() {
+function MedicationNewPage(props) {
     const token = localStorage.getItem('token');
     const [data, setData] = useState([]);
     const [isChecked, setIsChecked] = useState(true);
     const [optionList, setOptionList] = useState([]);
+    const [clientId, setClientId] = useState(null);
     const [medicineId, setMedicineId] = useState(null);
+    const [newPlanningId, setNewPlanningId] = useState(null);
     const {register, formState: {errors}, handleSubmit} = useForm({
         mode: 'onChange',
     });
 
     const history = useHistory();
+
+    useEffect(() => {
+        setClientId(props.match.params.id);
+        getData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     async function getData() {
         try {
@@ -33,7 +38,6 @@ function MedicationNewPage() {
                 },
             });
             const received = await result.data;
-            console.log(received);
             setData(received);
             setOptionList(makeOptionList(received));
         } catch (e) {
@@ -45,24 +49,16 @@ function MedicationNewPage() {
         const optionList = [];
         for (let i = 0; i < data.length; i++) {
             optionList[i] = {
-                value: i,
+                value: data[i].id,
                 label: data[i].medName
             }
         }
         return optionList;
     }
 
-
-    useEffect(() => {
-        getData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
     async function onFormSubmit(formdata) {
         let data = {...formdata};
         data.enabled = isChecked;
-        console.log(data);
-        console.log(medicineId);
         try {
             const result = await axios.post('http://localhost:8080/medicine/' + medicineId + '/planning', data,
                 {
@@ -70,15 +66,32 @@ function MedicationNewPage() {
                         "Content-Type": "application/json", Authorization: `Bearer ${token}`,
                     }
                 });
+            setNewPlanningId(result.data);
+            await addClientPlanning(clientId, result.data);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    async function addClientPlanning(clientId, newPlanningId) {
+        try {
+            const result = await axios.post('http://localhost:8080/clientplanning/' + clientId + '/' + newPlanningId, null ,
+                {
+                    headers: {
+                        "Content-Type": "application/json", Authorization: `Bearer ${token}`,
+                    }
+                });
             console.log(result);
+            history.push('/medication');
+
         } catch (e) {
             console.error(e);
         }
     }
 
     const handleChange = e => {
-        // setSelectedValue(e.value);
         setMedicineId(e.value);
+        console.log(medicineId);
     }
 
     return (
@@ -90,22 +103,10 @@ function MedicationNewPage() {
 
                     <div className="medicine-selection">
                         <p>Selecteer medicijn</p>
-                        {/*<select onChange={(e) => handleChange}>*/}
-                        {/*    {optionList.map((option) => (*/}
-                        {/*        <option value={option.value}>{option.label}</option>*/}
-                        {/*    ))}*/}
-
-                        {/*    >Medicijnkeuze*/}
-                        {/*</select>*/}
-
                         <Select
                             options={optionList}
-                            value={medicineId}
-                            defaultMenuIsOpen="true"
                             onChange={handleChange}
                         />
-                        <div>{medicineId}</div>
-
                     </div>
 
                     <InputElement
@@ -116,7 +117,7 @@ function MedicationNewPage() {
                         inputType="text"
                         value={data.quantity}
                         validationRules={{
-                            required: "Hoveelheid is verplicht",
+                            required: "Hoeveelheid is verplicht",
                         }}
                     />
                     <InputElement
@@ -158,7 +159,7 @@ function MedicationNewPage() {
                     </div>
 
                     <Button type="submit">
-                        Update
+                        Voeg toe
                     </Button>
 
                 </form>

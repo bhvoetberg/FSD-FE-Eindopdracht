@@ -38,7 +38,6 @@ function MedicationNewPage(props) {
                 },
             });
             const received = await result.data;
-            setData(received);
             setOptionList(makeOptionList(received));
         } catch (e) {
             console.error(e);
@@ -125,7 +124,7 @@ function MedicationNewPage(props) {
                         register={register}
                         name="planDate"
                         label="Datum"
-                        inputType="text"
+                        inputType="date"
                         value={data.planDate}
                         validationRules={{
                             required: "Datum is verplicht",
@@ -137,7 +136,7 @@ function MedicationNewPage(props) {
                         register={register}
                         name="planTime"
                         label="Tijdstip"
-                        inputType="text"
+                        inputType="time"
                         value={data.administerMethod}
                         validationRules={{
                             required: "Toedieningsvorm is verplicht",

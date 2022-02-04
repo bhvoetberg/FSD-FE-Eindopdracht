@@ -5,6 +5,9 @@ import axios from "axios";
 import '../medicationUpdatePage/MedicationUpdatePage.css';
 import MedicationNewPage from "../medicationNewPage/MedicationNewPage";
 
+import arrayDateSorter from "../../../helpers/arrayDateSorter";
+
+
 function MedicationUpdatePage(props) {
     const token = localStorage.getItem('token');
     const [data, setData] = useState({});
@@ -27,7 +30,8 @@ function MedicationUpdatePage(props) {
             });
             setData(result.data);
             setClientId(props.match.params.id);
-            setPlanning(result.data.plannings);
+            setPlanning(arrayDateSorter(result.data.plannings, "planDate"));
+
             if (result.data.plannings.length > 0) {
                 setPlannedMedicationAvailable(true);
             }

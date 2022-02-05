@@ -12,7 +12,6 @@ import InputElement from "../../../components/inputElement/InputElement";
 
 function MedicationNewPage(props) {
     const token = localStorage.getItem('token');
-    const [data, setData] = useState([]);
     const [isChecked, setIsChecked] = useState(true);
     const [optionList, setOptionList] = useState([]);
     const [clientId, setClientId] = useState(null);
@@ -22,6 +21,7 @@ function MedicationNewPage(props) {
         mode: 'onChange',
     });
 
+    const data = [];
     const history = useHistory();
 
     useEffect(() => {
@@ -66,6 +66,7 @@ function MedicationNewPage(props) {
                     }
                 });
             setNewPlanningId(result.data);
+            console.log(newPlanningId);
             await addClientPlanning(clientId, result.data);
         } catch (e) {
             console.error(e);

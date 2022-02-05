@@ -10,11 +10,9 @@ import arrayDateSorter from "../../../helpers/arrayDateSorter";
 
 function MedicationUpdatePage(props) {
     const token = localStorage.getItem('token');
-    const [data, setData] = useState({});
     const [planning, setPlanning] = useState([]);
     const [plannedMedicationAvailable, setPlannedMedicationAvailable] = useState(false);
     const [clientId, setClientId] = useState(null);
-    const [isChecked, setIsChecked] = useState(null);
 
     useEffect(() => {
         getData();
@@ -28,7 +26,6 @@ function MedicationUpdatePage(props) {
                     "Content-Type": "application/json", Authorization: `Bearer ${token}`,
                 },
             });
-            setData(result.data);
             setClientId(props.match.params.id);
             setPlanning(arrayDateSorter(result.data.plannings, "planDate"));
 
@@ -36,22 +33,6 @@ function MedicationUpdatePage(props) {
                 setPlannedMedicationAvailable(true);
             }
 
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
-    async function onFormSubmit(formdata) {
-        let data = {...formdata};
-        data.enabled = isChecked;
-        try {
-            const result = await axios.patch('http://localhost:8080/planning/' + props.match.params.id, data,
-                {
-                    headers: {
-                        "Content-Type": "application/json", Authorization: `Bearer ${token}`,
-                    }
-                });
-            console.log(result);
         } catch (e) {
             console.error(e);
         }

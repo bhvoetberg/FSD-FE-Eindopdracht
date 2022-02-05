@@ -1,15 +1,14 @@
 import React, {useState, useEffect} from "react";
-import {useHistory, withRouter} from 'react-router-dom'
+import {useHistory, withRouter} from 'react-router-dom';
 import axios from "axios";
 import {useForm} from "react-hook-form";
+
+import '../medicationUpdateDetailsPage/MedicationUpdateDetailsPage.css';
 
 import Button from "../../../components/button/Button"
 import InputElement from "../../../components/inputElement/InputElement";
 
-import '../employeeUpdatePage/EmployeeUpdatePage.css';
-
-
-function EmployeeUpdatePage(props) {
+function MedicationUpdateDetailsPage(props) {
     const token = localStorage.getItem('token');
     const {register, formState: {errors}, handleSubmit} = useForm({
         mode: 'onChange',
@@ -18,9 +17,14 @@ function EmployeeUpdatePage(props) {
     const [isChecked, setIsChecked] = useState(null);
     const history = useHistory();
 
+    useEffect(() => {
+        getData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     async function getData() {
         try {
-            let result = await axios.get(`http://localhost:8080/employees/` + props.match.params.id, {
+            let result = await axios.get(`http://localhost:8080/planning/` + props.match.params.id, {
                 headers: {
                     "Content-Type": "application/json", Authorization: `Bearer ${token}`,
                 },
@@ -34,69 +38,67 @@ function EmployeeUpdatePage(props) {
     }
 
     async function onFormSubmit(formdata) {
+        console.log(history);
         let data = {...formdata};
         data.enabled = isChecked;
         try {
-            const result = await axios.put('http://localhost:8080/employees/' + props.match.params.id, data,
+            const result = await axios.patch('http://localhost:8080/planning/' + props.match.params.id, data,
                 {
                     headers: {
                         "Content-Type": "application/json", Authorization: `Bearer ${token}`,
                     }
                 });
+            history.push('/medication');
             console.log(result);
-            history.push('/employee');
         } catch (e) {
             console.error(e);
         }
     }
 
-    useEffect(() => {
-        getData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-
     return (
         <div>
             <div className="page-container">
-                <h1 className="page-title">Employee update</h1>
-                <form className="content" name="employee-input" onSubmit={handleSubmit(onFormSubmit)}>
-
+                <h1 className="page-title">Medicatie update</h1>
+                <form className="content" name="medication-input"
+                      onSubmit={handleSubmit(onFormSubmit)}>
                     <InputElement
                         errors={errors}
                         register={register}
-                        name="firstName"
-                        label="Voornaam"
+                        name="planDate"
+                        label="Datum"
                         inputType="text"
-                        value={data.firstName}
+                        value={data.planDate}
                         validationRules={{
-                            required: "Voornaam is verplicht",
+                            required: "Datum is verplicht",
                         }}
                     />
                     <InputElement
                         errors={errors}
                         register={register}
-                        name="lastName"
-                        label="Achternaam"
+                        name="planTime"
+                        label="Tijdstip"
                         inputType="text"
-                        value={data.lastName}
+                        value={data.planTime}
                         validationRules={{
-                            required: "Achternaam is verplicht",
+                            required: "Tijdstip is verplicht",
                         }}
                     />
 
                     <InputElement
                         errors={errors}
                         register={register}
-                        name="functionName"
-                        label="Functie"
+                        name="quantity"
+                        label="Hoeveelheid"
                         inputType="text"
-                        value={data.functionName}
+                        value={data.quantity}
+                        validationRules={{
+                            required: "Hoeveelheid is verplicht",
+                        }}
                     />
 
                     <div className="input-type">
-                        <label htmlFor="enabled">
-                            Actief
+                        <label htmlFor="enabled-field">
+                            Actieve planning
                         </label>
                         <input
                             type="checkbox"
@@ -119,4 +121,4 @@ function EmployeeUpdatePage(props) {
     );
 }
 
-export default withRouter(EmployeeUpdatePage);
+export default withRouter(MedicationUpdateDetailsPage);

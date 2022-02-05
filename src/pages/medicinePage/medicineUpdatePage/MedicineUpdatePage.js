@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {useHistory, withRouter} from 'react-router-dom'
+import {useHistory, withRouter} from 'react-router-dom';
 import axios from "axios";
 import {useForm} from "react-hook-form";
 
@@ -37,11 +37,11 @@ function MedicineUpdatePage(props) {
         }
     }
 
-    async function onFormSubmit(data) {
-        console.log("Te posten data");
-        console.log(data);
+    async function onFormSubmit(formdata) {
+        let data = {...formdata};
+        data.perilous = isChecked;
         try {
-            const result = await axios.put('http://localhost:8080/medicines/' + props.match.params.id, data,
+            const result = await axios.patch('http://localhost:8080/medicines/' + props.match.params.id, data,
                 {
                     headers: {
                         "Content-Type": "application/json", Authorization: `Bearer ${token}`,
@@ -58,7 +58,7 @@ function MedicineUpdatePage(props) {
         <div>
             <div className="page-container">
                 <h1 className="page-title">Medicijn update</h1>
-                <form className="content" name="client-input"
+                <form className="content" name="client-input" method="get"
                       onSubmit={handleSubmit(onFormSubmit)}>
                     <InputElement
                         errors={errors}
@@ -96,12 +96,14 @@ function MedicineUpdatePage(props) {
                     />
 
                     <div className="input-type">
-                        <label htmlFor="enabled-field">
+                        <input type="hidden" name="perilous" value="false"/>
+                        <label htmlFor="perilous">
                             Risicovol
                         </label>
                         <input
                             type="checkbox"
-                            checked={isChecked === true ? true : false}
+                            name="perilous"
+                            checked={isChecked}
                             onChange={(e) => {
                                 setIsChecked(e.target.checked)
                             }}

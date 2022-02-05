@@ -7,6 +7,7 @@ import MultiSelectElement from "../../components/multiSelectElement/MultiSelectE
 import './PlanningPage.css';
 
 import {useForm} from "react-hook-form";
+import arrayDateSorter from "../../helpers/arrayDateSorter";
 
 function PlanningPage() {
 
@@ -32,14 +33,53 @@ function PlanningPage() {
             });
             result = await result.data;
 
+            let employees = [
+                {
+                    firstName: 'John',
+                    lastName: 'Doe',
+                    age: 27,
+                    joinedDate: 'December 15, 2017'
+                },
+
+                {
+                    firstName: 'Ana',
+                    lastName: 'Rosy',
+                    age: 35,
+                    joinedDate: 'January 15, 2019'
+                },
+
+                {
+                    firstName: 'Zion',
+                    lastName: 'Albert',
+                    age: 30,
+                    joinedDate: 'February 15, 2011'
+                }
+            ];
+
+            // console.log(employees);
+            const sorted = arrayDateSorter(result, "enabled");
+            console.log(sorted);
+
+
+            // const winningestTeams = nbaTeams.sort(
+            //     (teamA, teamB) =>
+            //         teamB.championships - teamA.championships ||
+            //         teamA.name.localeCompare(teamB.name),
+            // )
+
+
+
+
+
             if (showAll) {
-                setData(arrayObjectKeySorter(result, 'planTime'));
+                setData(arrayDateSorter(result, 'planDate'));
             } else {
                 const filteredResult = result.filter(function (item) {
                     return item.enabled === true
                 });
-                setData(arrayObjectKeySorter(filteredResult, 'planTime'));
+                setData(arrayDateSorter(filteredResult, 'planDate'));
             }
+
         } catch (e) {
             console.error(e);
         }
@@ -88,14 +128,14 @@ function PlanningPage() {
                             {item.enabled === true
                                 ?
                                 <>
-                                    <p className="active">{item.planTime} - {item.client.firstName} {item.client.lastName} -
+                                    <p className="active">{item.planDate} - {item.planTime} - {item.client.firstName} {item.client.lastName} -
                                         kamer {item.client.roomNumber}</p>
                                     <label className="active"></label>
                                     <button>Starten</button>
                                 </>
                                 :
                                 <>
-                                    <p className="inactive">{item.planTime} - {item.client.firstName} {item.client.lastName} -
+                                    <p className="inactive">{item.planDate} - {item.planTime} - {item.client.firstName} {item.client.lastName} -
                                         kamer {item.client.roomNumber}  </p>
                                     <label className="inactive"></label>
                                     <button className="inactive">Historie</button>

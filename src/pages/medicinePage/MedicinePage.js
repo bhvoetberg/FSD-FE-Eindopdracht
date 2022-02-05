@@ -24,7 +24,6 @@ function MedicinePage() {
             });
             const received = await result.data;
             setData(arrayObjectKeySorter(received, 'medName'));
-
         } catch (e) {
             console.error(e);
         }

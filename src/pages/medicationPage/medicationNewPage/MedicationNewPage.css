@@ -1,0 +1,11 @@
+.page-container {
+    margin-bottom: 4rem;
+}
+
+.medicine-selection {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: center;
+}

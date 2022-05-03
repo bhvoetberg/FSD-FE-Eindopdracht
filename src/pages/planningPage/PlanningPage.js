@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom'
 import axios from "axios";
-import arrayObjectKeySorter from '../../helpers/arrayObjectKeySorter'
 import MultiSelectElement from "../../components/multiSelectElement/MultiSelectElement";
 
 import './PlanningPage.css';
@@ -33,43 +32,8 @@ function PlanningPage() {
             });
             result = await result.data;
 
-            let employees = [
-                {
-                    firstName: 'John',
-                    lastName: 'Doe',
-                    age: 27,
-                    joinedDate: 'December 15, 2017'
-                },
-
-                {
-                    firstName: 'Ana',
-                    lastName: 'Rosy',
-                    age: 35,
-                    joinedDate: 'January 15, 2019'
-                },
-
-                {
-                    firstName: 'Zion',
-                    lastName: 'Albert',
-                    age: 30,
-                    joinedDate: 'February 15, 2011'
-                }
-            ];
-
-            // console.log(employees);
             const sorted = arrayDateSorter(result, "enabled");
             console.log(sorted);
-
-
-            // const winningestTeams = nbaTeams.sort(
-            //     (teamA, teamB) =>
-            //         teamB.championships - teamA.championships ||
-            //         teamA.name.localeCompare(teamB.name),
-            // )
-
-
-
-
 
             if (showAll) {
                 setData(arrayDateSorter(result, 'planDate'));

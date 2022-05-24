@@ -24,7 +24,6 @@ function ClientPage() {
             });
             result = await result.data;
             setData(arrayObjectKeySorter(result, 'lastName'));
-            console.log(data);
         } catch (e) {
             console.error(e);
         }

@@ -55,7 +55,6 @@ function UserAuthorityPage(props) {
     }
 
     async function deleteAuthority(authority) {
-        console.log("HIER");
         try {
             const result = await axios.delete(url + authority,
                 {

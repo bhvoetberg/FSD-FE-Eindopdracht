@@ -42,8 +42,6 @@ function ClientUpdatePage(props) {
     async function onFormSubmit(formdata) {
         let data = {...formdata};
         data.enabled = isChecked;
-        console.log("Data");
-        console.log(data);
         try {
             const result = await axios.patch('http://localhost:8080/clients/' + props.match.params.id, data,
                 {

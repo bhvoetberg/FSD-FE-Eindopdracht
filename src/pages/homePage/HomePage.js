@@ -23,14 +23,15 @@ function HomePage() {
                         "Content-Type": "application/json", Authorization: `Bearer ${token}`,
                     },
                 });
-                result = await result.data;
-                setData(result);
+                console.log(result);
+                const userdetails = await result.data;
+                setData(userdetails);
+
             } catch (e) {
                 console.error(e);
             }
         }
     }
-
 
     return (
         <div className="page-container">

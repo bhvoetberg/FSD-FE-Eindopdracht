@@ -32,15 +32,11 @@ function PlanningPage() {
             });
             result = await result.data;
 
-            const sorted = arrayDateSorter(result, "enabled");
-            console.log(sorted);
-
             if (showAll) {
-                setData(arrayDateSorter(result, 'planDate'));
+                const sorted = arrayDateSorter(result, 'planDate');
+                setData(sorted);
             } else {
-                const filteredResult = result.filter(function (item) {
-                    return item.enabled === true
-                });
+                const filteredResult = result.filter(item => item.enabled === true);
                 setData(arrayDateSorter(filteredResult, 'planDate'));
             }
 
@@ -58,59 +54,50 @@ function PlanningPage() {
         }
     }
 
-    return ({data} &&
-        <div className="page-container">
-            <h1 className="page-title">Planning</h1>
+    return ({data} && <div className="page-container">
+        <h1 className="page-title">Planning</h1>
 
-            <Link to={"./planning-new"}>
-                <button className="new">Nieuw</button>
-            </Link>
-            <div className="filter" onChange={((e) => updateForm(e))}>
-                <MultiSelectElement
-                    errors={errors}
-                    register={register}
-                    name="filter"
-                    label="Exclusief voltooid"
-                    value="true"
-                    selectType="radio"
-                    labelId="inclusive"
-                />
-                <MultiSelectElement
-                    errors={errors}
-                    register={register}
-                    name="filter"
-                    value="false"
-                    label="Inclusief voltooid"
-                    selectType="radio"
-                />
-            </div>
-
-            <div className="content">
-                {data.map((item) =>
-                    <ul key={item.id}>
-                        <Link to={"realisation/" + item.id} className="item">
-                            {item.enabled === true
-                                ?
-                                <>
-                                    <p className="active">{item.planDate} - {item.planTime} - {item.client.firstName} {item.client.lastName} -
-                                        kamer {item.client.roomNumber}</p>
-                                    <label className="active"></label>
-                                    <button>Starten</button>
-                                </>
-                                :
-                                <>
-                                    <p className="inactive">{item.planDate} - {item.planTime} - {item.client.firstName} {item.client.lastName} -
-                                        kamer {item.client.roomNumber}  </p>
-                                    <label className="inactive"></label>
-                                    <button className="inactive">Historie</button>
-                                </>
-                            }
-                        </Link>
-                    </ul>
-                )}
-            </div>
+        <Link to={"./planning-new"}>
+            <button className="new">Nieuw</button>
+        </Link>
+        <div className="filter" onChange={((e) => updateForm(e))}>
+            <MultiSelectElement
+                errors={errors}
+                register={register}
+                name="filter"
+                label="Exclusief voltooid"
+                value="true"
+                selectType="radio"
+                labelId="inclusive"
+            />
+            <MultiSelectElement
+                errors={errors}
+                register={register}
+                name="filter"
+                value="false"
+                label="Inclusief voltooid"
+                selectType="radio"
+            />
         </div>
-    );
+
+        <div className="content">
+            {data.map((item) => <ul key={item.id}>
+                <Link to={"realisation/" + item.id} className="item">
+                    {item.enabled === true ? <>
+                        <p className="active">{item.planDate} - {item.planTime} - {item.client.firstName} {item.client.lastName} -
+                            kamer {item.client.roomNumber}</p>
+                        <label className="active"></label>
+                        <button>Starten</button>
+                    </> : <>
+                        <p className="inactive">{item.planDate} - {item.planTime} - {item.client.firstName} {item.client.lastName} -
+                            kamer {item.client.roomNumber}  </p>
+                        <label className="inactive"></label>
+                        <button className="inactive">Historie</button>
+                    </>}
+                </Link>
+            </ul>)}
+        </div>
+    </div>);
 }
 
 export default PlanningPage;
